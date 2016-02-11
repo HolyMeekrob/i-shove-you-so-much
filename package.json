@@ -1,0 +1,21 @@
+{
+	"name": "i-shove-you-so-much",
+	"version": "0.0.1",
+	"description": "A simple two-player board game",
+	"main": "app.js",
+	"scripts": {
+		"test": "mocha --compilers js:babel-register",
+		"build": "babel src -d lib"
+	},
+	"author": "Andy Steinberg",
+	"license": "MIT",
+	"devDependencies": {
+		"babel-cli": "^6.5.1",
+		"babel-plugin-transform-es2015-modules-commonjs": "^6.5.0",
+		"eslint": "^1.10.3",
+		"gulp": "^3.9.1",
+		"gulp-eslint": "^1.1.1",
+		"gulp-mocha": "^2.2.0",
+		"mocha": "^2.4.5"
+	}
+}

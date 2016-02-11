@@ -1,0 +1,17 @@
+# ES6 source
+src/
+
+# Logs
+logs
+*.log
+
+# Dependency directory
+node_modules/
+
+# Settings
+.vscode
+jsconfig.json
+*d.ts
+
+# Tests
+test/
