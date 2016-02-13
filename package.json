@@ -18,5 +18,8 @@
 		"gulp-eslint": "^1.1.1",
 		"gulp-mocha": "^2.2.0",
 		"mocha": "^2.4.5"
+	},
+	"dependencies": {
+		"ramda": "^0.19.1"
 	}
 }

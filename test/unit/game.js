@@ -4,12 +4,6 @@ const should = chai.should();
 
 describe('game', () => {
 	describe('#constructor', () => {
-		describe('given no arguments', () => {
-			it('should throw an error', () => {
-				(() => game()).should.throw(Error);
-			});
-		});
-
 		describe('given all valid arguments', () => {
 			it('should create a new game with two players', () => {
 				const playerOne = {};
@@ -18,6 +12,9 @@ describe('game', () => {
 				const newGame = game(playerOne, playerTwo, board);
 
 				newGame.should.exist;
+				newGame.getPlayerOne().should.equal(playerOne);
+				newGame.getPlayerTwo().should.equal(playerTwo);
+				newGame.getBoard().should.equal(board);
 			});
 		});
 	});
