@@ -1,5 +1,5 @@
 import game from '../../../src/model/game';
-import t from '../../../src/model/turn';
+import * as t from '../../../src/model/turn';
 import chai from 'chai';
 const should = chai.should();
 
@@ -9,7 +9,7 @@ describe('game', () => {
 			const playerOne = { name: 'Player One' };
 			const playerTwo = { name: 'Player Two' };
 			const board = { };
-			const turn = t.PLAYER_ONE;
+			const turn = t.PLAYER_ONE_TURN;
 
 			const gameObj = game(playerOne, playerTwo, board, turn);
 			gameObj.getPlayerOne().should.deep.equal(playerOne);
@@ -45,7 +45,7 @@ describe('game', () => {
 			const playerOne = { name: 'Player One' };
 			const playerTwo = { name: 'Player Two' };
 			const board = { squares: [] };
-			const turn = t.PLAYER_TWO;
+			const turn = t.PLAYER_TWO_TURN;
 
 			const gameObj = game(playerOne, playerTwo, board, turn);
 			gameObj.getTurn().should.equal(turn);
@@ -57,7 +57,7 @@ describe('game', () => {
 			const board = { squares: [] };
 
 			const gameObj = game(playerOne, playerTwo, board);
-			gameObj.getTurn().should.equal(t.PLAYER_ONE);
+			gameObj.getTurn().should.equal(t.PLAYER_ONE_TURN);
 		});
 	});
 });
