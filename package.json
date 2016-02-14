@@ -4,7 +4,7 @@
 	"description": "A simple two-player board game",
 	"main": "app.js",
 	"scripts": {
-		"test": "mocha --compilers js:babel-register",
+		"test": "mocha --compilers js:babel-register ./test/**/*.js",
 		"build": "babel src -d lib"
 	},
 	"author": "Andy Steinberg",

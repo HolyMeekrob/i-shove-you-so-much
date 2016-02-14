@@ -1,4 +1,4 @@
-import game from '../../src/game.js';
+import game from '../../src/game';
 import chai from 'chai';
 const should = chai.should();
 

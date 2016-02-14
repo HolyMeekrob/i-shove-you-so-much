@@ -1,4 +1,4 @@
-import board from '../../src/board.js';
+import board from '../../src/board';
 import chai from 'chai';
 const should = chai.should();
 
