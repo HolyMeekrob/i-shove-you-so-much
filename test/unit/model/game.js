@@ -1,5 +1,5 @@
-import game from '../../src/game';
-import t from '../../src/turn';
+import game from '../../../src/model/game';
+import t from '../../../src/model/turn';
 import chai from 'chai';
 const should = chai.should();
 

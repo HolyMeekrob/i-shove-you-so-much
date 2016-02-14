@@ -1,7 +1,7 @@
-import square from '../../src/square';
-import floorType from '../../src/floorType';
-import startType from '../../src/startType';
-import borderType from '../../src/borderType';
+import square from '../../../src/model/square';
+import floorType from '../../../src/model/floorType';
+import startType from '../../../src/model/startType';
+import borderType from '../../../src/model/borderType';
 import chai from 'chai';
 const should = chai.should();
 
