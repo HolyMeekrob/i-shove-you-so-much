@@ -1,4 +1,5 @@
 import game from '../../src/game';
+import t from '../../src/turn';
 import chai from 'chai';
 const should = chai.should();
 
@@ -8,8 +9,9 @@ describe('game', () => {
 			const playerOne = { name: 'Player One' };
 			const playerTwo = { name: 'Player Two' };
 			const board = { };
+			const turn = t.PLAYER_ONE;
 
-			const gameObj = game(playerOne, playerTwo, board);
+			const gameObj = game(playerOne, playerTwo, board, turn);
 			gameObj.getPlayerOne().should.deep.equal(playerOne);
 		});
 	});
@@ -19,8 +21,9 @@ describe('game', () => {
 			const playerOne = { name: 'Player One' };
 			const playerTwo = { name: 'Player Two' };
 			const board = { };
+			const turn = t.GAME_OVER;
 
-			const gameObj = game(playerOne, playerTwo, board);
+			const gameObj = game(playerOne, playerTwo, board, turn);
 			gameObj.getPlayerTwo().should.deep.equal(playerTwo);
 		});
 	});
@@ -30,9 +33,31 @@ describe('game', () => {
 			const playerOne = { name: 'Player One' };
 			const playerTwo = { name: 'Player Two' };
 			const board = { squares: [] };
+			const turn = t.GAME_OVER;
+
+			const gameObj = game(playerOne, playerTwo, board, turn);
+			gameObj.getBoard().should.deep.equal(board);
+		});
+	});
+
+	describe('getTurn()', () => {
+		it('should return the current turn', () => {
+			const playerOne = { name: 'Player One' };
+			const playerTwo = { name: 'Player Two' };
+			const board = { squares: [] };
+			const turn = t.PLAYER_TWO;
+
+			const gameObj = game(playerOne, playerTwo, board, turn);
+			gameObj.getTurn().should.equal(turn);
+		});
+
+		it('should default to player one', () => {
+			const playerOne = { name: 'Player One' };
+			const playerTwo = { name: 'Player Two' };
+			const board = { squares: [] };
 
 			const gameObj = game(playerOne, playerTwo, board);
-			gameObj.getBoard().should.deep.equal(board);
+			gameObj.getTurn().should.equal(t.PLAYER_ONE);
 		});
 	});
 });
