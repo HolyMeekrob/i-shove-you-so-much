@@ -1,9 +1,9 @@
-import { isNil } from 'ramda';
+import { clone } from 'ramda';
 
-export default ((playerOne, playerTwo, gameBoard) => {
-	const getPlayerOne = () => playerOne;
-	const getPlayerTwo = () => playerTwo;
-	const getBoard = () => gameBoard;
+export default ((playerOne, playerTwo, board) => {
+	const getPlayerOne = () => clone(playerOne);
+	const getPlayerTwo = () => clone(playerTwo);
+	const getBoard = () => clone(board);
 
 	return Object.freeze({
 		getPlayerOne,
