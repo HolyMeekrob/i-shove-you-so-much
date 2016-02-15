@@ -19,7 +19,6 @@ export default (floorType, startType, northBorder, eastBorder, southBorder, west
 	const getSouthBorder = () => south;
 	const getWestBorder = () => west;
 
-
 	return Object.freeze({
 		getFloorType,
 		getStartType,
