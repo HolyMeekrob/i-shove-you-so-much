@@ -1,11 +1,17 @@
-import { clone } from 'ramda';
+import { any, isNil } from 'ramda';
 
-export default (player, square) => {
-	const getPlayer = () => clone(player);
-	const getSquare = () => clone(square);
+export default (playerType, tokenType) => {
+	(() => {
+		if (any(isNil, [playerType, tokenType])) {
+			throw new Error('All arguments are required.');
+		}
+	})();
+
+	const getPlayerType = () => playerType;
+	const getTokenType = () => tokenType;
 
 	return Object.freeze({
-		getPlayer,
-		getSquare
+		getPlayerType,
+		getTokenType
 	});
 };

@@ -2,6 +2,7 @@ import square from '../../../src/model/square';
 import * as floorType from '../../../src/model/floor';
 import * as startType from '../../../src/model/start';
 import * as borderType from '../../../src/model/border';
+import * as direction from '../../../src/model/direction';
 import chai from 'chai';
 const should = chai.should();
 
@@ -46,83 +47,94 @@ describe('square', () => {
 		});
 	});
 
-	describe('getNorthBorder', () => {
-		it('should return the north border', () => {
-			const floor = floorType.PIT;
-			const start = startType.PLAYER_ONE_START;
-			const north = borderType.WALL_BORDER;
-			const east = borderType.OPEN_BORDER;
-			const south = borderType.OPEN_BORDER;
-			const west = borderType.OPEN_BORDER;
-			const boardSquare = square(floor, start, north, east, south, west);
-
-			boardSquare.getNorthBorder().should.equal(north);
+	describe('getBorder()', () => {
+		describe('when given no arguments', () => {
+			it('should throw an error', () => {
+				(() => {
+					const boardSquare = square();
+					boardSquare.getBorder();
+				}).should.throw(Error);
+			});
 		});
 
-		it('should default to open', () => {
-			const boardSquare = square();
+		describe('when given north', () => {
+			it('should return the north border', () => {
+				const floor = floorType.PIT;
+				const start = startType.PLAYER_ONE_START;
+				const north = borderType.WALL_BORDER;
+				const east = borderType.OPEN_BORDER;
+				const south = borderType.OPEN_BORDER;
+				const west = borderType.OPEN_BORDER;
+				const boardSquare = square(floor, start, north, east, south, west);
 
-			boardSquare.getNorthBorder().should.equal(borderType.OPEN_BORDER);
-		});
-	});
+				boardSquare.getBorder(direction.NORTH).should.equal(north);
+			});
 
-	describe('getEastBorder', () => {
-		it('should return the east border', () => {
-			const floor = floorType.PIT;
-			const start = startType.PLAYER_ONE_START;
-			const north = borderType.OPEN_BORDER;
-			const east = borderType.WALL_BORDER;
-			const south = borderType.OPEN_BORDER;
-			const west = borderType.OPEN_BORDER;
-			const boardSquare = square(floor, start, north, east, south, west);
+			it('should default to open', () => {
+				const boardSquare = square();
 
-			boardSquare.getEastBorder().should.equal(east);
-		});
-
-		it('should default to open', () => {
-			const boardSquare = square();
-
-			boardSquare.getEastBorder().should.equal(borderType.OPEN_BORDER);
-		});
-	});
-
-	describe('getSouthBorder', () => {
-		it('should return the south border', () => {
-			const floor = floorType.PIT;
-			const start = startType.PLAYER_ONE_START;
-			const north = borderType.OPEN_BORDER;
-			const east = borderType.OPEN_BORDER;
-			const south = borderType.WALL_BORDER;
-			const west = borderType.OPEN_BORDER;
-			const boardSquare = square(floor, start, north, east, south, west);
-
-			boardSquare.getSouthBorder().should.equal(south);
+				boardSquare.getBorder(direction.NORTH).should.equal(borderType.OPEN_BORDER);
+			});
 		});
 
-		it('should default to open', () => {
-			const boardSquare = square();
+		describe('when given east', () => {
+			it('should return the east border', () => {
+				const floor = floorType.PIT;
+				const start = startType.PLAYER_ONE_START;
+				const north = borderType.OPEN_BORDER;
+				const east = borderType.WALL_BORDER;
+				const south = borderType.OPEN_BORDER;
+				const west = borderType.OPEN_BORDER;
+				const boardSquare = square(floor, start, north, east, south, west);
 
-			boardSquare.getSouthBorder().should.equal(borderType.OPEN_BORDER);
+				boardSquare.getBorder(direction.EAST).should.equal(east);
+			});
+
+			it('should default to open', () => {
+				const boardSquare = square();
+
+				boardSquare.getBorder(direction.EAST).should.equal(borderType.OPEN_BORDER);
+			});
 		});
-	});
 
-	describe('getWestBorder', () => {
-		it('should return the west border', () => {
-			const floor = floorType.PIT;
-			const start = startType.PLAYER_ONE_START;
-			const north = borderType.OPEN_BORDER;
-			const east = borderType.OPEN_BORDER;
-			const south = borderType.OPEN_BORDER;
-			const west = borderType.WALL_BORDER;
-			const boardSquare = square(floor, start, north, east, south, west);
+		describe('when given south', () => {
+			it('should return the south border', () => {
+				const floor = floorType.PIT;
+				const start = startType.PLAYER_ONE_START;
+				const north = borderType.OPEN_BORDER;
+				const east = borderType.OPEN_BORDER;
+				const south = borderType.WALL_BORDER;
+				const west = borderType.OPEN_BORDER;
+				const boardSquare = square(floor, start, north, east, south, west);
 
-			boardSquare.getWestBorder().should.equal(west);
+				boardSquare.getBorder(direction.SOUTH).should.equal(south);
+			});
+
+			it('should default to open', () => {
+				const boardSquare = square();
+
+				boardSquare.getBorder(direction.SOUTH).should.equal(borderType.OPEN_BORDER);
+			});
 		});
 
-		it('should default to open', () => {
-			const boardSquare = square();
+		describe('when given west', () => {
+			it('should return the west border', () => {
+				const floor = floorType.PIT;
+				const start = startType.PLAYER_ONE_START;
+				const north = borderType.OPEN_BORDER;
+				const east = borderType.OPEN_BORDER;
+				const south = borderType.OPEN_BORDER;
+				const west = borderType.WALL_BORDER;
+				const boardSquare = square(floor, start, north, east, south, west);
 
-			boardSquare.getWestBorder().should.equal(borderType.OPEN_BORDER);
+				boardSquare.getBorder(direction.WEST).should.equal(west);
+			});
+
+			it('should default to open', () => {
+				const boardSquare = square();
+
+				boardSquare.getBorder(direction.WEST).should.equal(borderType.OPEN_BORDER);
+			});
 		});
 	});
 });

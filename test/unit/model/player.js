@@ -4,7 +4,7 @@ const should = chai.should();
 
 describe('player', () => {
 	describe('#constructor', () => {
-		describe('given zero arguments', () => {
+		describe('when given zero arguments', () => {
 			it('should throw an error', () => {
 				(() => player()).should.throw(Error);
 			});

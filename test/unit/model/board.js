@@ -4,25 +4,25 @@ const should = chai.should();
 
 describe('board', () => {
 	describe('#constructor', () => {
-		describe('given zero arguments', () => {
+		describe('when given zero arguments', () => {
 			it('should throw an error', () => {
 				(() => board()).should.throw(Error);
 			});
 		});
 
-		describe('given a null argument', () => {
+		describe('when given a null argument', () => {
 			it('should throw an error', () => {
 				(() => board(null)).should.throw(Error);
 			});
 		});
 
-		describe('given a non-array', () => {
+		describe('when given a non-array', () => {
 			it('should throw an error', () => {
 				(() => board(1)).should.throw(Error);
 			});
 		});
 
-		describe('given a non-two-dimensional array', () => {
+		describe('when given a non-two-dimensional array', () => {
 			it('should throw an error', () => {
 				(() => board([[], 1])).should.throw(Error);
 			});

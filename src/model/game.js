@@ -1,8 +1,9 @@
 import { clone, defaultTo } from 'ramda';
-import { PLAYER_ONE_TURN } from './turn';
+
+import * as t from './turn';
 
 export default (playerOne, playerTwo, board, playerTurn) => {
-	const turn = defaultTo(PLAYER_ONE_TURN, playerTurn);
+	const turn = defaultTo(t.PLAYER_ONE_TURN, playerTurn);
 
 	const getPlayerOne = () => clone(playerOne);
 	const getPlayerTwo = () => clone(playerTwo);
