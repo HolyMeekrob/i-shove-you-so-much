@@ -15,7 +15,7 @@ describe('gameBoard', () => {
 
 		describe('when missing a board', () => {
 			it('should throw an error', () => {
-				(() => gameBoard(null, [])).should.throw(Error);
+				(() => gameBoard(null, tokenPosition(1, 0))).should.throw(Error);
 			});
 		});
 
@@ -29,8 +29,7 @@ describe('gameBoard', () => {
 	describe('getBoard()', () => {
 		it('should return the board', () => {
 			const board = { squares: [] };
-			const tokenPositions = [];
-			const gb = gameBoard(board, tokenPositions);
+			const gb = gameBoard(board, tokenPosition(0, 1));
 
 			gb.getBoard().should.equal(board);
 		});
@@ -42,8 +41,8 @@ describe('gameBoard', () => {
 				const board = { squares: [] };
 				const x = 5;
 				const y = 3;
-				const tokenPositions = [tokenPosition({}, position(x, y))];
-				const gb = gameBoard(board, tokenPositions);
+				const tp = tokenPosition({}, position(x, y));
+				const gb = gameBoard(board, tp);
 
 				gb.hasTokenAt(x + 1, y).should.be.false;
 			});
@@ -56,12 +55,10 @@ describe('gameBoard', () => {
 				const y1 = 3;
 				const x2 = 2;
 				const y2 = 2;
-				const tokenPositions = [
-					tokenPosition({}, position(x1, y1)),
-					tokenPosition({}, position(x2, y2))
-				];
+				const tp1 = tokenPosition({}, position(x1, y1));
+				const tp2 = tokenPosition({}, position(x2, y2));
 
-				const gb = gameBoard(board, tokenPositions);
+				const gb = gameBoard(board, tp1, tp2);
 
 				gb.hasTokenAt(position(x1, y1)).should.be.true;
 			});
@@ -74,8 +71,8 @@ describe('gameBoard', () => {
 				const board = { squares: [] };
 				const x = 5;
 				const y = 3;
-				const tokenPositions = [tokenPosition({}, position(x, y))];
-				const gb = gameBoard(board, tokenPositions);
+				const tp = tokenPosition({}, position(x, y));
+				const gb = gameBoard(board, tp);
 
 				should.not.exist(gb.getTokenAt(x + 1, y));
 			});
@@ -90,12 +87,10 @@ describe('gameBoard', () => {
 				const y2 = 2;
 				const token1 = { foo: 'bar' };
 				const token2 = { foo: 'baz' };
-				const tokenPositions = [
-					tokenPosition(token1, position(x1, y1)),
-					tokenPosition(token2, position(x2, y2))
-				];
+				const tp1 = tokenPosition(token1, position(x1, y1));
+				const tp2 = tokenPosition(token2, position(x2, y2));
 
-				const gb = gameBoard(board, tokenPositions);
+				const gb = gameBoard(board, tp1, tp2);
 
 				gb.getTokenAt(position(x1, y1)).should.equal(token1);
 			});

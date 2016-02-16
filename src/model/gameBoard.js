@@ -1,13 +1,16 @@
-import { any, isNil } from 'ramda';
+import { isNil } from 'ramda';
 
-export default (board, tokenPositions) => {
+export default (board, ...tokenPositions) => {
 	(() => {
-		if (any(isNil, [board, tokenPositions])) {
+		if (isNil(board) || tokenPositions.length === 0) {
 			throw new Error('Board and token positions are required');
 		}
 	})();
 
-	const getKey = (pos) => pos.x * 1000 + pos.y;
+	const getKey = (pos) => {
+		const multiplier = 1000;
+		return pos.x * multiplier + pos.y;
+	};
 
 	const positionMap = new Map(tokenPositions.map((pair) => {
 		return [getKey(pair.position), pair.token];
@@ -23,9 +26,12 @@ export default (board, tokenPositions) => {
 		return positionMap.get(getKey(position));
 	};
 
+	const getTokenPositions = () => tokenPositions.slice(0);
+
 	return Object.freeze({
 		getBoard,
 		hasTokenAt,
-		getTokenAt
+		getTokenAt,
+		getTokenPositions
 	});
 };
