@@ -13,10 +13,9 @@ describe('player', () => {
 
 	describe('getPlayerName()', () => {
 		it('should return the player\'s name', () => {
-			const name = 'Player Name';
-			const gamePlayer = player(name);
-
-			gamePlayer.getPlayerName().should.equal(name);
+			const playerName = 'Player Name';
+			const gamePlayer = player(playerName);
+			gamePlayer.getName().should.equal(playerName);
 		});
 	});
 });

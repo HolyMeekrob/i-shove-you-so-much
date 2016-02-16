@@ -7,8 +7,9 @@ export default (playerName) => {
 		}
 	})();
 
-	const getPlayerName = () => playerName;
+	const getName = () => playerName;
+
 	return Object.freeze({
-		getPlayerName
+		getName
 	});
 };

@@ -9,8 +9,10 @@ export default (squares) => {
 	})();
 
 	const getSquares = () => clone(squares);
+	const getSquareAt = (position) => squares[position.x][position.y];
 
 	return Object.freeze({
-		getSquares
+		getSquares,
+		getSquareAt
 	});
 };

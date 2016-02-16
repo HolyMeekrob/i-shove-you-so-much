@@ -1,4 +1,5 @@
 import board from '../../../src/model/board';
+import position from '../../../src/model/position';
 import chai from 'chai';
 const should = chai.should();
 
@@ -35,9 +36,42 @@ describe('board', () => {
 				[1, 2, 3],
 				[4, 5, 6]
 			];
-			const gameBoard = board(squares);
+			const b = board(squares);
 
-			gameBoard.getSquares().should.deep.equal(squares);
+			b.getSquares().should.deep.equal(squares);
+		});
+	});
+
+	describe('getSquareAt()', () => {
+		describe('when given an invalid position', () => {
+			it('should throw an error', () => {
+				(() => {
+					const squares = [
+						[1, 2, 3],
+						[4, 5, 6]
+					];
+					const b = board(squares);
+					const x = 2;
+					const y = 5;
+					const p = position(x, y);
+					b.getSquareAt(p);
+				}).should.throw(Error);
+			});
+		});
+
+		describe('when given a valid position', () => {
+			it('should return the squares', () => {
+				const squares = [
+					[1, 2, 3],
+					[4, 5, 6]
+				];
+				const b = board(squares);
+				const x = 1;
+				const y = 2;
+				const p = position(x, y);
+
+				b.getSquareAt(p).should.equal(squares[x][y]);
+			});
 		});
 	});
 });
