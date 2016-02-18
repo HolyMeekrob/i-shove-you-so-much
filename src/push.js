@@ -1,4 +1,4 @@
-import { all, any, append, curry, defaultTo } from 'ramda';
+import { any, append, contains, curry, defaultTo } from 'ramda';
 
 import * as tokenType from './model/tokenType';
 import * as border from './model/border';
@@ -7,26 +7,21 @@ import * as floor from './model/floor';
 import * as turn from './model/turn';
 import position from './model/position';
 import gameBoard from './model/gameBoard';
+import tokenPosition from './model/tokenPosition';
 
-const getSquareAt = (game, pos) => {
+const getSquareAt = (pos, game) => {
 	return game.getGameBoard().getBoard().getSquareAt(pos);
 };
 
-const getTokenAt = (game, pos) => {
+const getTokenAt = (pos, game) => {
 	return game.getGameBoard().getTokenAt(pos);
 };
 
-const hasTokenAt = (game, pos) => {
+const hasTokenAt = (pos, game) => {
 	return game.getGameBoard().hasTokenAt(pos);
 };
 
-const canPush = (game, dir, pos) => {
-	const isNotAnchor = getTokenAt(game, pos).getTokenType() !== tokenType.ANCHOR;
-	const hasOpenBorder = getSquareAt(game, pos).getBorder(dir) === border.OPEN_BORDER;
-
-	return isNotAnchor && hasOpenBorder;
-};
-
+// TODO: Figure out a way to not have to call this so many times
 const getNextPositionFn = (dir) => {
 	switch (dir) {
 	case direction.NORTH:
@@ -46,48 +41,81 @@ const getNextPositionFn = (dir) => {
 	}
 };
 
-const getLine = (game, nextPositionFn, pos, prepend) => {
-	const line = defaultTo([], prepend);
-
-	if (getSquareAt(game, pos).getFloorType() === floor.PIT) {
-		return line;
-	}
-
-	if (!hasTokenAt(game, pos)) {
-		return line;
-	}
-
-	return getLine(game, nextPositionFn(pos), nextPositionFn, append(pos, line));
-};
-
-const validatePush = (game, dir, pos) => {
-	if (getTokenAt(game, pos).getTokenType() !== tokenType.BULLY) {
+const canPush = (dir, pos, game) => {
+	if (getTokenAt(pos, game).getTokenType() === tokenType.ANCHOR) {
 		return false;
 	}
 
-	const canPushInDirection = curry(canPush)(game, dir);
-	const nextPositionFn = getNextPositionFn(dir);
-	const line = getLine(game, nextPositionFn, pos);
-	return line.length > 1 && all(canPushInDirection, line);
+	if (getSquareAt(pos, game).getBorder(dir) === border.WALL_BORDER) {
+		return false;
+	}
+
+	if (!hasTokenAt(pos, game)) {
+		return true;
+	}
+
+	return canPush(dir, getNextPositionFn(dir)(pos), game);
 };
 
-const getTokenPositionsAfterPush = (game, dir, pos) => {
+const validatePush = (dir, pos, game) => {
+	// Can not push an empty space
+	if (!hasTokenAt(pos, game)) {
+		return false;
+	}
+
+	// If the next space is empty, it's a move not a push
+	const nextPosition = getNextPositionFn(dir)(pos);
+	if (!hasTokenAt(nextPosition)) {
+		return false;
+	}
+
+	const startingToken = getTokenAt(pos, game);
+
+	// Can only push a bully
+	if (startingToken.getTokenType() !== tokenType.BULLY
+			// TODO: How to equate these two different types?
+		|| startingToken.getPlayerType() !== game.getTurn()) {
+		return false;
+	}
+
+	return canPush(dir, pos);
+};
+
+const getPushedTokens = (dir, pos, game, tokens) => {
+	const pushed = defaultTo([], tokens);
+	if (!hasTokenAt(pos, game)) {
+		return pushed;
+	}
+
+	return getPushedTokens(dir, getNextPositionFn(dir)(pos), game,
+		append(getTokenAt(pos, game), pushed));
+};
+
+const getTokenPositionsAfterPush = (dir, pos, game) => {
+	const pushedTokens = getPushedTokens(dir, pos, game);
+	return game.getGameBoard().getTokenPositions().map((tp) => {
+		if (contains(tp.token, pushedTokens)) {
+			return tokenPosition(tp.token, getNextPositionFn(dir)(tp.position));
+		}
+		return tp;
+	});
+};
+
+const isTokenPositionInPit = (game, tp) => {
+	return getSquareAt(tp.position, game).getFloorType() === floor.PIT;
+};
+
+const hasTokenInPit = (game) => any(curry(isTokenPositionInPit)(game),
+	game.getGameBoard().getTokenPositions());
+
+const isCurrentPlayerStuck = (playerTurn, game) => {
 	// TODO: Implement me
+
 };
 
-const isTokenPositionInPit = (gb, tokenPosition) => {
-	return gb.getBoard().getSquareAt(tokenPosition.position).getFloorType() === floor.PIT;
-};
-
-const hasTokenInPit = (gb) => any(curry(isTokenPositionInPit), gb.getTokenPositions());
-
-const isCurrentPlayerStuck = (gb, playerTurn) => {
-	// TODO: Implement me
-};
-
-const isGameOver = (gb, playerTurn) => {
-	return hasTokenInPit(gb)
-		|| isCurrentPlayerStuck(gb, playerTurn);
+const isGameOver = (playerTurn, game) => {
+	return hasTokenInPit(game)
+		|| isCurrentPlayerStuck(playerTurn, game);
 };
 
 const getNextPlayerTurn = (currentTurn) => {
@@ -97,17 +125,17 @@ const getNextPlayerTurn = (currentTurn) => {
 };
 
 export default (game, dir, pos) => {
-	if (!validatePush(game, dir, pos)) {
+	if (!validatePush(dir, pos, game)) {
 		throw new Error('Invalid move');
 	}
 
 	const newBoard = gameBoard(
 		game.getGameBoard().getBoard(),
-		getTokenPositionsAfterPush(game, dir, pos));
+		getTokenPositionsAfterPush(dir, pos, game));
 
 	const nextPlayerTurn = getNextPlayerTurn(game.getTurn());
 
-	const nextTurn = isGameOver(newBoard, nextPlayerTurn)
+	const nextTurn = isGameOver(nextPlayerTurn, game)
 		? turn.GAME_OVER
 		: nextPlayerTurn;
 
