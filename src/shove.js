@@ -41,7 +41,7 @@ const getNextPositionFn = (dir) => {
 	}
 };
 
-const canPush = (dir, pos, game) => {
+const canShove = (dir, pos, game) => {
 	if (getTokenAt(pos, game).getTokenType() === tokenType.ANCHOR) {
 		return false;
 	}
@@ -54,16 +54,16 @@ const canPush = (dir, pos, game) => {
 		return true;
 	}
 
-	return canPush(dir, getNextPositionFn(dir)(pos), game);
+	return canShove(dir, getNextPositionFn(dir)(pos), game);
 };
 
-const validatePush = (dir, pos, game) => {
-	// Can not push an empty space
+const validateShove = (dir, pos, game) => {
+	// Can not shove an empty space
 	if (!hasTokenAt(pos, game)) {
 		return false;
 	}
 
-	// If the next space is empty, it's a move not a push
+	// If the next space is empty, it's a move not a shove
 	const nextPosition = getNextPositionFn(dir)(pos);
 	if (!hasTokenAt(nextPosition)) {
 		return false;
@@ -71,30 +71,30 @@ const validatePush = (dir, pos, game) => {
 
 	const startingToken = getTokenAt(pos, game);
 
-	// Can only push a bully
+	// Can only shove a bully
 	if (startingToken.getTokenType() !== tokenType.BULLY
 			// TODO: How to equate these two different types?
 		|| startingToken.getPlayerType() !== game.getTurn()) {
 		return false;
 	}
 
-	return canPush(dir, pos);
+	return canShove(dir, pos);
 };
 
-const getPushedTokens = (dir, pos, game, tokens) => {
-	const pushed = defaultTo([], tokens);
+const getShoveedTokens = (dir, pos, game, tokens) => {
+	const shoved = defaultTo([], tokens);
 	if (!hasTokenAt(pos, game)) {
-		return pushed;
+		return shoved;
 	}
 
-	return getPushedTokens(dir, getNextPositionFn(dir)(pos), game,
-		append(getTokenAt(pos, game), pushed));
+	return getShoveedTokens(dir, getNextPositionFn(dir)(pos), game,
+		append(getTokenAt(pos, game), shoved));
 };
 
-const getTokenPositionsAfterPush = (dir, pos, game) => {
-	const pushedTokens = getPushedTokens(dir, pos, game);
+const getTokenPositionsAfterShove = (dir, pos, game) => {
+	const shovedTokens = getShoveedTokens(dir, pos, game);
 	return game.getGameBoard().getTokenPositions().map((tp) => {
-		if (contains(tp.token, pushedTokens)) {
+		if (contains(tp.token, shovedTokens)) {
 			return tokenPosition(tp.token, getNextPositionFn(dir)(tp.position));
 		}
 		return tp;
@@ -125,13 +125,13 @@ const getNextPlayerTurn = (currentTurn) => {
 };
 
 export default (game, dir, pos) => {
-	if (!validatePush(dir, pos, game)) {
+	if (!validateShove(dir, pos, game)) {
 		throw new Error('Invalid move');
 	}
 
 	const newBoard = gameBoard(
 		game.getGameBoard().getBoard(),
-		getTokenPositionsAfterPush(dir, pos, game));
+		getTokenPositionsAfterShove(dir, pos, game));
 
 	const nextPlayerTurn = getNextPlayerTurn(game.getTurn());
 
