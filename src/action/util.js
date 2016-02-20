@@ -7,6 +7,10 @@ export const getBorderAt = (pos, game, dir) => {
 	return game.getSquareAt(pos).getBorder(dir);
 };
 
+export const getFloorAt = (pos, game) => {
+	return game.getSquareAt(pos).getFloorType();
+};
+
 // TODO: How to equate these two different types?
 export const isTokenForCurrentPlayer = curry((game, token) =>
 	token.getPlayerType() === game.getTurn());
@@ -29,3 +33,15 @@ export const getNextPosition = (dir, pos) => {
 			throw new Error('Invalid direction');
 	}
 };
+
+export const iterate = curry((fn, n, val) => {
+	if (n < 0) {
+		throw new Error('Iteration count must be non-negative');
+	}
+
+	if (n === 0) {
+		return val;
+	}
+
+	return iterate(fn, n - 1, fn(val));
+});

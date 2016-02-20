@@ -1,9 +1,9 @@
 import {
-	and, any, append, converge, contains, curry, defaultTo, isEmpty
+	and, any, append, converge, contains, curry, defaultTo, isEmpty, prepend
 }	from 'ramda';
 
 import {
-	getBorderAt, getNextPosition, isTokenForCurrentPlayer
+	getBorderAt, getFloorAt, getNextPosition, isTokenForCurrentPlayer
 } from './util';
 
 import * as tokenType from '../model/tokenType';
@@ -69,7 +69,7 @@ const getTokenPositionsAfterShove = (dir, pos, game) => {
 };
 
 const isTokenPositionInPit = (game, tp) => {
-	return game.getSquareAt(tp.position).getFloorType() === floor.PIT;
+	return getFloorAt(tp.position, game) === floor.PIT;
 };
 
 const hasTokenInPit = (game) => any(curry(isTokenPositionInPit)(game),
@@ -99,9 +99,9 @@ export default (dir, pos, game) => {
 		throw new Error('Invalid shove');
 	}
 
-	const newBoard = gameBoard(
+	const newBoard = gameBoard(undefined, ...prepend(
 		game.getGameBoard().getBoard(),
-		getTokenPositionsAfterShove(dir, pos, game));
+		getTokenPositionsAfterShove(dir, pos, game)));
 
 	const nextPlayerTurn = getNextPlayerTurn(game.getTurn());
 
