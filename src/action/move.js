@@ -1,10 +1,10 @@
 import { and, complement, converge, isNil } from 'ramda';
-import { getBorderAt, getNextPosition, getTokenAt, hasTokenAt } from './util';
+import { getBorderAt, getNextPosition, isTokenForCurrentPlayer } from './util';
 
 import * as border from '../model/border';
 
 const hasEmptyPath = (game, dir, pos, spacesRemaining) => {
-	if (hasTokenAt(pos, game)) {
+	if (game.hasTokenAt(pos)) {
 		return false;
 	}
 
@@ -20,12 +20,11 @@ const hasEmptyPath = (game, dir, pos, spacesRemaining) => {
 };
 
 const validateMove = (game, dir, pos, spaces) => {
-	if (!hasTokenAt(pos, game)) {
+	if (!game.hasTokenAt(pos)) {
 		return false;
 	}
 
-	const tokenToMove = getTokenAt(pos, game);
-	const isTokenForCurrentPlayer = (token) => token.getPlayerType() === game.getTurn();
+	const tokenToMove = game.getTokenAt(pos);
 	const isMoveableToken = converge(and,
 		[complement(isNil), isTokenForCurrentPlayer(game)]);
 

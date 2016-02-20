@@ -3,8 +3,7 @@ import {
 }	from 'ramda';
 
 import {
-	getBorderAt, getSquareAt, getNextPosition, getTokenAt,
-	hasTokenAt, isTokenForCurrentPlayer
+	getBorderAt, getNextPosition, isTokenForCurrentPlayer
 } from './util';
 
 import * as tokenType from '../model/tokenType';
@@ -15,7 +14,7 @@ import gameBoard from '../model/gameBoard';
 import tokenPosition from '../model/tokenPosition';
 
 const canShove = (dir, pos, game) => {
-	if (getTokenAt(pos, game).getTokenType() === tokenType.ANCHOR) {
+	if (game.getTokenAt(game).getTokenType() === tokenType.ANCHOR) {
 		return false;
 	}
 
@@ -23,7 +22,7 @@ const canShove = (dir, pos, game) => {
 		return false;
 	}
 
-	if (!hasTokenAt(pos, game)) {
+	if (!game.hasTokenAt(pos)) {
 		return true;
 	}
 
@@ -32,17 +31,17 @@ const canShove = (dir, pos, game) => {
 
 const validateShove = (dir, pos, game) => {
 	// Can not shove an empty space
-	if (!hasTokenAt(pos, game)) {
+	if (!game.hasTokenAt(pos)) {
 		return false;
 	}
 
 	// If the next space is empty, it's a move not a shove
 	const nextPosition = getNextPosition(dir, pos);
-	if (!hasTokenAt(nextPosition)) {
+	if (!game.hasTokenAt(nextPosition)) {
 		return false;
 	}
 
-	const tokenToShove = getTokenAt(pos, game);
+	const tokenToShove = game.getTokenAt(pos);
 	const isBully = (token) => token.getTokenType() === tokenType.BULLY;
 	const isShoveableToken = converge(and, [isBully, isTokenForCurrentPlayer(game)]);
 
@@ -51,17 +50,17 @@ const validateShove = (dir, pos, game) => {
 
 const getShovedTokens = (dir, pos, game, tokens) => {
 	const shoved = defaultTo([], tokens);
-	if (!hasTokenAt(pos, game)) {
+	if (!game.hasTokenAt(pos)) {
 		return shoved;
 	}
 
 	return getShovedTokens(dir, getNextPosition(dir, pos), game,
-		append(getTokenAt(pos, game), shoved));
+		append(game.getTokenAt(pos), shoved));
 };
 
 const getTokenPositionsAfterShove = (dir, pos, game) => {
 	const shovedTokens = getShovedTokens(dir, pos, game);
-	return game.getGameBoard().getTokenPositions().map((tp) => {
+	return game.getTokenPositions().map((tp) => {
 		if (contains(tp.token, shovedTokens)) {
 			return tokenPosition(tp.token, getNextPosition(dir, tp.position));
 		}
@@ -70,11 +69,11 @@ const getTokenPositionsAfterShove = (dir, pos, game) => {
 };
 
 const isTokenPositionInPit = (game, tp) => {
-	return getSquareAt(tp.position, game).getFloorType() === floor.PIT;
+	return game.getSquareAt(tp.position).getFloorType() === floor.PIT;
 };
 
 const hasTokenInPit = (game) => any(curry(isTokenPositionInPit)(game),
-	game.getGameBoard().getTokenPositions());
+	game.get.getTokenPositions());
 
 const getAllPossibleTurnOutcomesForPlayer = (playerTurn, game) => {
 

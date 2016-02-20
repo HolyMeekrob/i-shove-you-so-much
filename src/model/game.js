@@ -21,6 +21,10 @@ export default (playerOne, playerTwo, gameBoard, playerTurn, usedMoves) => {
 		getGameBoard,
 		getTurn,
 		hasMovesRemaining,
-		getMovesRemaining
+		getMovesRemaining,
+		hasTokenAt: gameBoard.hasTokenAt,
+		getTokenAt: gameBoard.getTokenAt,
+		getTokenPositions: gameBoard.getTokenPositions,
+		getSquareAt: gameBoard.getBoard().getSquareAt
 	});
 };
