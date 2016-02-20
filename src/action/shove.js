@@ -1,13 +1,13 @@
 import { any, append, contains, curry, defaultTo, isEmpty } from 'ramda';
 
-import * as tokenType from './model/tokenType';
-import * as border from './model/border';
-import * as direction from './model/direction';
-import * as floor from './model/floor';
-import * as turn from './model/turn';
-import position from './model/position';
-import gameBoard from './model/gameBoard';
-import tokenPosition from './model/tokenPosition';
+import * as tokenType from '../model/tokenType';
+import * as border from '../model/border';
+import * as direction from '../model/direction';
+import * as floor from '../model/floor';
+import * as turn from '../model/turn';
+import position from '../model/position';
+import gameBoard from '../model/gameBoard';
+import tokenPosition from '../model/tokenPosition';
 
 const getSquareAt = (pos, game) => {
 	return game.getGameBoard().getBoard().getSquareAt(pos);
