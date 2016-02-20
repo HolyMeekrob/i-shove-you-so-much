@@ -1,51 +1,25 @@
-import { any, append, contains, curry, defaultTo, isEmpty } from 'ramda';
+import {
+	and, any, append, converge, contains, curry, defaultTo, isEmpty
+}	from 'ramda';
+
+import {
+	getBorderAt, getSquareAt, getNextPosition, getTokenAt,
+	hasTokenAt, isTokenForCurrentPlayer
+} from './util';
 
 import * as tokenType from '../model/tokenType';
 import * as border from '../model/border';
-import * as direction from '../model/direction';
 import * as floor from '../model/floor';
 import * as turn from '../model/turn';
-import position from '../model/position';
 import gameBoard from '../model/gameBoard';
 import tokenPosition from '../model/tokenPosition';
-
-const getSquareAt = (pos, game) => {
-	return game.getGameBoard().getBoard().getSquareAt(pos);
-};
-
-const getTokenAt = (pos, game) => {
-	return game.getGameBoard().getTokenAt(pos);
-};
-
-const hasTokenAt = (pos, game) => {
-	return game.getGameBoard().hasTokenAt(pos);
-};
-
-const getNextPosition = (dir, pos) => {
-	switch (dir) {
-		case direction.NORTH:
-			return position(pos.x, pos.y + 1);
-
-		case direction.EAST:
-			return position(pos.x + 1, pos.y);
-
-		case direction.SOUTH:
-			return position(pos.x, pos.y - 1);
-
-		case direction.WEST:
-			return position(pos.x - 1, pos.y);
-
-		default:
-			throw new Error('Invalid direction');
-	}
-};
 
 const canShove = (dir, pos, game) => {
 	if (getTokenAt(pos, game).getTokenType() === tokenType.ANCHOR) {
 		return false;
 	}
 
-	if (getSquareAt(pos, game).getBorder(dir) === border.WALL_BORDER) {
+	if (getBorderAt(pos, game, dir) === border.WALL_BORDER) {
 		return false;
 	}
 
@@ -68,16 +42,11 @@ const validateShove = (dir, pos, game) => {
 		return false;
 	}
 
-	const startingToken = getTokenAt(pos, game);
+	const tokenToShove = getTokenAt(pos, game);
+	const isBully = (token) => token.getTokenType() === tokenType.BULLY;
+	const isShoveableToken = converge(and, [isBully, isTokenForCurrentPlayer(game)]);
 
-	// Can only shove a bully
-	if (startingToken.getTokenType() !== tokenType.BULLY
-			// TODO: How to equate these two different types?
-		|| startingToken.getPlayerType() !== game.getTurn()) {
-		return false;
-	}
-
-	return canShove(dir, pos);
+	return isShoveableToken(tokenToShove) && canShove(dir, pos);
 };
 
 const getShovedTokens = (dir, pos, game, tokens) => {
@@ -126,9 +95,9 @@ const getNextPlayerTurn = (currentTurn) => {
 		: turn.PLAYER_ONE_TURN;
 };
 
-export default (game, dir, pos) => {
+export default (dir, pos, game) => {
 	if (!validateShove(dir, pos, game)) {
-		throw new Error('Invalid move');
+		throw new Error('Invalid shove');
 	}
 
 	const newBoard = gameBoard(

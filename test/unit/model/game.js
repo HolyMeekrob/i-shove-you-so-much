@@ -60,4 +60,65 @@ describe('game', () => {
 			gameObj.getTurn().should.equal(t.PLAYER_ONE_TURN);
 		});
 	});
+
+	describe('hasMovesRemaining()', () => {
+		describe('when there are not moves remaining', () => {
+			it('should return false', () => {
+				const playerOne = { name: 'Player One' };
+				const playerTwo = { name: 'Player Two' };
+				const gameBoard = { board: {} };
+				const turn = t.PLAYER_TWO_TURN;
+				const movesRemaining = 2;
+
+				const gameObj = game(playerOne, playerTwo, gameBoard, turn, movesRemaining);
+				gameObj.hasMovesRemaining().should.be.false;
+			});
+		});
+
+		describe('when there are moves remaining', () => {
+			it('should return true', () => {
+				const playerOne = { name: 'Player One' };
+				const playerTwo = { name: 'Player Two' };
+				const gameBoard = { board: {} };
+				const turn = t.PLAYER_TWO_TURN;
+				const movesRemaining = 1;
+
+				const gameObj = game(playerOne, playerTwo, gameBoard, turn, movesRemaining);
+				gameObj.hasMovesRemaining().should.be.true;
+			});
+		});
+
+		describe('when given the default', () => {
+			it('should return true', () => {
+				const playerOne = { name: 'Player One' };
+				const playerTwo = { name: 'Player Two' };
+				const gameBoard = { board: {} };
+
+				const gameObj = game(playerOne, playerTwo, gameBoard);
+				gameObj.hasMovesRemaining().should.be.true;
+			});
+		});
+	});
+
+	describe('getMovesRemaining()', () => {
+		it('should return the number of moves remaining', () => {
+			const playerOne = { name: 'Player One' };
+			const playerTwo = { name: 'Player Two' };
+			const gameBoard = { board: {} };
+			const turn = t.PLAYER_TWO_TURN;
+			const movesRemaining = 1;
+
+			const gameObj = game(playerOne, playerTwo, gameBoard, turn, movesRemaining);
+			gameObj.getMovesRemaining().should.equal(1);
+		});
+
+		it('should default to two', () => {
+			const playerOne = { name: 'Player One' };
+			const playerTwo = { name: 'Player Two' };
+			const gameBoard = { board: {} };
+
+			const gameObj = game(playerOne, playerTwo, gameBoard);
+			gameObj.getMovesRemaining().should.equal(2);
+		});
+	});
 });
