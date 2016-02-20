@@ -1,4 +1,4 @@
-import { any, append, contains, curry, defaultTo } from 'ramda';
+import { any, append, contains, curry, defaultTo, isEmpty } from 'ramda';
 
 import * as tokenType from './model/tokenType';
 import * as border from './model/border';
@@ -21,23 +21,22 @@ const hasTokenAt = (pos, game) => {
 	return game.getGameBoard().hasTokenAt(pos);
 };
 
-// TODO: Figure out a way to not have to call this so many times
-const getNextPositionFn = (dir) => {
+const getNextPosition = (dir, pos) => {
 	switch (dir) {
-	case direction.NORTH:
-		return (pos) => position(pos.x, pos.y + 1);
+		case direction.NORTH:
+			return position(pos.x, pos.y + 1);
 
-	case direction.EAST:
-		return (pos) => position(pos.x + 1, pos.y);
+		case direction.EAST:
+			return position(pos.x + 1, pos.y);
 
-	case direction.SOUTH:
-		return (pos) => position(pos.x, pos.y - 1);
+		case direction.SOUTH:
+			return position(pos.x, pos.y - 1);
 
-	case direction.WEST:
-		return (pos) => position(pos.x - 1, pos.y);
+		case direction.WEST:
+			return position(pos.x - 1, pos.y);
 
-	default:
-		throw new Error('Invalid direction');
+		default:
+			throw new Error('Invalid direction');
 	}
 };
 
@@ -54,7 +53,7 @@ const canShove = (dir, pos, game) => {
 		return true;
 	}
 
-	return canShove(dir, getNextPositionFn(dir)(pos), game);
+	return canShove(dir, getNextPosition(dir, pos), game);
 };
 
 const validateShove = (dir, pos, game) => {
@@ -64,7 +63,7 @@ const validateShove = (dir, pos, game) => {
 	}
 
 	// If the next space is empty, it's a move not a shove
-	const nextPosition = getNextPositionFn(dir)(pos);
+	const nextPosition = getNextPosition(dir, pos);
 	if (!hasTokenAt(nextPosition)) {
 		return false;
 	}
@@ -81,21 +80,21 @@ const validateShove = (dir, pos, game) => {
 	return canShove(dir, pos);
 };
 
-const getShoveedTokens = (dir, pos, game, tokens) => {
+const getShovedTokens = (dir, pos, game, tokens) => {
 	const shoved = defaultTo([], tokens);
 	if (!hasTokenAt(pos, game)) {
 		return shoved;
 	}
 
-	return getShoveedTokens(dir, getNextPositionFn(dir)(pos), game,
+	return getShovedTokens(dir, getNextPosition(dir, pos), game,
 		append(getTokenAt(pos, game), shoved));
 };
 
 const getTokenPositionsAfterShove = (dir, pos, game) => {
-	const shovedTokens = getShoveedTokens(dir, pos, game);
+	const shovedTokens = getShovedTokens(dir, pos, game);
 	return game.getGameBoard().getTokenPositions().map((tp) => {
 		if (contains(tp.token, shovedTokens)) {
-			return tokenPosition(tp.token, getNextPositionFn(dir)(tp.position));
+			return tokenPosition(tp.token, getNextPosition(dir, tp.position));
 		}
 		return tp;
 	});
@@ -108,14 +107,17 @@ const isTokenPositionInPit = (game, tp) => {
 const hasTokenInPit = (game) => any(curry(isTokenPositionInPit)(game),
 	game.getGameBoard().getTokenPositions());
 
-const isCurrentPlayerStuck = (playerTurn, game) => {
-	// TODO: Implement me
+const getAllPossibleTurnOutcomesForPlayer = (playerTurn, game) => {
 
+};
+
+const isPlayerStuck = (playerTurn, game) => {
+	return isEmpty(getAllPossibleTurnOutcomesForPlayer(playerTurn, game));
 };
 
 const isGameOver = (playerTurn, game) => {
 	return hasTokenInPit(game)
-		|| isCurrentPlayerStuck(playerTurn, game);
+		|| isPlayerStuck(playerTurn, game);
 };
 
 const getNextPlayerTurn = (currentTurn) => {
