@@ -1,60 +1,37 @@
+import test from 'tape';
 import token from '../../../src/model/token';
 import * as pt from '../../../src/model/playerType';
 import * as tt from '../../../src/model/tokenType';
 
-import chai from 'chai';
-const should = chai.should();
+test('token() without any arguments', (assert) => {
+	assert.throws(() => token(), 'throws an error');
+	assert.end();
+});
 
-describe('token', () => {
-	describe('#constructor', () => {
-		describe('when missing all arguments', () => {
-			it('should throw an error', () => {
-				(() => token()).should.throw(Error);
-			});
-		});
-	});
+test('token() without a player type', (assert) => {
+	assert.throws(() => token(null, tt.BULLY), 'throws an error');
+	assert.end();
+});
 
-	describe('#constructor', () => {
-		describe('when missing all arguments', () => {
-			it('should throw an error', () => {
-				(() => token()).should.throw(Error);
-			});
-		});
-	});
+test('token() without a token type', (assert) => {
+	assert.throws(() => token(pt.PLAYER_ONE), 'throws an error');
+	assert.end();
+});
 
-	describe('#constructor', () => {
-		describe('when missing a player type', () => {
-			it('should throw an error', () => {
-				(() => token(null, tt.BULLY)).should.throw(Error);
-			});
-		});
-	});
+test('token.getPlayerType()', (assert) => {
+	const player = pt.PLAYER_TWO;
+	const tokenType = tt.BULLY;
+	const gameToken = token(player, tokenType);
 
-	describe('#constructor', () => {
-		describe('when missing a token type', () => {
-			it('should throw an error', () => {
-				(() => token(pt.PLAYER_ONE, null)).should.throw(Error);
-			});
-		});
-	});
+	assert.equal(gameToken.getPlayerType(), player, 'returns the player type');
+	assert.end();
+});
 
-	describe('getPlayerType()', () => {
-		it('should return the player type', () => {
-			const player = pt.PLAYER_TWO;
-			const tokenType = tt.BULLY;
-			const gameToken = token(player, tokenType);
+test('token.getTokenType()', (assert) => {
+	const player = pt.PLAYER_ONE;
+	const tokenType = tt.VICTIM;
+	const gameToken = token(player, tokenType);
 
-			gameToken.getPlayerType().should.equal(player);
-		});
-	});
-
-	describe('getTokenType()', () => {
-		it('should return the tokenType', () => {
-			const player = pt.PLAYER_ONE;
-			const tokenType = tt.VICTIM;
-			const gameToken = token(player, tokenType);
-
-			gameToken.getTokenType().should.equal(tokenType);
-		});
-	});
+	assert.equal(gameToken.getTokenType(), tokenType, 'returns the token type');
+	assert.end();
 });

@@ -1,21 +1,15 @@
+import test from 'tape';
 import player from '../../../src/model/player';
-import chai from 'chai';
-const should = chai.should();
 
-describe('player', () => {
-	describe('#constructor', () => {
-		describe('when given zero arguments', () => {
-			it('should throw an error', () => {
-				(() => player()).should.throw(Error);
-			});
-		});
-	});
+test('player() with no arguments', (assert) => {
+	assert.throws(() => player(), 'throws an error');
+	assert.end();
+});
 
-	describe('getPlayerName()', () => {
-		it('should return the player\'s name', () => {
-			const playerName = 'Player Name';
-			const gamePlayer = player(playerName);
-			gamePlayer.getName().should.equal(playerName);
-		});
-	});
+test('player.getName()', (assert) => {
+	const playerName = 'Player Name';
+	const playerObj = player(playerName);
+
+	assert.equal(playerObj.getName(), playerName, 'returns the given name');
+	assert.end();
 });

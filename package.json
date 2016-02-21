@@ -4,7 +4,8 @@
 	"description": "A simple two-player board game",
 	"main": "app.js",
 	"scripts": {
-		"test": "mocha --compilers js:babel-register ./test/**/*.js",
+		"test": "tape -r babel-register ./test/**/*.js | faucet",
+		"lint": "eslint ./src/**/*.js",
 		"build": "babel src -d lib"
 	},
 	"author": "Andy Steinberg",
@@ -13,12 +14,9 @@
 		"babel-cli": "^6.5.1",
 		"babel-plugin-transform-es2015-modules-commonjs": "^6.5.0",
 		"babel-plugin-transform-es2015-parameters": "^6.5.0",
-		"chai": "^3.5.0",
 		"eslint": "^1.10.3",
-		"gulp": "^3.9.1",
-		"gulp-eslint": "^1.1.1",
-		"gulp-mocha": "^2.2.0",
-		"mocha": "^2.4.5"
+		"faucet": "0.0.1",
+		"tape": "^4.4.0"
 	},
 	"dependencies": {
 		"ramda": "^0.19.1"

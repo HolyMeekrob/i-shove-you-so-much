@@ -1,7 +1,6 @@
+import test from 'tape';
 import game from '../../../src/model/game';
 import * as t from '../../../src/model/turn';
-import chai from 'chai';
-const should = chai.should();
 
 const getGameBoard = () => {
 	return {
@@ -15,159 +14,165 @@ const getGameBoard = () => {
 	};
 };
 
-describe('game', () => {
-	describe('getPlayerOne()', () => {
-		it('should return player one', () => {
-			const playerOne = { name: 'Player One' };
-			const playerTwo = { name: 'Player Two' };
-			const gameBoard = getGameBoard();
+test('game.getPlayerOne()', (assert) => {
+	const playerOne = { name: 'Player One' };
+	const playerTwo = { name: 'Player Two' };
+	const gameBoard = getGameBoard();
+	const gameObj = game(playerOne, playerTwo, gameBoard);
 
-			const gameObj = game(playerOne, playerTwo, gameBoard);
-			gameObj.getPlayerOne().should.equal(playerOne);
-		});
-	});
+	assert.equal(gameObj.getPlayerOne(), playerOne,
+		'returns the first player');
+	assert.end();
+});
 
-	describe('getPlayerTwo()', () => {
-		it('should return player two', () => {
-			const playerOne = { name: 'Player One' };
-			const playerTwo = { name: 'Player Two' };
-			const gameBoard = getGameBoard();
+test('game.getPlayerTwo()', (assert) => {
+	const playerOne = { name: 'Player One' };
+	const playerTwo = { name: 'Player Two' };
+	const gameBoard = getGameBoard();
+	const gameObj = game(playerOne, playerTwo, gameBoard);
 
-			const gameObj = game(playerOne, playerTwo, gameBoard);
-			gameObj.getPlayerTwo().should.equal(playerTwo);
-		});
-	});
+	assert.equal(gameObj.getPlayerTwo(), playerTwo,
+		'returns the second player');
+	assert.end();
+});
 
-	describe('getGameBoard()', () => {
-		it('should return the game board', () => {
-			const playerOne = { name: 'Player One' };
-			const playerTwo = { name: 'Player Two' };
-			const gameBoard = getGameBoard();
+test('game.getGameBoard()', (assert) => {
+	const playerOne = { name: 'Player One' };
+	const playerTwo = { name: 'Player Two' };
+	const gameBoard = getGameBoard();
 
-			const gameObj = game(playerOne, playerTwo, gameBoard);
-			gameObj.getGameBoard().should.equal(gameBoard);
-		});
-	});
+	const gameObj = game(playerOne, playerTwo, gameBoard);
+	assert.equal(gameObj.getGameBoard(), gameBoard,
+		'returns the given game board');
+	assert.end();
+});
 
-	describe('getRules()', () => {
-		it('should return the rules', () => {
-			const playerOne = { name: 'Player One' };
-			const playerTwo = { name: 'Player Two' };
-			const gameBoard = getGameBoard();
-			const turn = t.GAME_OVER;
+test('game.getRules()', (assert) => {
+	const playerOne = { name: 'Player One' };
+	const playerTwo = { name: 'Player Two' };
+	const gameBoard = getGameBoard();
+	const turn = t.GAME_OVER;
 
-			const movesPerTurn = 3;
-			const rules = { getMovesPerTurn: () => movesPerTurn };
+	const movesPerTurn = 3;
+	const rules = { getMovesPerTurn: () => movesPerTurn };
 
-			const gameObj = game(playerOne, playerTwo, gameBoard, rules, turn);
-			gameObj.getRules().should.equal(rules);
-			gameObj.getRules().getMovesPerTurn().should.equal(movesPerTurn);
-		});
+	const gameObj = game(playerOne, playerTwo, gameBoard, rules, turn);
 
-		it('should default to two moves per turn', () => {
-			const playerOne = { name: 'Player One' };
-			const playerTwo = { name: 'Player Two' };
-			const gameBoard = getGameBoard();
+	assert.equal(gameObj.getRules(), rules, 'returns the given ruleset');
+	assert.end();
+});
 
-			const defaultMovesPerTurn = 2;
+test('game.getRules() with no given ruleset', (assert) => {
+	const playerOne = { name: 'Player One' };
+	const playerTwo = { name: 'Player Two' };
+	const gameBoard = getGameBoard();
 
-			const gameObj = game(playerOne, playerTwo, gameBoard);
-			gameObj.getRules().should.exist;
-			gameObj.getRules().getMovesPerTurn().should.equal(defaultMovesPerTurn);
-		});
-	});
+	const defaultMovesPerTurn = 2;
 
-	describe('getTurn()', () => {
-		it('should return the current turn', () => {
-			const playerOne = { name: 'Player One' };
-			const playerTwo = { name: 'Player Two' };
-			const gameBoard = getGameBoard();
-			const turn = t.PLAYER_TWO_TURN;
+	const gameObj = game(playerOne, playerTwo, gameBoard);
 
-			const movesPerTurn = 3;
-			const rules = { getMovesPerTurn: () => movesPerTurn };
+	assert.equal(gameObj.getRules() !== undefined && gameObj.getRules() !== null,
+		true, 'defaults to a ruleset object');
+	assert.equal(gameObj.getRules().getMovesPerTurn(), defaultMovesPerTurn,
+		'defaults to two moves per turn');
+	assert.end();
+});
 
-			const gameObj = game(playerOne, playerTwo, gameBoard, rules, turn);
-			gameObj.getTurn().should.equal(turn);
-		});
+test('game.getPlayerTurn()', (assert) => {
+	const playerOne = { name: 'Player One' };
+	const playerTwo = { name: 'Player Two' };
+	const gameBoard = getGameBoard();
+	const turn = t.PLAYER_TWO_TURN;
 
-		it('should default to player one', () => {
-			const playerOne = { name: 'Player One' };
-			const playerTwo = { name: 'Player Two' };
-			const gameBoard = getGameBoard();
+	const movesPerTurn = 3;
+	const rules = { getMovesPerTurn: () => movesPerTurn };
 
-			const gameObj = game(playerOne, playerTwo, gameBoard);
-			gameObj.getTurn().should.equal(t.PLAYER_ONE_TURN);
-		});
-	});
+	const gameObj = game(playerOne, playerTwo, gameBoard, rules, turn);
 
-	describe('hasMovesRemaining()', () => {
-		describe('when there are not moves remaining', () => {
-			it('should return false', () => {
-				const playerOne = { name: 'Player One' };
-				const playerTwo = { name: 'Player Two' };
-				const gameBoard = getGameBoard();
-				const turn = t.PLAYER_TWO_TURN;
+	assert.equal(gameObj.getTurn(), turn, 'returns the given turn');
+	assert.end();
+});
 
-				const movesPerTurn = 3;
-				const rules = { getMovesPerTurn: () => movesPerTurn };
-				const usedMoves = movesPerTurn;
+test('game.getPlayerTurn() with no given player turn', (assert) => {
+	const playerOne = { name: 'Player One' };
+	const playerTwo = { name: 'Player Two' };
+	const gameBoard = getGameBoard();
 
-				const gameObj = game(playerOne, playerTwo, gameBoard, rules, turn, usedMoves);
-				gameObj.hasMovesRemaining().should.be.false;
-			});
-		});
+	const gameObj = game(playerOne, playerTwo, gameBoard);
 
-		describe('when there are moves remaining', () => {
-			it('should return true', () => {
-				const playerOne = { name: 'Player One' };
-				const playerTwo = { name: 'Player Two' };
-				const gameBoard = getGameBoard();
-				const turn = t.PLAYER_TWO_TURN;
+	assert.equal(gameObj.getTurn(), t.PLAYER_ONE_TURN,
+		'defaults to the first player');
+	assert.end();
+});
 
-				const movesPerTurn = 3;
-				const rules = { getMovesPerTurn: () => movesPerTurn };
-				const usedMoves = 2;
+test('game.hasMovesRemaining() with no moves remaining', (assert) => {
+	const playerOne = { name: 'Player One' };
+	const playerTwo = { name: 'Player Two' };
+	const gameBoard = getGameBoard();
+	const turn = t.PLAYER_TWO_TURN;
 
-				const gameObj = game(playerOne, playerTwo, gameBoard, rules, turn, usedMoves);
-				gameObj.hasMovesRemaining().should.be.true;
-			});
-		});
+	const movesPerTurn = 3;
+	const rules = { getMovesPerTurn: () => movesPerTurn };
+	const usedMoves = movesPerTurn;
 
-		describe('when given the default', () => {
-			it('should return true', () => {
-				const playerOne = { name: 'Player One' };
-				const playerTwo = { name: 'Player Two' };
-				const gameBoard = getGameBoard();
+	const gameObj = game(playerOne, playerTwo, gameBoard, rules, turn, usedMoves);
 
-				const gameObj = game(playerOne, playerTwo, gameBoard);
-				gameObj.hasMovesRemaining().should.be.true;
-			});
-		});
-	});
+	assert.equal(gameObj.hasMovesRemaining(), false, 'returns false');
+	assert.end();
+});
 
-	describe('getMovesRemaining()', () => {
-		it('should return the number of moves remaining', () => {
-			const playerOne = { name: 'Player One' };
-			const playerTwo = { name: 'Player Two' };
-			const gameBoard = getGameBoard();
-			const turn = t.PLAYER_TWO_TURN;
+test('game.hasMovesRemaining() with moves remaining', (assert) => {
+	const playerOne = { name: 'Player One' };
+	const playerTwo = { name: 'Player Two' };
+	const gameBoard = getGameBoard();
+	const turn = t.PLAYER_TWO_TURN;
 
-			const movesPerTurn = 3;
-			const rules = { getMovesPerTurn: () => movesPerTurn };
-			const usedMoves = 2;
+	const movesPerTurn = 3;
+	const rules = { getMovesPerTurn: () => movesPerTurn };
+	const usedMoves = 2;
 
-			const gameObj = game(playerOne, playerTwo, gameBoard, rules, turn, usedMoves);
-			gameObj.getMovesRemaining().should.equal(movesPerTurn - usedMoves);
-		});
+	const gameObj = game(playerOne, playerTwo, gameBoard, rules, turn, usedMoves);
 
-		it('should default to two', () => {
-			const playerOne = { name: 'Player One' };
-			const playerTwo = { name: 'Player Two' };
-			const gameBoard = getGameBoard();
+	assert.equal(gameObj.hasMovesRemaining(), true, 'returns true');
+	assert.end();
+});
 
-			const gameObj = game(playerOne, playerTwo, gameBoard);
-			gameObj.getMovesRemaining().should.equal(2);
-		});
-	});
+test('game.hasMovesRemaining() with all default values', (assert) => {
+	const playerOne = { name: 'Player One' };
+	const playerTwo = { name: 'Player Two' };
+	const gameBoard = getGameBoard();
+
+	const gameObj = game(playerOne, playerTwo, gameBoard);
+
+	assert.equal(gameObj.hasMovesRemaining(), true, 'returns true');
+	assert.end();
+});
+
+test('game.getMovesRemaining() with a given number of used moves', (assert) => {
+	const playerOne = { name: 'Player One' };
+	const playerTwo = { name: 'Player Two' };
+	const gameBoard = getGameBoard();
+	const turn = t.PLAYER_TWO_TURN;
+
+	const movesPerTurn = 3;
+	const rules = { getMovesPerTurn: () => movesPerTurn };
+	const usedMoves = 2;
+
+	const gameObj = game(playerOne, playerTwo, gameBoard, rules, turn, usedMoves);
+
+	assert.equal(gameObj.getMovesRemaining(), movesPerTurn - usedMoves,
+		'returns the correct number of moves');
+	assert.end();
+});
+
+test('game.getMovesRemaining() without a given number of used moves', (assert) => {
+	const playerOne = { name: 'Player One' };
+	const playerTwo = { name: 'Player Two' };
+	const gameBoard = getGameBoard();
+	const defaultNumberOfTurnsRemaining = 2;
+
+	const gameObj = game(playerOne, playerTwo, gameBoard);
+	assert.equal(gameObj.getMovesRemaining(), defaultNumberOfTurnsRemaining,
+		'defaults to two');
+	assert.end();
 });

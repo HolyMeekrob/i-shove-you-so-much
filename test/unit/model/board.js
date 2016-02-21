@@ -1,77 +1,64 @@
+import test from 'tape';
 import board from '../../../src/model/board';
 import position from '../../../src/model/position';
-import chai from 'chai';
-const should = chai.should();
 
-describe('board', () => {
-	describe('#constructor', () => {
-		describe('when given zero arguments', () => {
-			it('should throw an error', () => {
-				(() => board()).should.throw(Error);
-			});
-		});
+test('board() with no arguments', (assert) => {
+	assert.throws(() => board(), 'throws an error');
+	assert.end();
+});
 
-		describe('when given a null argument', () => {
-			it('should throw an error', () => {
-				(() => board(null)).should.throw(Error);
-			});
-		});
+test('board() with a null argument', (assert) => {
+	assert.throws(() => board(null), 'throws an error');
+	assert.end();
+});
 
-		describe('when given a non-array', () => {
-			it('should throw an error', () => {
-				(() => board(1)).should.throw(Error);
-			});
-		});
+test('board() with a non-array', (assert) => {
+	assert.throws(() => board(1), 'throws an error');
+	assert.end();
+});
 
-		describe('when given a non-two-dimensional array', () => {
-			it('should throw an error', () => {
-				(() => board([[], 1])).should.throw(Error);
-			});
-		});
-	});
+test('board() with a non-two-dimensional array', (assert) => {
+	assert.throws(() => board([[], 1]), 'throws an error');
+	assert.end();
+});
 
-	describe('getSquares()', () => {
-		it('should return the squares', () => {
-			const squares = [
-				[1, 2, 3],
-				[4, 5, 6]
-			];
-			const b = board(squares);
+test('board.getSquares()', (assert) => {
+	const squares = [
+		['one', 'two', 'three'],
+		['four', 'five', 'six']
+	];
 
-			b.getSquares().should.deep.equal(squares);
-		});
-	});
+	const b = board(squares);
 
-	describe('getSquareAt()', () => {
-		describe('when given an invalid position', () => {
-			it('should throw an error', () => {
-				(() => {
-					const squares = [
-						[1, 2, 3],
-						[4, 5, 6]
-					];
-					const b = board(squares);
-					const x = 2;
-					const y = 5;
-					const p = position(x, y);
-					b.getSquareAt(p);
-				}).should.throw(Error);
-			});
-		});
+	assert.deepEqual(b.getSquares(), squares, 'returns the given squares');
+	assert.end();
+});
 
-		describe('when given a valid position', () => {
-			it('should return the squares', () => {
-				const squares = [
-					[1, 2, 3],
-					[4, 5, 6]
-				];
-				const b = board(squares);
-				const x = 1;
-				const y = 2;
-				const p = position(x, y);
+test('board.getSquareAt() for an invalid position', (assert) => {
+	const squares = [
+		['one', 'two', 'three'],
+		['four', 'five', 'six']
+	];
+	const b = board(squares);
+	const x = 2;
+	const y = 5;
+	const p = position(x, y);
 
-				b.getSquareAt(p).should.equal(squares[x][y]);
-			});
-		});
-	});
+	assert.throws(() => b.getSquareAt(p), 'throws an error');
+	assert.end();
+});
+
+test('board.getSquareAt() for a valid position', (assert) => {
+	const squares = [
+		['one', 'two', 'three'],
+		['four', 'five', 'six']
+	];
+	const b = board(squares);
+	const x = 1;
+	const y = 2;
+	const p = position(x, y);
+
+	assert.equal(b.getSquareAt(p), squares[x][y],
+		'returns the square at that position');
+	assert.end();
 });
