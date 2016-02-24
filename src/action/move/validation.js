@@ -26,6 +26,9 @@ const hasEmptyPath = (game, dir, pos, spacesRemaining) => {
 	return hasEmptyPath(game, dir, getNextPosition(dir, pos), spacesRemaining - 1);
 };
 
+const isMoveableToken = (game, token) => converge(and,
+	[complement(isNil), isTokenForCurrentPlayer(game)])(token);
+
 export default (game, dir, pos, spaces) => {
 	if (spaces < 1) {
 		return false;
@@ -35,9 +38,6 @@ export default (game, dir, pos, spaces) => {
 		return false;
 	}
 
-	const tokenToMove = game.getTokenAt(pos);
-	const isMoveableToken = converge(and,
-		[complement(isNil), isTokenForCurrentPlayer(game)]);
-
-	return isMoveableToken(tokenToMove) && hasEmptyPath(game, dir, pos, spaces - 1);
+	return isMoveableToken(game, game.getTokenAt(pos))
+		&& hasEmptyPath(game, dir, pos, spaces - 1);
 };

@@ -8,12 +8,9 @@ const getFinalPosition = (dir, spaces, position) => {
 };
 
 export default (game, dir, pos, spaces) => {
-	const hasPosition = (tp) =>
-		tp.position.x === pos.x && tp.position.y === pos.y;
-
-	const movedToken = find(hasPosition, game.getTokenPositions());
+	const movedToken = find(pos.equals, game.getTokenPositions());
 	const newPosition = getFinalPosition(dir, spaces, movedToken.position);
 
-	return game.getTokenPositions().filter(complement(hasPosition))
+	return game.getTokenPositions().filter(complement(pos.equals))
 		.concat(tokenPosition(movedToken.token, newPosition));
 };
