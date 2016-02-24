@@ -1,21 +1,22 @@
 import { curry } from 'ramda';
 
-import * as direction from '../model/direction';
-import position from '../model/position';
+import * as direction from './model/direction';
+import * as turn from '../model/turn';
+import position from './model/position';
 
-export const getBorderAt = (pos, game, dir) => {
+export const getBorderAt = curry((pos, game, dir) => {
 	return game.getSquareAt(pos).getBorder(dir);
-};
+});
 
-export const getFloorAt = (pos, game) => {
+export const getFloorAt = curry((pos, game) => {
 	return game.getSquareAt(pos).getFloorType();
-};
+});
 
 // TODO: How to equate these two different types?
 export const isTokenForCurrentPlayer = curry((game, token) =>
 	token.getPlayerType() === game.getTurn());
 
-export const getNextPosition = (dir, pos) => {
+export const getNextPosition = curry((dir, pos) => {
 	switch (dir) {
 		case direction.NORTH:
 			return position(pos.x, pos.y + 1);
@@ -32,6 +33,12 @@ export const getNextPosition = (dir, pos) => {
 		default:
 			throw new Error('Invalid direction');
 	}
+});
+
+export const getNextPlayerTurn = (currentTurn) => {
+	return currentTurn === turn.PLAYER_ONE_TURN
+		? turn.PLAYER_TWO_TURN
+		: turn.PLAYER_ONE_TURN;
 };
 
 export const iterate = curry((fn, n, val) => {

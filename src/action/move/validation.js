@@ -1,0 +1,43 @@
+import { and, complement, converge, isNil } from 'ramda';
+import {
+	getBorderAt, getFloorAt, isTokenForCurrentPlayer, getNextPosition
+} from '../util';
+
+import * as floor from '../../model/floor';
+import * as border from '../../model/border';
+
+const hasEmptyPath = (game, dir, pos, spacesRemaining) => {
+	if (game.hasTokenAt(pos)) {
+		return false;
+	}
+
+	if (getFloorAt(pos, game) === floor.PIT) {
+		return false;
+	}
+
+	if (spacesRemaining === 0) {
+		return true;
+	}
+
+	if (getBorderAt(pos, game, dir) === border.WALL_BORDER) {
+		return false;
+	}
+
+	return hasEmptyPath(game, dir, getNextPosition(dir, pos), spacesRemaining - 1);
+};
+
+export default (game, dir, pos, spaces) => {
+	if (spaces < 1) {
+		return false;
+	}
+
+	if (!game.hasTokenAt(pos)) {
+		return false;
+	}
+
+	const tokenToMove = game.getTokenAt(pos);
+	const isMoveableToken = converge(and,
+		[complement(isNil), isTokenForCurrentPlayer(game)]);
+
+	return isMoveableToken(tokenToMove) && hasEmptyPath(game, dir, pos, spaces - 1);
+};
