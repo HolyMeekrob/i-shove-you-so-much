@@ -13,8 +13,13 @@ export const getFloorAt = curry((pos, game) => {
 });
 
 // TODO: How to equate these two different types?
+export const isTokenForPlayer = curry((playerTurn, token) =>
+	token.getPlayerType() === playerTurn
+);
+
 export const isTokenForCurrentPlayer = curry((game, token) =>
-	token.getPlayerType() === game.getTurn());
+	isTokenForPlayer(game.getTurn, token)
+);
 
 export const getNextPosition = curry((dir, pos) => {
 	switch (dir) {
