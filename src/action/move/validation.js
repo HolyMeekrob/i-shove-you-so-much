@@ -19,7 +19,7 @@ const hasEmptyPath = (game, dir, pos, spacesRemaining) => {
 		return true;
 	}
 
-	if (getBorderAt(pos, game, dir) === border.WALL_BORDER) {
+	if (getBorderAt(game, dir, pos) === border.WALL_BORDER) {
 		return false;
 	}
 

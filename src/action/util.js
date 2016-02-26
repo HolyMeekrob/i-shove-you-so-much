@@ -1,10 +1,10 @@
 import { curry } from 'ramda';
 
-import * as direction from './model/direction';
+import * as direction from '../model/direction';
 import * as turn from '../model/turn';
-import position from './model/position';
+import position from '../model/position';
 
-export const getBorderAt = curry((pos, game, dir) => {
+export const getBorderAt = curry((game, dir, pos) => {
 	return game.getSquareAt(pos).getBorder(dir);
 });
 
