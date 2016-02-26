@@ -46,7 +46,7 @@ export const getNextPlayerTurn = (currentTurn) => {
 		: turn.PLAYER_ONE_TURN;
 };
 
-export const iterate = curry((fn, n, val) => {
+export const iterateN = curry((fn, n, val) => {
 	if (n < 0) {
 		throw new Error('Iteration count must be non-negative');
 	}
@@ -55,5 +55,19 @@ export const iterate = curry((fn, n, val) => {
 		return val;
 	}
 
-	return iterate(fn, n - 1, fn(val));
+	return iterateN(fn, n - 1, fn(val));
 });
+
+export const iterateUntil = curry((fnIter, fnValidate, val) => {
+	return !fnValidate(val)
+		? val
+		: iterateUntil(fnIter, fnValidate, fnIter(val));
+});
+
+export const iterate = (fn, seed) => function* () {
+	let val = fn(seed);
+	while (true) { // eslint-disable-line no-constant-condition
+		yield val;
+		val = fn(val);
+	}
+};
