@@ -1,4 +1,4 @@
-import { curry } from 'ramda';
+import { curry, unfold } from 'ramda';
 
 import * as direction from '../model/direction';
 import * as turn from '../model/turn';
@@ -46,28 +46,14 @@ export const getNextPlayerTurn = (currentTurn) => {
 		: turn.PLAYER_ONE_TURN;
 };
 
-export const iterateN = curry((fn, n, val) => {
-	if (n < 0) {
-		throw new Error('Iteration count must be non-negative');
-	}
+export const iterateWhile = (fIter, fValidate, seed) => {
+	return unfold((val) => fValidate(val) ? [val, fIter(val)] : false, seed);
+};
 
-	if (n === 0) {
-		return val;
-	}
-
-	return iterateN(fn, n - 1, fn(val));
-});
-
-export const iterateUntil = curry((fnIter, fnValidate, val) => {
-	return !fnValidate(val)
-		? val
-		: iterateUntil(fnIter, fnValidate, fnIter(val));
-});
-
-export const iterate = (fn, seed) => function* () {
-	let val = fn(seed);
-	while (true) { // eslint-disable-line no-constant-condition
-		yield val;
-		val = fn(val);
-	}
+export const iterateN = (f, n, seed) => {
+	return unfold((x) => {
+		return x.count < n
+			? [x.val, { count: x.count + 1, val: f(x.val) }]
+			: false;
+	}, { count: 0, val: seed });
 };
