@@ -8,7 +8,7 @@ export const getBorderAt = curry((game, dir, pos) => {
 	return game.getSquareAt(pos).getBorder(dir);
 });
 
-export const getFloorAt = curry((pos, game) => {
+export const getFloorAt = curry((game, pos) => {
 	return game.getSquareAt(pos).getFloorType();
 });
 

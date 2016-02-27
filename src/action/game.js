@@ -16,7 +16,7 @@ import getMoveResults from './move/action';
 import getShoveResults from './shove/action';
 
 const isTokenPositionInPit = curry((game, tp) => {
-	return getFloorAt(tp.position, game) === floor.PIT;
+	return getFloorAt(game, tp.position) === floor.PIT;
 });
 
 const hasTokenInPit = (game) => any(isTokenPositionInPit(game),

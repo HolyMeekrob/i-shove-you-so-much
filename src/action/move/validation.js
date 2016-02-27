@@ -11,7 +11,7 @@ const hasEmptyPath = (game, dir, pos, spacesRemaining) => {
 		return false;
 	}
 
-	if (getFloorAt(pos, game) === floor.PIT) {
+	if (getFloorAt(game, pos) === floor.PIT) {
 		return false;
 	}
 
