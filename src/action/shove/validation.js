@@ -1,4 +1,4 @@
-import { and, converge } from 'ramda';
+import { and, lift } from 'ramda';
 
 import {
 	getBorderAt,
@@ -28,7 +28,7 @@ const canShove = (dir, pos, game) => {
 const isBully = (token) => token.getTokenType() === tokenType.BULLY;
 
 const isShoveableToken = (game, token) =>
-	converge(and, [isBully, isTokenForCurrentPlayer(game)])(token);
+	lift(and)(isBully, isTokenForCurrentPlayer(game))(token);
 
 export default (dir, pos, game) => {
 	// Can not shove an empty space

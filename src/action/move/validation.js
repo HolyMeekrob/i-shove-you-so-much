@@ -1,4 +1,4 @@
-import { and, complement, converge, isNil } from 'ramda';
+import { and, complement, isNil, lift } from 'ramda';
 import {
 	getBorderAt, getFloorAt, isTokenForCurrentPlayer, getNextPosition
 } from '../util';
@@ -26,8 +26,8 @@ const hasEmptyPath = (game, dir, pos, spacesRemaining) => {
 	return hasEmptyPath(game, dir, getNextPosition(dir, pos), spacesRemaining - 1);
 };
 
-const isMoveableToken = (game, token) => converge(and,
-	[complement(isNil), isTokenForCurrentPlayer(game)])(token);
+const isMoveableToken = (game, token) =>
+	lift(and)(complement(isNil), isTokenForCurrentPlayer(game))(token);
 
 export default (game, dir, pos, spaces) => {
 	if (spaces < 1) {
