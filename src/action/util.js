@@ -17,7 +17,7 @@ export const isTokenForPlayer = curry((playerTurn, token) =>
 );
 
 export const isTokenForCurrentPlayer = curry((game, token) =>
-	isTokenForPlayer(game.getTurn, token)
+	isTokenForPlayer(game.getTurn(), token)
 );
 
 export const getNextPosition = curry((dir, pos) => {

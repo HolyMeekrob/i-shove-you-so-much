@@ -1,8 +1,11 @@
 import test from 'tape';
 
 import {
-	getBorderAt, getFloorAt, isTokenForPlayer, isTokenForCurrentPlayer
+	getBorderAt, getFloorAt, isTokenForPlayer, isTokenForCurrentPlayer,
+	getNextPosition
 } from '../../../src/action/util';
+
+import * as direction from '../../../src/model/direction';
 
 test('util.getBorderAt()', (assert) => {
 	const position = {};
@@ -108,5 +111,49 @@ test('util.isTokenForCurrentPlayer() given a token for a different player than t
 	};
 
 	assert.equal(isTokenForCurrentPlayer(game, token), false, 'returns false');
+	assert.end();
+});
+
+test('util.getNextPosition for north', (assert) => {
+	const x = 5;
+	const y = 3;
+	const pos = { x, y };
+	const expected = { x: 5, y: 4 };
+
+	assert.equal(getNextPosition(direction.NORTH, pos).equals(expected), true,
+		'returns a point one place to the north');
+	assert.end();
+});
+
+test('util.getNextPosition for east', (assert) => {
+	const x = 5;
+	const y = 3;
+	const pos = { x, y };
+	const expected = { x: 6, y: 3 };
+
+	assert.equal(getNextPosition(direction.EAST, pos).equals(expected), true,
+		'returns a point one place to the east');
+	assert.end();
+});
+
+test('util.getNextPosition for south', (assert) => {
+	const x = 5;
+	const y = 3;
+	const pos = { x, y };
+	const expected = { x: 5, y: 2 };
+
+	assert.equal(getNextPosition(direction.SOUTH, pos).equals(expected), true,
+		'returns a point one place to the south');
+	assert.end();
+});
+
+test('util.getNextPosition for west', (assert) => {
+	const x = 5;
+	const y = 3;
+	const pos = { x, y };
+	const expected = { x: 4, y: 3 };
+
+	assert.equal(getNextPosition(direction.WEST, pos).equals(expected), true,
+		'returns a point one place to the west');
 	assert.end();
 });
