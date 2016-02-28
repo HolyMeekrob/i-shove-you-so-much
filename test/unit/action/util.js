@@ -2,10 +2,11 @@ import test from 'tape';
 
 import {
 	getBorderAt, getFloorAt, isTokenForPlayer, isTokenForCurrentPlayer,
-	getNextPosition
+	getNextPosition, getNextPlayerTurn
 } from '../../../src/action/util';
 
 import * as direction from '../../../src/model/direction';
+import * as playerType from '../../../src/model/playerType';
 
 test('util.getBorderAt()', (assert) => {
 	const position = {};
@@ -155,5 +156,17 @@ test('util.getNextPosition for west', (assert) => {
 
 	assert.equal(getNextPosition(direction.WEST, pos).equals(expected), true,
 		'returns a point one place to the west');
+	assert.end();
+});
+
+test('util.getNextPlayerTurn() given player one', (assert) => {
+	assert.equal(getNextPlayerTurn(playerType.PLAYER_ONE), playerType.PLAYER_TWO,
+		'returns player two');
+	assert.end();
+});
+
+test('util.getNextPlayerTurn() given player two', (assert) => {
+	assert.equal(getNextPlayerTurn(playerType.PLAYER_TWO), playerType.PLAYER_ONE,
+		'returns player one');
 	assert.end();
 });
