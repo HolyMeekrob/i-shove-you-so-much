@@ -1,10 +1,10 @@
-import { complement, curry, find } from 'ramda';
+import { complement, find } from 'ramda';
 import { getNextPosition, iterateN } from '../util';
 
 import tokenPosition from '../../model/tokenPosition';
 
 const getFinalPosition = (dir, spaces, position) => {
-	return iterateN(curry(getNextPosition)(dir), spaces, position);
+	return iterateN(getNextPosition(dir), spaces, position);
 };
 
 export default (game, dir, pos, spaces) => {

@@ -1,7 +1,7 @@
 import { curry, unfold } from 'ramda';
 
 import * as direction from '../model/direction';
-import * as turn from '../model/turn';
+import * as playerType from '../model/playerType';
 import position from '../model/position';
 
 export const getBorderAt = curry((game, dir, pos) => {
@@ -12,7 +12,6 @@ export const getFloorAt = curry((game, pos) => {
 	return game.getSquareAt(pos).getFloorType();
 });
 
-// TODO: How to equate these two different types?
 export const isTokenForPlayer = curry((playerTurn, token) =>
 	token.getPlayerType() === playerTurn
 );
@@ -41,9 +40,9 @@ export const getNextPosition = curry((dir, pos) => {
 });
 
 export const getNextPlayerTurn = (currentTurn) => {
-	return currentTurn === turn.PLAYER_ONE_TURN
-		? turn.PLAYER_TWO_TURN
-		: turn.PLAYER_ONE_TURN;
+	return currentTurn === playerType.PLAYER_ONE
+		? playerType.PLAYER_TWO
+		: playerType.PLAYER_ONE;
 };
 
 export const iterateWhile = (fIter, fValidate, seed) => {

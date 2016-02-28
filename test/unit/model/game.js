@@ -1,6 +1,6 @@
 import test from 'tape';
 import game from '../../../src/model/game';
-import * as t from '../../../src/model/turn';
+import * as pt from '../../../src/model/playerType';
 
 const getGameBoard = () => {
 	return {
@@ -51,7 +51,7 @@ test('game.getRules()', (assert) => {
 	const playerOne = { name: 'Player One' };
 	const playerTwo = { name: 'Player Two' };
 	const gameBoard = getGameBoard();
-	const turn = t.GAME_OVER;
+	const turn = pt.PLAYER_ONE;
 
 	const movesPerTurn = 3;
 	const rules = { getMovesPerTurn: () => movesPerTurn };
@@ -82,7 +82,7 @@ test('game.getPlayerTurn()', (assert) => {
 	const playerOne = { name: 'Player One' };
 	const playerTwo = { name: 'Player Two' };
 	const gameBoard = getGameBoard();
-	const turn = t.PLAYER_TWO_TURN;
+	const turn = pt.PLAYER_TWO;
 
 	const movesPerTurn = 3;
 	const rules = { getMovesPerTurn: () => movesPerTurn };
@@ -100,7 +100,7 @@ test('game.getPlayerTurn() with no given player turn', (assert) => {
 
 	const gameObj = game(playerOne, playerTwo, gameBoard);
 
-	assert.equal(gameObj.getTurn(), t.PLAYER_ONE_TURN,
+	assert.equal(gameObj.getTurn(), pt.PLAYER_ONE,
 		'defaults to the first player');
 	assert.end();
 });
@@ -109,7 +109,7 @@ test('game.hasMovesRemaining() with no moves remaining', (assert) => {
 	const playerOne = { name: 'Player One' };
 	const playerTwo = { name: 'Player Two' };
 	const gameBoard = getGameBoard();
-	const turn = t.PLAYER_TWO_TURN;
+	const turn = pt.PLAYER_TWO;
 
 	const movesPerTurn = 3;
 	const rules = { getMovesPerTurn: () => movesPerTurn };
@@ -125,7 +125,7 @@ test('game.hasMovesRemaining() with moves remaining', (assert) => {
 	const playerOne = { name: 'Player One' };
 	const playerTwo = { name: 'Player Two' };
 	const gameBoard = getGameBoard();
-	const turn = t.PLAYER_TWO_TURN;
+	const turn = pt.PLAYER_TWO;
 
 	const movesPerTurn = 3;
 	const rules = { getMovesPerTurn: () => movesPerTurn };
@@ -152,7 +152,7 @@ test('game.getMovesRemaining() with a given number of used moves', (assert) => {
 	const playerOne = { name: 'Player One' };
 	const playerTwo = { name: 'Player Two' };
 	const gameBoard = getGameBoard();
-	const turn = t.PLAYER_TWO_TURN;
+	const turn = pt.PLAYER_TWO;
 
 	const movesPerTurn = 3;
 	const rules = { getMovesPerTurn: () => movesPerTurn };

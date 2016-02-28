@@ -1,9 +1,8 @@
-import { any, curry, isEmpty, prepend } from 'ramda';
+import { any, curry, flip, isEmpty, lift, or, prepend } from 'ramda';
 
 import { getFloorAt, getNextPlayerTurn } from './util';
 
 import * as floor from '../model/floor';
-import * as turn from '../model/turn';
 
 import gameBoard from '../model/gameBoard';
 
@@ -22,14 +21,12 @@ const isTokenPositionInPit = curry((game, tp) => {
 const hasTokenInPit = (game) => any(isTokenPositionInPit(game),
 	game.get.getTokenPositions());
 
-const isPlayerStuck = (playerTurn, game) => {
+const isPlayerStuck = curry((game, playerTurn) => {
 	return isEmpty(getAllPossibleTurnOutcomesForPlayer(game, playerTurn));
-};
+});
 
-const isGameOver = (playerTurn, game) => {
-	return hasTokenInPit(game)
-		|| isPlayerStuck(playerTurn, game);
-};
+const isGameOver = (playerTurn, game) =>
+	lift(or)(hasTokenInPit, flip(isPlayerStuck)(playerTurn))(game);
 
 export const move = (game, dir, pos, spaces) => {
 	if (!validateMove(game, dir, pos, spaces)) {
@@ -53,11 +50,6 @@ export const shove = (game, dir, pos) => {
 		game.getGameBoard().getBoard(),
 		getShoveResults(game, dir, pos)));
 
-	const nextPlayerTurn = getNextPlayerTurn(game.getTurn());
-
-	const nextTurn = isGameOver(nextPlayerTurn, game)
-		? turn.GAME_OVER
-		: nextPlayerTurn;
-
-	return game(game.getPlayerOne(), game.getPlayerTwo(), newBoard, nextTurn);
+	return game(game.getPlayerOne(), game.getPlayerTwo(), newBoard,
+		getNextPlayerTurn(game.getTurn()));
 };
