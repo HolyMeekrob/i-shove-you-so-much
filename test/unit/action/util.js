@@ -2,7 +2,7 @@ import test from 'tape';
 
 import {
 	getBorderAt, getFloorAt, isTokenForPlayer, isTokenForCurrentPlayer,
-	getNextPosition, getNextPlayerTurn
+	getNextPosition, getNextPlayerTurn, iterateWhile, iterateN
 } from '../../../src/action/util';
 
 import * as direction from '../../../src/model/direction';
@@ -168,5 +168,25 @@ test('util.getNextPlayerTurn() given player one', (assert) => {
 test('util.getNextPlayerTurn() given player two', (assert) => {
 	assert.equal(getNextPlayerTurn(playerType.PLAYER_TWO), playerType.PLAYER_ONE,
 		'returns player one');
+	assert.end();
+});
+
+test('util.iterateWhile()', (assert) => {
+	const addOne = (x) => x + 1;
+	const isLessThanTen = (x) => x < 10;
+	const seed = 5;
+
+	assert.deepEqual(iterateWhile(addOne, isLessThanTen, 5), [5, 6, 7, 8, 9],
+		'returns an array beginning with the seed and iterating on the returned value until the iterate function returns false');
+	assert.end();
+});
+
+test('util.iterateN()', (assert) => {
+	const double = (x) => x * 2;
+	const n = 6;
+	const seed = 7;
+
+	assert.deepEqual(iterateN(double, n, seed), [7, 14, 28, 56, 112, 224],
+		'returns an array beginning with the seed and iterating on the returned value n times');
 	assert.end();
 });
