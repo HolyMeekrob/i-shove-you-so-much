@@ -1,5 +1,5 @@
-import { compose, flatten } from 'ramda';
-import { isTokenForPlayer } from './util';
+import { flatten } from 'ramda';
+import { getTokenPositionsForPlayer } from './util';
 
 import * as direction from '../model/direction';
 
@@ -7,12 +7,7 @@ import validateShove from './shove/validation';
 import getShoveResults from './shove/action';
 
 const getValidShoves = (game, playerTurn) => {
-	const currentPositions = game.getTokenPositions();
-
-	// TODO: How to equate these two different types?
-	const getTokenFromTokenPosition = (tp) => tp.token;
-	const playerTokenPositions = currentPositions.filter(
-		compose(isTokenForPlayer(playerTurn), getTokenFromTokenPosition));
+	const playerTokenPositions = getTokenPositionsForPlayer(game, playerTurn);
 
 	const getAllDirections = (tp) => {
 		return [
@@ -44,4 +39,5 @@ export const getAllPossibleTurnOutcomesForPlayer = (game, playerTurn) => {
 
 	// TODO: Incorporate move outcomes
 	// Use util.iterateUntil
+	const playerTokenPositions = getTokenPositionsForPlayer(game, playerTurn);
 };

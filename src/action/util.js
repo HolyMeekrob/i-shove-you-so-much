@@ -1,4 +1,4 @@
-import { curry, unfold } from 'ramda';
+import { curry, prop, unfold } from 'ramda';
 
 import * as direction from '../model/direction';
 import * as playerType from '../model/playerType';
@@ -12,8 +12,8 @@ export const getFloorAt = curry((game, pos) => {
 	return game.getSquareAt(pos).getFloorType();
 });
 
-export const isTokenForPlayer = curry((playerTurn, token) =>
-	token.getPlayerType() === playerTurn
+const isTokenForPlayer = curry((player, token) =>
+	token.getPlayerType() === player
 );
 
 export const isTokenForCurrentPlayer = curry((game, token) =>
@@ -43,6 +43,12 @@ export const getNextPlayerTurn = (currentTurn) => {
 	return currentTurn === playerType.PLAYER_ONE
 		? playerType.PLAYER_TWO
 		: playerType.PLAYER_ONE;
+};
+
+// TODO: Add tests
+export const getTokenPositionsForPlayer = (game, playerTurn) => {
+	game.getTokenPositions().filter(
+		isTokenForPlayer(playerTurn, prop('token')));
 };
 
 export const iterateWhile = (fIter, fValidate, seed) => {

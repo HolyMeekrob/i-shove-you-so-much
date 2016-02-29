@@ -1,4 +1,4 @@
-import { any, curry, flip, isEmpty, lift, or, prepend } from 'ramda';
+import { any, curry, isEmpty, lift, or, prepend } from 'ramda';
 
 import { getFloorAt, getNextPlayerTurn } from './util';
 
@@ -21,12 +21,12 @@ const isTokenPositionInPit = curry((game, tp) => {
 const hasTokenInPit = (game) => any(isTokenPositionInPit(game),
 	game.get.getTokenPositions());
 
-const isPlayerStuck = curry((game, playerTurn) => {
+const isPlayerStuck = curry((playerTurn, game) => {
 	return isEmpty(getAllPossibleTurnOutcomesForPlayer(game, playerTurn));
 });
 
 const isGameOver = (playerTurn, game) =>
-	lift(or)(hasTokenInPit, flip(isPlayerStuck)(playerTurn))(game);
+	lift(or)(hasTokenInPit, isPlayerStuck(playerTurn))(game);
 
 export const move = (game, dir, pos, spaces) => {
 	if (!validateMove(game, dir, pos, spaces)) {
