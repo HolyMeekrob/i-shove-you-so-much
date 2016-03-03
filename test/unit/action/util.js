@@ -2,7 +2,8 @@ import test from 'tape';
 
 import {
 	getBorderAt, getFloorAt, isTokenForCurrentPlayer,
-	getNextPosition, getNextPlayerTurn, iterateWhile, iterateN
+	getNextPosition, getNextPlayerTurn, getTokenPositionsForPlayer,
+	iterateWhile, iterateN
 } from '../../../src/action/util';
 
 import * as direction from '../../../src/model/direction';
@@ -164,5 +165,52 @@ test('util.iterateN()', (assert) => {
 
 	assert.deepEqual(iterateN(double, n, seed), [7, 14, 28, 56, 112, 224],
 		'returns an array beginning with the seed and iterating on the returned value n times');
+	assert.end();
+});
+
+test('util.getTokenPositionsForPlayer()', (assert) => {
+	const playerOne = 1;
+	const playerTwo = 2;
+
+	const playerOneTokenPositionOne = {
+		token: { getPlayerType: () => playerOne }
+	};
+
+	const playerOneTokenPositionTwo = {
+		token: { getPlayerType: () => playerOne }
+	};
+
+	const playerOneTokenPositionThree = {
+		token: { getPlayerType: () => playerOne }
+	};
+
+	const playerTwoTokenPositionOne = {
+		token: { getPlayerType: () => playerTwo }
+	};
+
+	const playerTwoTokenPositionTwo = {
+		token: { getPlayerType: () => playerTwo }
+	};
+
+	const tokenPositions = [
+		playerOneTokenPositionOne,
+		playerTwoTokenPositionOne,
+		playerOneTokenPositionTwo,
+		playerTwoTokenPositionTwo,
+		playerOneTokenPositionThree
+	];
+
+	const game = {
+		getTokenPositions: () => tokenPositions
+	};
+
+	const result = getTokenPositionsForPlayer(game, playerOne);
+	assert.equal(result.length, 3, 'returns the correct number of player tokens');
+	assert.equal(result.indexOf(playerOneTokenPositionOne) > -1, true,
+		'includes every token for givenPlayer');
+	assert.equal(result.indexOf(playerOneTokenPositionTwo) > -1, true,
+		'includes every token for givenPlayer');
+	assert.equal(result.indexOf(playerOneTokenPositionThree) > -1, true,
+		'includes every token for givenPlayer');
 	assert.end();
 });

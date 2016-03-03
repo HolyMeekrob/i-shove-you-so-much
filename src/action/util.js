@@ -1,4 +1,4 @@
-import { curry, prop, unfold } from 'ramda';
+import { compose, curry, prop, unfold } from 'ramda';
 
 import * as direction from '../model/direction';
 import * as playerType from '../model/playerType';
@@ -45,11 +45,10 @@ export const getNextPlayerTurn = (currentTurn) => {
 		: playerType.PLAYER_ONE;
 };
 
-// TODO: Add tests
-export const getTokenPositionsForPlayer = (game, playerTurn) => {
+export const getTokenPositionsForPlayer = curry((game, playerTurn) =>
 	game.getTokenPositions().filter(
-		isTokenForPlayer(playerTurn, prop('token')));
-};
+		compose(isTokenForPlayer(playerTurn), prop('token')))
+);
 
 export const iterateWhile = (fIter, fValidate, seed) => {
 	return unfold((val) => fValidate(val) ? [val, fIter(val)] : false, seed);
