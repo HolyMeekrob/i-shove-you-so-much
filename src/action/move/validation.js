@@ -7,11 +7,7 @@ import * as floor from '../../model/floor';
 import * as border from '../../model/border';
 
 const hasEmptyPath = (game, dir, pos, spacesRemaining) => {
-	if (game.hasTokenAt(pos)) {
-		return false;
-	}
-
-	if (getFloorAt(game, pos) === floor.PIT) {
+	if (game.hasTokenAt(pos) || getFloorAt(game, pos) === floor.PIT) {
 		return false;
 	}
 
@@ -19,11 +15,8 @@ const hasEmptyPath = (game, dir, pos, spacesRemaining) => {
 		return true;
 	}
 
-	if (getBorderAt(game, dir, pos) === border.WALL_BORDER) {
-		return false;
-	}
-
-	return hasEmptyPath(game, dir, getNextPosition(dir, pos), spacesRemaining - 1);
+	return getBorderAt(game, dir, pos) !== border.WALL_BORDER
+		&& hasEmptyPath(game, dir, getNextPosition(dir, pos), spacesRemaining - 1);
 };
 
 const isMoveableToken = (game, token) =>

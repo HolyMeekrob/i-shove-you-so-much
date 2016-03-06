@@ -1,4 +1,4 @@
-import { and, lift } from 'ramda';
+import { and, curry, lift } from 'ramda';
 
 import {
 	getBorderAt,
@@ -30,7 +30,7 @@ const isBully = (token) => token.getTokenType() === tokenType.BULLY;
 const isShoveableToken = (game, token) =>
 	lift(and)(isBully, isTokenForCurrentPlayer(game))(token);
 
-export default (dir, pos, game) => {
+export default curry((dir, pos, game) => {
 	// Can not shove an empty space
 	if (!game.hasTokenAt(pos)) {
 		return false;
@@ -42,4 +42,4 @@ export default (dir, pos, game) => {
 	}
 
 	return isShoveableToken(game, game.getTokenAt(pos)) && canShove(dir, pos);
-};
+});
