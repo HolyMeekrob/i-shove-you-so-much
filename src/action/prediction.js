@@ -1,6 +1,8 @@
-import { __, apply, chain, compose, curry, flatten, props, tail } from 'ramda';
+import {
+	__, apply, chain, compose, curry, flatten, props, tail, unnest
+} from 'ramda';
 
-import { getTokenPositionsForPlayer, iterateWhile } from './util';
+import { getTokenPositionsForPlayer, iterateN, iterateWhile } from './util';
 import { move } from './game';
 
 import * as direction from '../model/direction';
@@ -53,6 +55,8 @@ export const getAllPossibleTurnOutcomesForPlayer = (game, playerTurn) => {
 	const shoveOutcomes = validShoves.map(
 		getTokenPositionsAfterShove);
 
-	// TODO: Need to iterate on outcomes for as many moves as the game allows
-	const allMoveOutcomes = getAllSingleMoveOutcomes(game);
+	// TODO: Take all of these game states and return all possible shove outcomes
+	// from each of them
+	const allMoveOutcomes = unnest(iterateN(
+		chain(getAllSingleMoveOutcomes), game.getMovesPerTurn, [game]));
 };
