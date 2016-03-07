@@ -6,7 +6,7 @@ import {
 import * as floor from '../../model/floor';
 import * as border from '../../model/border';
 
-const hasEmptyPath = (game, dir, pos, spacesRemaining) => {
+const hasEmptyPath = (game, pos, dir, spacesRemaining) => {
 	if (game.hasTokenAt(pos) || getFloorAt(game, pos) === floor.PIT) {
 		return false;
 	}
@@ -15,14 +15,14 @@ const hasEmptyPath = (game, dir, pos, spacesRemaining) => {
 		return true;
 	}
 
-	return getBorderAt(game, dir, pos) !== border.WALL_BORDER
-		&& hasEmptyPath(game, dir, getNextPosition(dir, pos), spacesRemaining - 1);
+	return getBorderAt(game, pos, dir) !== border.WALL_BORDER
+		&& hasEmptyPath(game, getNextPosition(dir, pos), dir, spacesRemaining - 1);
 };
 
 const isMoveableToken = (game, token) =>
 	lift(and)(complement(isNil), isTokenForCurrentPlayer(game))(token);
 
-export default curry((game, dir, pos, spaces) => {
+export default curry((game, pos, dir, spaces) => {
 	if (spaces < 1) {
 		return false;
 	}
@@ -32,5 +32,5 @@ export default curry((game, dir, pos, spaces) => {
 	}
 
 	return isMoveableToken(game, game.getTokenAt(pos))
-		&& hasEmptyPath(game, dir, pos, spaces - 1);
+		&& hasEmptyPath(game, pos, dir, spaces - 1);
 });

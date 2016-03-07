@@ -5,18 +5,18 @@ import * as tokenType from '../model/tokenType';
 import token from '../model/token';
 import tokenPosition from '../model/tokenPosition';
 
-const getShovedTokens = (game, dir, pos, tokens) => {
+const getShovedTokens = (game, pos, dir, tokens) => {
 	const shoved = defaultTo([], tokens);
 	if (!game.hasTokenAt(pos)) {
 		return shoved;
 	}
 
-	return getShovedTokens(game, dir, getNextPosition(dir, pos),
+	return getShovedTokens(game, getNextPosition(dir, pos), dir,
 		append(game.getTokenAt(pos), shoved));
 };
 
 export default (game, pos, dir) => {
-	const shovedTokens = getShovedTokens(dir, pos, game);
+	const shovedTokens = getShovedTokens(game, pos, dir);
 	return game.getTokenPositions().map((tp) => {
 		// The former anchor reverts to a bully
 		if (tp.token.getTokenType() === tokenType.ANCHOR) {

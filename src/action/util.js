@@ -4,7 +4,7 @@ import * as direction from '../model/direction';
 import * as playerType from '../model/playerType';
 import position from '../model/position';
 
-export const getBorderAt = curry((game, dir, pos) => {
+export const getBorderAt = curry((game, pos, dir) => {
 	return game.getSquareAt(pos).getBorder(dir);
 });
 

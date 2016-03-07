@@ -34,14 +34,14 @@ const getGameWithGameOver = (gameObj) =>
 		gameObj.getRules(), gameObj.getTurn(), gameObj.getMovesRemaining(),
 		isGameOver(gameObj));
 
-export const move = curry((gameObj, dir, pos, spaces) => {
-	if (!validateMove(gameObj, dir, pos, spaces)) {
+export const move = curry((gameObj, pos, dir, spaces) => {
+	if (!validateMove(gameObj, pos, dir, spaces)) {
 		throw new Error('Invalid move');
 	}
 
 	const newBoard = gameBoard(undefined, ...prepend(
 		gameObj.getGameBoard().getBoard(),
-		getMoveResults(dir, pos, spaces, gameObj)));
+		getMoveResults(gameObj, pos, dir, spaces)));
 
 	return getGameWithGameOver(game(gameObj.getPlayerOne(), gameObj.getPlayerTwo(),
 		newBoard, gameObj.getRules(), gameObj.getTurn(),

@@ -32,7 +32,7 @@ test('util.getBorderAt()', (assert) => {
 		}
 	};
 
-	assert.equal(getBorderAt(game, direction, position), border,
+	assert.equal(getBorderAt(game, position, direction), border,
 		'returns the border at the square at that position and in that direction');
 	assert.end();
 });

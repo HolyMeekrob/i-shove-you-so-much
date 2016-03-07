@@ -11,7 +11,7 @@ import getShoveResults from './shove/action';
 import validateMove from './move/validation';
 
 const getAllPossibleMoveAmountsForPositionDirection = curry((game, tp, dir) =>
-	tail(iterateWhile(inc, validateMove(game, dir, tp.position), 0)));
+	tail(iterateWhile(inc, validateMove(game, tp.position, dir), 0)));
 
 const getAllPossibleMoveOutcomesForPositionDirection = curry((game, tp, dir) =>
 	getAllPossibleMoveAmountsForPositionDirection(game, tp, dir)

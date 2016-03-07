@@ -9,12 +9,12 @@ import {
 import * as tokenType from '../model/tokenType';
 import * as border from '../model/border';
 
-const canShove = (dir, pos, game) => {
+const canShove = (game, pos, dir) => {
 	if (game.getTokenAt(game).getTokenType() === tokenType.ANCHOR) {
 		return false;
 	}
 
-	if (getBorderAt(game, dir, pos) === border.WALL_BORDER) {
+	if (getBorderAt(game, pos, dir) === border.WALL_BORDER) {
 		return false;
 	}
 
@@ -22,7 +22,7 @@ const canShove = (dir, pos, game) => {
 		return true;
 	}
 
-	return canShove(dir, getNextPosition(dir, pos), game);
+	return canShove(game, getNextPosition(dir, pos), dir);
 };
 
 const isBully = (token) => token.getTokenType() === tokenType.BULLY;
@@ -41,5 +41,5 @@ export default curry((game, pos, dir) => {
 		return false;
 	}
 
-	return isShoveableToken(game, game.getTokenAt(pos)) && canShove(dir, pos);
+	return isShoveableToken(game, game.getTokenAt(pos)) && canShove(pos, dir);
 });
