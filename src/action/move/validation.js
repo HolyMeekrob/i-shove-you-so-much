@@ -1,4 +1,4 @@
-import { and, complement, isNil, lift } from 'ramda';
+import { and, complement, curry, isNil, lift } from 'ramda';
 import {
 	getBorderAt, getFloorAt, isTokenForCurrentPlayer, getNextPosition
 } from '../util';
@@ -22,7 +22,7 @@ const hasEmptyPath = (game, dir, pos, spacesRemaining) => {
 const isMoveableToken = (game, token) =>
 	lift(and)(complement(isNil), isTokenForCurrentPlayer(game))(token);
 
-export default (game, dir, pos, spaces) => {
+export default curry((game, dir, pos, spaces) => {
 	if (spaces < 1) {
 		return false;
 	}
@@ -33,4 +33,4 @@ export default (game, dir, pos, spaces) => {
 
 	return isMoveableToken(game, game.getTokenAt(pos))
 		&& hasEmptyPath(game, dir, pos, spaces - 1);
-};
+});

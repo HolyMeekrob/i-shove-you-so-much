@@ -28,7 +28,7 @@ const isPlayerStuck = curry((playerTurn, game) => {
 const isGameOver = (playerTurn, game) =>
 	lift(or)(hasTokenInPit, isPlayerStuck(playerTurn))(game);
 
-export const move = (game, dir, pos, spaces) => {
+export const move = curry((game, dir, pos, spaces) => {
 	if (!validateMove(game, dir, pos, spaces)) {
 		throw new Error('Invalid move');
 	}
@@ -39,7 +39,7 @@ export const move = (game, dir, pos, spaces) => {
 
 	return game(game.getPlayerOne(), game.getPlayerTwo(),
 		newBoard, game.getTurn(), game.getMovesRemaining() - 1);
-};
+});
 
 export const shove = (game, dir, pos) => {
 	if (!validateShove(game, dir, pos)) {
