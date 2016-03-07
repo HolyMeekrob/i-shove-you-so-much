@@ -5,10 +5,11 @@ import ruleset from './ruleset';
 
 const DEFAULT_MOVES_PER_TURN = 2;
 
-export default (playerOne, playerTwo, gameBoard, rules, playerTurn, usedMoves) => {
+export default (playerOne, playerTwo, gameBoard, rules, playerTurn, usedMoves, gameOver) => {
 	const turn = defaultTo(playerType.PLAYER_ONE, playerTurn);
 	const moveCount = defaultTo(0, usedMoves);
 	const gameRules = defaultTo(ruleset(DEFAULT_MOVES_PER_TURN), rules);
+	const gameIsOver = defaultTo(false, gameOver);
 
 	const getPlayerOne = () => playerOne;
 	const getPlayerTwo = () => playerTwo;
@@ -17,6 +18,7 @@ export default (playerOne, playerTwo, gameBoard, rules, playerTurn, usedMoves) =
 	const getTurn = () => turn;
 	const hasMovesRemaining = () => moveCount < gameRules.getMovesPerTurn();
 	const getMovesRemaining = () => gameRules.getMovesPerTurn() - moveCount;
+	const isGameOver = () => gameIsOver;
 
 	return Object.freeze({
 		getPlayerOne,
@@ -26,6 +28,7 @@ export default (playerOne, playerTwo, gameBoard, rules, playerTurn, usedMoves) =
 		getTurn,
 		hasMovesRemaining,
 		getMovesRemaining,
+		isGameOver,
 		hasTokenAt: gameBoard.hasTokenAt,
 		getTokenAt: gameBoard.getTokenAt,
 		getTokenPositions: gameBoard.getTokenPositions,

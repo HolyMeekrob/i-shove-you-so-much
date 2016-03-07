@@ -15,7 +15,7 @@ const getShovedTokens = (game, dir, pos, tokens) => {
 		append(game.getTokenAt(pos), shoved));
 };
 
-export default (game, dir, pos) => {
+export default (game, pos, dir) => {
 	const shovedTokens = getShovedTokens(dir, pos, game);
 	return game.getTokenPositions().map((tp) => {
 		// The former anchor reverts to a bully

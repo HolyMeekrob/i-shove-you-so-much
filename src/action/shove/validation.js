@@ -30,7 +30,7 @@ const isBully = (token) => token.getTokenType() === tokenType.BULLY;
 const isShoveableToken = (game, token) =>
 	lift(and)(isBully, isTokenForCurrentPlayer(game))(token);
 
-export default curry((dir, pos, game) => {
+export default curry((game, pos, dir) => {
 	// Can not shove an empty space
 	if (!game.hasTokenAt(pos)) {
 		return false;
