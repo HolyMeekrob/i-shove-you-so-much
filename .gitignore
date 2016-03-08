@@ -80,3 +80,6 @@ $RECYCLE.BIN/
 
 # Compiled files
 lib
+
+# Type definitions
+typings
