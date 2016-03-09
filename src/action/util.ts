@@ -13,7 +13,7 @@ import { TokenPosition } from '../model/tokenPosition';
 const getSquareAt = (game: Game, pos: Position): Square =>
 	game.getGameBoard().getBoard().getSquareAt(pos);
 
-const isTokenForPlayer = curry((player: PlayerType, token: Token): boolean =>
+export const isTokenForPlayer = curry((player: PlayerType, token: Token): boolean =>
 	token.getPlayerType() === player);
 
 export const getBorderAt =
