@@ -1,4 +1,4 @@
-import { any, find } from 'ramda';
+import { any, curry, find } from 'ramda';
 
 import { Board } from './board';
 import { Position } from './position';
@@ -13,14 +13,16 @@ export class GameBoard {
 			this._tokenPositions = tokenPositions;
 	}
 
-	private arePositionsEqual = (position: Position) =>
-		(tokenPosition: TokenPosition): boolean =>
-			position.equals(tokenPosition.position);
+	private arePositionsEqual =
+	curry((position: Position, tokenPosition: TokenPosition): boolean => {
+		return position.equals(tokenPosition.position);
+	});
 
 	public getBoard = (): Board => this.board;
 
-	public hasTokenAt = (position: Position): boolean =>
-		any(this.arePositionsEqual(position), this._tokenPositions);
+	public hasTokenAt = (position: Position): boolean => {
+		return any(this.arePositionsEqual(position), this._tokenPositions);
+	}
 
 	public getTokenAt = (position: Position): Token => {
 		const tokenPosition =

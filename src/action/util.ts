@@ -46,10 +46,9 @@ export const getNextPlayerTurn = (currentTurn: PlayerType): PlayerType =>
 		? PlayerType.PlayerTwo
 		: PlayerType.PlayerOne;
 
-export const getTokenPositionsForPlayer =
-	curry((game: Game, playerTurn: PlayerType): TokenPosition[] =>
-		game.getGameBoard().getTokenPositions().filter(
-			compose(isTokenForPlayer(playerTurn), prop('token'))));
+export const getTokenPositionsForCurrentPlayer = (game: Game): TokenPosition[] =>
+	game.getGameBoard().getTokenPositions().filter(
+		compose(isTokenForPlayer(game.getTurn()), prop('token')));
 
 export const iterateWhile = <T>(fI: (a: T) => T, fV: (b: T) => boolean, seed: T): T[] =>
 	unfold((val) => fV(val) ? [val, fI(val)] : false, seed);

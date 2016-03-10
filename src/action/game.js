@@ -1,63 +1,32 @@
-import { any, curry, isEmpty, lift, or, prepend } from 'ramda';
-
-import { getFloorAt, getNextPlayerTurn } from './util';
-
-import * as floor from '../model/floor';
-
-import gameBoard from '../model/gameBoard';
-import game from '../model/game';
-
-import { getAllPossibleTurnOutcomesForCurrentPlayer } from './prediction';
-
-import validateShove from './shove/validation';
-import validateMove from './move/validation';
-
-import getMoveResults from './move/action';
-import getShoveResults from './shove/action';
-
-const isTokenPositionInPit = curry((gameObj, tp) => {
-	return getFloorAt(gameObj, tp.position) === floor.PIT;
+"use strict";
+const ramda_1 = require('ramda');
+const util_1 = require('./util');
+const prediction_1 = require('./prediction');
+const action_1 = require('./move/action');
+const action_2 = require('./shove/action');
+const validation_1 = require('./move/validation');
+const validation_2 = require('./shove/validation');
+const floor_1 = require('../model/floor');
+const game_1 = require('../model/game');
+const gameBoard_1 = require('../model/gameBoard');
+const isTokenPositionInPit = ramda_1.curry((game, tp) => util_1.getFloorAt(game, tp.position) === floor_1.Floor.Pit);
+const hasTokenInPit = (game) => ramda_1.any(isTokenPositionInPit(game), game.getGameBoard().getTokenPositions());
+const isPlayerStuck = ramda_1.curry((game) => {
+    return ramda_1.isEmpty(prediction_1.getAllPossibleTurnOutcomesForCurrentPlayer(game));
 });
-
-const hasTokenInPit = (gameObj) => any(isTokenPositionInPit(gameObj),
-	gameObj.getTokenPositions());
-
-const isPlayerStuck = curry((gameObj) => {
-	return isEmpty(getAllPossibleTurnOutcomesForCurrentPlayer(gameObj));
+const isGameOver = (game) => ramda_1.lift(ramda_1.or)(hasTokenInPit, isPlayerStuck)(game);
+const getGameWithGameOver = (game) => new game_1.Game(game.getPlayerOne(), game.getPlayerTwo(), game.getGameBoard(), game.getRules(), game.getTurn(), game.getMovesRemaining(), isGameOver(game));
+exports.move = ramda_1.curry((game, pos, dir, spaces) => {
+    if (!validation_1.validateMove(game, pos, dir, spaces)) {
+        throw new Error('Invalid move');
+    }
+    const newBoard = new gameBoard_1.GameBoard(game.getGameBoard().getBoard(), ...action_1.getMoveResults(game, pos, dir, spaces));
+    return getGameWithGameOver(new game_1.Game(game.getPlayerOne(), game.getPlayerTwo(), newBoard, game.getRules(), game.getTurn(), game.getMovesRemaining() - 1));
 });
-
-const isGameOver = (gameObj) =>
-	lift(or)(hasTokenInPit, isPlayerStuck)(gameObj);
-
-const getGameWithGameOver = (gameObj) =>
-	game(gameObj.getPlayerOne(), gameObj.getPlayerTwo(), gameObj.getGameBoard(),
-		gameObj.getRules(), gameObj.getTurn(), gameObj.getMovesRemaining(),
-		isGameOver(gameObj));
-
-export const move = curry((gameObj, pos, dir, spaces) => {
-	if (!validateMove(gameObj, pos, dir, spaces)) {
-		throw new Error('Invalid move');
-	}
-
-	const newBoard = gameBoard(undefined, ...prepend(
-		gameObj.getGameBoard().getBoard(),
-		getMoveResults(gameObj, pos, dir, spaces)));
-
-	return getGameWithGameOver(game(gameObj.getPlayerOne(), gameObj.getPlayerTwo(),
-		newBoard, gameObj.getRules(), gameObj.getTurn(),
-		gameObj.getMovesRemaining() - 1));
-});
-
-export const shove = (gameObj, pos, dir) => {
-	if (!validateShove(gameObj, pos, dir)) {
-		throw new Error('Invalid shove');
-	}
-
-	const newBoard = gameBoard(...prepend(
-		gameObj.getGameBoard().getBoard(),
-		getShoveResults(gameObj, pos, dir)));
-
-	return getGameWithGameOver(game(gameObj.getPlayerOne(),
-		gameObj.getPlayerTwo(), newBoard, game.getRules(),
-		getNextPlayerTurn(game.getTurn())));
+exports.shove = (game, pos, dir) => {
+    if (!validation_2.validateShove(game, pos, dir)) {
+        throw new Error('Invalid shove');
+    }
+    const newBoard = new gameBoard_1.GameBoard(game.getGameBoard().getBoard(), ...action_2.getShoveResults(game, pos, dir));
+    return getGameWithGameOver(new game_1.Game(game.getPlayerOne(), game.getPlayerTwo(), newBoard, game.getRules(), util_1.getNextPlayerTurn(game.getTurn())));
 };

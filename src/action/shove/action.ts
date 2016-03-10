@@ -1,4 +1,4 @@
-import { contains } from 'ramda';
+import { contains, curry } from 'ramda';
 import { getNextPosition } from '../util';
 
 import { Direction } from '../../model/direction';
@@ -19,7 +19,7 @@ const getShovedTokens =
 };
 
 export const getShoveResults =
-(game: Game, pos: Position, dir: Direction): TokenPosition[] => {
+curry((game: Game, pos: Position, dir: Direction): TokenPosition[] => {
 	const shovedTokens = getShovedTokens(game, pos, dir);
 
 	return game.getGameBoard().getTokenPositions().map((tp) => {
@@ -45,4 +45,4 @@ export const getShoveResults =
 		// All other tokens are unaffected
 		return tp;
 	});
-};
+});

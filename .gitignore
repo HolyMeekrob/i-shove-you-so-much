@@ -80,6 +80,10 @@ $RECYCLE.BIN/
 
 # Compiled files
 lib
+src/**/*.js
 
 # Type definitions
 typings
+
+# VS Code settings
+.vscode

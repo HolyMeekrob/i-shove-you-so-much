@@ -1,26 +1,11 @@
 import test from 'tape';
-import gameBoard from '../../../src/model/gameBoard';
-import position from '../../../src/model/position';
-import tokenPosition from '../../../src/model/tokenPosition';
-
-test('gameBoard() with no arguments', (assert) => {
-	assert.throws(() => gameBoard(), 'throws an error');
-	assert.end();
-});
-
-test('gameBoard() without a board', (assert) => {
-	assert.throws(() => gameBoard(null, tokenPosition(1, 0)), 'throws an error');
-	assert.end();
-});
-
-test('gameBoard() without token positions', (assert) => {
-	assert.throws(() => gameBoard({}), 'throws an error');
-	assert.end();
-});
+import { GameBoard } from '../../../src/model/gameBoard';
+import { Position } from '../../../src/model/position';
+import { TokenPosition } from '../../../src/model/tokenPosition';
 
 test('gameBoard.getBoard()', (assert) => {
 	const board = { squares: [] };
-	const gb = gameBoard(board, tokenPosition(0, 1));
+	const gb = new GameBoard(board, new TokenPosition({}, {}));
 
 	assert.equal(gb.getBoard(), board, 'returns the board');
 	assert.end();
@@ -30,10 +15,10 @@ test('gameBoard.hasTokenAt() for a position without a token', (assert) => {
 	const board = { squares: [] };
 	const x = 5;
 	const y = 3;
-	const tp = tokenPosition({}, position(x, y));
-	const gb = gameBoard(board, tp);
+	const tp = new TokenPosition({}, new Position(x, y));
+	const gb = new GameBoard(board, tp);
 
-	assert.equal(gb.hasTokenAt(x + 1, y), false, 'return false');
+	assert.equal(gb.hasTokenAt(new Position(x + 1, y)), false, 'return false');
 	assert.end();
 });
 
@@ -43,12 +28,12 @@ test('gameBoard.hasTokenAt() for a position with a token', (assert) => {
 	const y1 = 3;
 	const x2 = 2;
 	const y2 = 2;
-	const tp1 = tokenPosition({}, position(x1, y1));
-	const tp2 = tokenPosition({}, position(x2, y2));
+	const tp1 = new TokenPosition({}, new Position(x1, y1));
+	const tp2 = new TokenPosition({}, new Position(x2, y2));
 
-	const gb = gameBoard(board, tp1, tp2);
+	const gb = new GameBoard(board, tp1, tp2);
 
-	assert.equal(gb.hasTokenAt(position(x1, y1)), true, 'returns true');
+	assert.equal(gb.hasTokenAt(new Position(x1, y1)), true, 'returns true');
 	assert.end();
 });
 
@@ -56,10 +41,10 @@ test('gameBoard.getTokenAt() for a position without a token', (assert) => {
 	const board = { squares: [] };
 	const x = 5;
 	const y = 3;
-	const tp = tokenPosition({}, position(x, y));
-	const gb = gameBoard(board, tp);
+	const tp = new TokenPosition({}, new Position(x, y));
+	const gb = new GameBoard(board, tp);
 
-	assert.equal(gb.getTokenAt(x + 1, y), undefined, 'returns undefined');
+	assert.equal(gb.getTokenAt(new Position(x + 1, y)), undefined, 'returns undefined');
 	assert.end();
 });
 
@@ -71,12 +56,12 @@ test('gameBoard.getTokenAt() for a position with a token', (assert) => {
 	const y2 = 2;
 	const token1 = { foo: 'bar' };
 	const token2 = { foo: 'baz' };
-	const tp1 = tokenPosition(token1, position(x1, y1));
-	const tp2 = tokenPosition(token2, position(x2, y2));
+	const tp1 = new TokenPosition(token1, new Position(x1, y1));
+	const tp2 = new TokenPosition(token2, new Position(x2, y2));
 
-	const gb = gameBoard(board, tp1, tp2);
+	const gb = new GameBoard(board, tp1, tp2);
 
-	assert.equal(gb.getTokenAt(position(x1, y1)), token1,
+	assert.equal(gb.getTokenAt(new Position(x1, y1)), token1,
 		'returns the token at the given position');
 	assert.end();
 });

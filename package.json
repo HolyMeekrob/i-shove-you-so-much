@@ -4,9 +4,10 @@
 	"description": "A simple two-player board game",
 	"main": "app.js",
 	"scripts": {
-		"test": "tape -r babel-register ./test/**/*.js | faucet",
-		"lint": "eslint ./src/**/*.js",
-		"build": "babel src -d lib"
+		"build": "tsc",
+		"pretest": "npm run build",
+		"test": "tape -r babel-register ./test/**/*.js | tap-spec",
+		"lint": "eslint ./src/**/*.js"
 	},
 	"author": "Andy Steinberg",
 	"license": "MIT",
@@ -15,7 +16,7 @@
 		"babel-plugin-transform-es2015-modules-commonjs": "^6.5.2",
 		"babel-plugin-transform-es2015-parameters": "^6.5.0",
 		"eslint": "^2.2.0",
-		"faucet": "0.0.1",
+		"tap-spec": "^4.1.1",
 		"tape": "^4.4.0",
 		"typescript": "^1.8.7"
 	},
