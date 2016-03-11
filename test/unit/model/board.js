@@ -2,21 +2,6 @@ import test from 'tape';
 import { Board } from '../../../src/model/board';
 import { Position } from '../../../src/model/position';
 
-test('board() with no arguments', (assert) => {
-	assert.throws(() => board(), 'throws an error');
-	assert.end();
-});
-
-test('board() with a null argument', (assert) => {
-	assert.throws(() => board(null), 'throws an error');
-	assert.end();
-});
-
-test('board() with a non-array', (assert) => {
-	assert.throws(() => board(1), 'throws an error');
-	assert.end();
-});
-
 test('board() with a non-two-dimensional array', (assert) => {
 	assert.throws(() => board([[], 1]), 'throws an error');
 	assert.end();

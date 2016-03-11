@@ -1,4 +1,4 @@
-import { any, curry, isEmpty, lift, or, prepend } from 'ramda';
+import { any, curry, isEmpty, lift, or } from 'ramda';
 import { getFloorAt, getNextPlayerTurn } from './util';
 import { getAllPossibleTurnOutcomesForCurrentPlayer } from './prediction';
 import { getMoveResults } from './move/action';

@@ -22,13 +22,13 @@ export class GameBoard {
 
 	public hasTokenAt = (position: Position): boolean => {
 		return any(this.arePositionsEqual(position), this._tokenPositions);
-	}
+	};
 
 	public getTokenAt = (position: Position): Token => {
 		const tokenPosition =
 			find(this.arePositionsEqual(position), this._tokenPositions);
 		return tokenPosition === undefined ? undefined : tokenPosition.token;
-	}
+	};
 
 	public getTokenPositions = (): TokenPosition[] => this._tokenPositions.slice(0);
 }

@@ -1,5 +1,3 @@
-import { curry } from 'ramda';
-
 import { Token } from './token';
 import { Position } from './position';
 

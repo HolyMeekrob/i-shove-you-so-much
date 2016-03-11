@@ -44,4 +44,4 @@ export const getAllPossibleTurnOutcomesForCurrentPlayer =
 		[game]));
 
 	return unnest(allMoveOutcomes.map(getAllValidShoveOutcomes));
-}
+};

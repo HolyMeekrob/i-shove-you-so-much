@@ -1,4 +1,4 @@
-import { complement, compose, find, identity, last, prop } from 'ramda';
+import { complement, compose, find, last, prop } from 'ramda';
 import { getNextPosition, iterateN } from '../util';
 
 import { Direction } from '../../model/direction';
@@ -22,4 +22,4 @@ export const getMoveResults =
 
 	return tokenPositions.filter(complement(arePositionsEqual(pos)))
 		.concat(new TokenPosition(movedToken.token, newPosition));
-}
+};

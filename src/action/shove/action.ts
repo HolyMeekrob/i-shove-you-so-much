@@ -22,7 +22,7 @@ export const getShoveResults =
 curry((game: Game, pos: Position, dir: Direction): TokenPosition[] => {
 	const shovedTokens = getShovedTokens(game, pos, dir);
 
-	return game.getGameBoard().getTokenPositions().map((tp) => {
+	return game.getGameBoard().getTokenPositions().map((tp: TokenPosition) => {
 		// The former anchor reverts to a bully
 		if (tp.token.getTokenType() === TokenType.Anchor) {
 			return new TokenPosition(

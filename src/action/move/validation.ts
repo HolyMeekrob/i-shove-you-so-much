@@ -24,10 +24,8 @@ const hasEmptyPath =
 		&& hasEmptyPath(game, getNextPosition(dir, pos), dir, spacesRemaining - 1);
 };
 
-
 const isMoveableToken = (game: Game, token: Token): boolean =>
 	lift(and)(complement(isNil), isTokenForPlayer(game.getTurn()))(token);
-
 
 export const validateMove =
 curry((game: Game, pos: Position, dir: Direction, spaces: number): boolean => {
