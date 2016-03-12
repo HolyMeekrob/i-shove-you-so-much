@@ -14,19 +14,16 @@ export class GameBoard {
 	}
 
 	private arePositionsEqual =
-	curry((position: Position, tokenPosition: TokenPosition): boolean => {
-		return position.equals(tokenPosition.position);
-	});
+	curry((position: Position, tokenPosition: TokenPosition): boolean =>
+		position.equals(tokenPosition.position));
 
 	public getBoard = (): Board => this.board;
 
-	public hasTokenAt = (position: Position): boolean => {
-		return any(this.arePositionsEqual(position), this._tokenPositions);
-	};
+	public hasTokenAt = (position: Position): boolean =>
+		any(this.arePositionsEqual(position), this._tokenPositions);
 
 	public getTokenAt = (position: Position): Token => {
-		const tokenPosition =
-			find(this.arePositionsEqual(position), this._tokenPositions);
+		const tokenPosition = find(this.arePositionsEqual(position), this._tokenPositions);
 		return tokenPosition === undefined ? undefined : tokenPosition.token;
 	};
 
