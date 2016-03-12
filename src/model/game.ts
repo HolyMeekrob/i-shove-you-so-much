@@ -10,14 +10,13 @@ export class Game {
 		private gameBoard: GameBoard,
 		private rules: Ruleset = new Ruleset(DEFAULT_MOVES_PER_TURN),
 		private playerTurn: PlayerType = PlayerType.PlayerOne,
-		private usedMoves: number = 0, private gameOver: boolean = false) {}
+		private usedMoves: number = 0) {}
 
 	public getPlayerOne = (): Player => this.playerOne;
 	public getPlayerTwo = (): Player => this.playerTwo;
 	public getGameBoard = (): GameBoard => this.gameBoard;
 	public getRules = (): Ruleset => this.rules;
 	public getTurn = (): PlayerType => this.playerTurn;
-	public isGameOver = (): boolean => this.gameOver;
 
 	public hasMovesRemaining = (): boolean => this.getMovesRemaining() > 0;
 

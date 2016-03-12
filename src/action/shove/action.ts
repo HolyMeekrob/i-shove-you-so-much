@@ -1,8 +1,10 @@
 import { contains, curry } from 'ramda';
-import { getNextPosition } from '../util';
+import { getNextPlayerTurn, getNextPosition } from '../util';
+import { validateShove } from './validation';
 
 import { Direction } from '../../model/direction';
 import { Game } from '../../model/game';
+import { GameBoard } from '../../model/gameBoard';
 import { Position } from '../../model/position';
 import { Token } from '../../model/token';
 import { TokenPosition } from '../../model/tokenPosition';
@@ -18,7 +20,7 @@ const getShovedTokens =
 		tokens.concat(game.getGameBoard().getTokenAt(pos)));
 };
 
-export const getShoveResults =
+const getShoveResults =
 curry((game: Game, pos: Position, dir: Direction): TokenPosition[] => {
 	const shovedTokens = getShovedTokens(game, pos, dir);
 
@@ -45,4 +47,17 @@ curry((game: Game, pos: Position, dir: Direction): TokenPosition[] => {
 		// All other tokens are unaffected
 		return tp;
 	});
+});
+
+export const shove = curry((game: Game, pos: Position, dir: Direction): Game => {
+	if (!validateShove(game, pos, dir)) {
+		throw new Error('Invalid shove');
+	}
+
+	const newBoard = new GameBoard(game.getGameBoard().getBoard(),
+		...getShoveResults(game, pos, dir));
+
+	return new Game(game.getPlayerOne(),
+		game.getPlayerTwo(), newBoard, game.getRules(),
+		getNextPlayerTurn(game.getTurn()));
 });

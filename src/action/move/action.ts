@@ -1,8 +1,10 @@
-import { complement, compose, find, last, prop } from 'ramda';
+import { complement, compose, curry, find, last, prop } from 'ramda';
 import { getNextPosition, iterateN } from '../util';
+import { validateMove } from './validation';
 
 import { Direction } from '../../model/direction';
 import { Game } from '../../model/Game';
+import { GameBoard } from '../../model/GameBoard';
 import { Position } from '../../model/position';
 import { TokenPosition } from '../../model/tokenPosition';
 
@@ -14,7 +16,7 @@ const arePositionsEqual = (position: Position) =>
 	(tokenPosition: TokenPosition): boolean =>
 		position.equals(tokenPosition.position);
 
-export const getMoveResults =
+const getMoveResults =
 (game: Game, pos: Position, dir: Direction, spaces: number): TokenPosition[] => {
 	const tokenPositions = game.getGameBoard().getTokenPositions();
 	const movedToken = find(compose(pos.equals, prop('position')), tokenPositions);
@@ -23,3 +25,16 @@ export const getMoveResults =
 	return tokenPositions.filter(complement(arePositionsEqual(pos)))
 		.concat(new TokenPosition(movedToken.token, newPosition));
 };
+
+export const move =
+curry((game: Game, pos: Position, dir: Direction, spaces: number): Game => {
+	if (!validateMove(game, pos, dir, spaces)) {
+		throw new Error('Invalid move');
+	}
+
+	const newBoard = new GameBoard(game.getGameBoard().getBoard(),
+		...getMoveResults(game, pos, dir, spaces));
+
+	return new Game(game.getPlayerOne(), game.getPlayerTwo(),
+		newBoard, game.getRules(), game.getTurn(), game.getMovesRemaining() - 1);
+});

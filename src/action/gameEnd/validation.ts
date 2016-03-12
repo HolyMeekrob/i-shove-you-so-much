@@ -1,17 +1,17 @@
 import { any, chain, curry, inc, isEmpty, lift, or, tail, unnest } from 'ramda';
 import {
 	getFloorAt, getTokenPositionsForCurrentPlayer, iterateN, iterateWhile
-} from './util';
+} from '../util';
 
-import { validateMove } from './move/validation';
-import { validateShove } from './shove/validation';
-import { getShoveResults } from './shove/action';
-import { move } from './game';
+import { validateMove } from '../move/validation';
+import { validateShove } from '../shove/validation';
+import { shove } from '../shove/action';
+import { move } from '../move/action';
 
-import { Direction, getAllDirections } from '../model/direction';
-import { Floor } from '../model/floor';
-import { Game } from '../model/game';
-import { TokenPosition } from '../model/tokenPosition';
+import { Direction, getAllDirections } from '../../model/direction';
+import { Floor } from '../../model/floor';
+import { Game } from '../../model/game';
+import { TokenPosition } from '../../model/tokenPosition';
 
 const getAllPossibleMoveAmountsForPositionDirection =
 	curry((game: Game, tp: TokenPosition, dir: Direction): number[] =>
@@ -32,15 +32,15 @@ const getAllSingleMoveOutcomes = (game: Game): Game[] =>
 		getTokenPositionsForCurrentPlayer(game));
 
 const getAllValidShoveOutcomesForTokenPosition =
-curry((game: Game, tp: TokenPosition): TokenPosition[] =>
+curry((game: Game, tp: TokenPosition): Game[] =>
 	unnest(getAllDirections().filter(validateShove(game, tp.position))
-		.map(getShoveResults(game, tp.position))));
+		.map(shove(game, tp.position))));
 
-const getAllValidShoveOutcomes = curry((game: Game): TokenPosition[] =>
+const getAllValidShoveOutcomes = curry((game: Game): Game[] =>
 	chain(getAllValidShoveOutcomesForTokenPosition(game),
 		getTokenPositionsForCurrentPlayer(game)));
 
-const getAllPossibleTurnOutcomesForCurrentPlayer = (game: Game): TokenPosition[] => {
+const getAllPossibleTurnOutcomesForCurrentPlayer = (game: Game): Game[] => {
 	const allMoveOutcomes = unnest(iterateN(
 		chain(getAllSingleMoveOutcomes),
 		game.getMovesRemaining(),
@@ -58,6 +58,6 @@ const hasTokenInPit = (game: Game): boolean =>
 const isPlayerStuck = curry((game: Game): boolean =>
 	isEmpty(getAllPossibleTurnOutcomesForCurrentPlayer(game)));
 
-const isGameOver = (game: Game): boolean =>
+export const isGameOver = (game: Game): boolean =>
 	lift(or)(hasTokenInPit, isPlayerStuck)(game);
 
