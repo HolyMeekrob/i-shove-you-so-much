@@ -40,14 +40,11 @@ const getAllValidShoveOutcomes = curry((game: Game): Game[] =>
 	chain(getAllValidShoveOutcomesForTokenPosition(game),
 		getTokenPositionsForCurrentPlayer(game)));
 
-const getAllPossibleTurnOutcomesForCurrentPlayer = (game: Game): Game[] => {
-	const allMoveOutcomes = unnest(iterateN(
-		chain(getAllSingleMoveOutcomes),
-		game.getMovesRemaining(),
-		[game]));
+const getAllPossibleMoveOutcomesForCurrentPlayer = (game: Game): Game[] =>
+	unnest(iterateN(chain(getAllSingleMoveOutcomes), game.getMovesRemaining(), [game]));
 
-	return unnest(allMoveOutcomes.map(getAllValidShoveOutcomes));
-};
+const getAllPossibleTurnOutcomesForCurrentPlayer = (game: Game): Game[] =>
+	unnest(getAllPossibleMoveOutcomesForCurrentPlayer(game).map(getAllValidShoveOutcomes));
 
 const isTokenPositionInPit = curry((game: Game, tp: TokenPosition): boolean =>
 	getFloorAt(game, tp.position) === Floor.Pit);

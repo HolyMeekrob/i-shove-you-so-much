@@ -28,15 +28,8 @@ const isMoveableToken = (game: Game, token: Token): boolean =>
 	lift(and)(complement(isNil), isTokenForPlayer(game.getTurn()))(token);
 
 export const validateMove =
-curry((game: Game, pos: Position, dir: Direction, spaces: number): boolean => {
-	if (spaces < 1) {
-		return false;
-	}
-
-	if (!game.getGameBoard().hasTokenAt(pos)) {
-		return false;
-	}
-
-	return isMoveableToken(game, game.getGameBoard().getTokenAt(pos))
-		&& hasEmptyPath(game, pos, dir, spaces - 1);
-});
+curry((game: Game, pos: Position, dir: Direction, spaces: number): boolean =>
+	(spaces > 1)
+		&& game.getGameBoard().hasTokenAt(pos)
+		&& isMoveableToken(game, game.getGameBoard().getTokenAt(pos))
+		&& hasEmptyPath(game, pos, dir, spaces - 1));
