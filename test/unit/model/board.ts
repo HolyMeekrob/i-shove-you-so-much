@@ -1,29 +1,24 @@
-import test from 'tape';
+import * as test from 'tape';
 import { Board } from '../../../src/model/board';
 import { Position } from '../../../src/model/position';
+import { Square } from '../../../src/model/square';
 
-test('board() with a non-two-dimensional array', (assert) => {
-	assert.throws(() => board([[], 1]), 'throws an error');
-	assert.end();
-});
-
-test('board.getSquares()', (assert) => {
-	const squares = [
-		['one', 'two', 'three'],
-		['four', 'five', 'six']
+const getSquares = (): Square[][] => [
+		[new Square(), new Square(), new Square()],
+		[new Square(), new Square(), new Square()]
 	];
 
+test('board.getSquares()', (assert: test.Test): void => {
+	const squares = getSquares();
 	const b = new Board(squares);
 
 	assert.deepEqual(b.getSquares(), squares, 'returns the given squares');
 	assert.end();
 });
 
-test('board.getSquareAt() for an invalid position', (assert) => {
-	const squares = [
-		['one', 'two', 'three'],
-		['four', 'five', 'six']
-	];
+test('board.getSquareAt() for an invalid position', (assert: test.Test): void => {
+	const squares = getSquares();
+
 	const b = new Board(squares);
 	const x = 2;
 	const y = 5;
@@ -33,11 +28,9 @@ test('board.getSquareAt() for an invalid position', (assert) => {
 	assert.end();
 });
 
-test('board.getSquareAt() for a valid position', (assert) => {
-	const squares = [
-		['one', 'two', 'three'],
-		['four', 'five', 'six']
-	];
+test('board.getSquareAt() for a valid position', (assert: test.Test): void => {
+	const squares = getSquares();
+
 	const b = new Board(squares);
 	const x = 1;
 	const y = 2;

@@ -1,7 +1,7 @@
-import test from 'tape';
+import * as test from 'tape';
 import { Position } from '../../../src/model/position';
 
-test('position.equals without a matching x or y', (assert) => {
+test('position.equals without a matching x or y', (assert: test.Test): void => {
 	const x1 = 1;
 	const y1 = 2;
 	const x2 = 11;
@@ -14,7 +14,7 @@ test('position.equals without a matching x or y', (assert) => {
 	assert.end();
 });
 
-test('position.equals without a matching x', (assert) => {
+test('position.equals without a matching x', (assert: test.Test): void => {
 	const x1 = 1;
 	const y = 2;
 	const x2 = 11;
@@ -26,7 +26,7 @@ test('position.equals without a matching x', (assert) => {
 	assert.end();
 });
 
-test('position.equals without a matching y', (assert) => {
+test('position.equals without a matching y', (assert: test.Test): void => {
 	const x = 1;
 	const y1 = 2;
 	const y2 = -2;
@@ -38,7 +38,7 @@ test('position.equals without a matching y', (assert) => {
 	assert.end();
 });
 
-test('position.equals with a matching x and y', (assert) => {
+test('position.equals with a matching x and y', (assert: test.Test): void => {
 	const x = 1;
 	const y = 2;
 

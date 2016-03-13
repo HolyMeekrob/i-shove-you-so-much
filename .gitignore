@@ -84,6 +84,7 @@ src/**/*.js
 
 # Type definitions
 typings
+typings.json
 
 # VS Code settings
 .vscode
