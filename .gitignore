@@ -81,6 +81,7 @@ $RECYCLE.BIN/
 # Compiled files
 lib
 src/**/*.js
+test/**/*.js
 
 # Type definitions
 typings
