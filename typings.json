@@ -1,0 +1,7 @@
+{
+	"ambientDependencies": {
+		"koa": "registry:dt/koa#2.0.0+20160316171810",
+		"node": "registry:dt/node#4.0.0+20160311162451",
+		"tape": "registry:dt/tape#4.2.2+20151206035103"
+	}
+}

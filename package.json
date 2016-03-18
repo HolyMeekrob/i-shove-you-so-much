@@ -6,6 +6,8 @@
 	"scripts": {
 		"clean": "del /S /Q .\\src\\*.js .\\test\\*.js",
 		"build": "tsc",
+		"prestart": "npm run build",
+		"start": "node index.js",
 		"pretest": "npm run build",
 		"test": "tape -r babel-register ./test/**/*.js | tap-spec",
 		"lint": "tslint ./src/**/*.ts"
@@ -21,6 +23,8 @@
 		"typescript": "^1.8.7"
 	},
 	"dependencies": {
+		"koa": "^2.0.0-alpha.3",
+		"koa-router": "^7.0.1",
 		"ramda": "^0.19.1"
 	}
 }
