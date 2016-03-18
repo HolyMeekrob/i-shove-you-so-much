@@ -79,7 +79,7 @@ $RECYCLE.BIN/
 *.lnk
 
 # Compiled files
-lib
+index.js
 src/**/*.js
 test/**/*.js
 
