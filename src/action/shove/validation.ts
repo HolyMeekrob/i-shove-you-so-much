@@ -27,8 +27,7 @@ const canShove = (game: Game, pos: Position, dir: Direction): boolean => {
 const isShoveableToken = (game: Game, token: Token): boolean =>
 	lift(and)(identical(TokenType.Bully), isTokenForPlayer(game.getTurn()))(token);
 
-export const validateShove =
-curry((game: Game, pos: Position, dir: Direction): boolean => {
+export const validateShove = curry((game: Game, pos: Position, dir: Direction): boolean => {
 	// Can not shove an empty space
 	if (!game.getGameBoard().hasTokenAt(pos)) {
 		return false;

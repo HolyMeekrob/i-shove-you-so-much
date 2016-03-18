@@ -1,7 +1,5 @@
 import { and, complement, curry, isNil, lift } from 'ramda';
-import {
-	getBorderAt, getFloorAt, getNextPosition, isTokenForPlayer
-} from '../util';
+import { getBorderAt, getFloorAt, getNextPosition, isTokenForPlayer } from '../util';
 
 import { Border } from '../../model/border';
 import { Direction } from '../../model/direction';

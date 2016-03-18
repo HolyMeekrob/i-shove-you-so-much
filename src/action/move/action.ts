@@ -8,8 +8,7 @@ import { GameBoard } from '../../model/GameBoard';
 import { Position } from '../../model/position';
 import { TokenPosition } from '../../model/tokenPosition';
 
-const getFinalPosition =
-(position: Position, dir: Direction, spaces: number): Position =>
+const getFinalPosition = (position: Position, dir: Direction, spaces: number): Position =>
 	last(iterateN(getNextPosition(dir), spaces, position));
 
 const arePositionsEqual =
