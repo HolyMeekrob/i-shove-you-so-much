@@ -1,4 +1,4 @@
-import { any, curry, find } from 'ramda';
+import { all, any, curry, find, isNil, prop } from 'ramda';
 
 import { Board } from './board';
 import { Position } from './position';
@@ -8,10 +8,21 @@ import { TokenPosition } from './tokenPosition';
 export class GameBoard {
 	private _tokenPositions: TokenPosition[];
 
-	constructor (private board: Board,
-		...tokenPositions: TokenPosition[]) {
+	constructor (private board: Board, ...tokenPositions: TokenPosition[]) {
 			this._tokenPositions = tokenPositions;
+			const message = GameBoard.validateGameBoard(board, tokenPositions);
+			if (!isNil(message)) {
+				throw new Error(`Invalid game board: ${message}`);
+			}
 	}
+
+	private static validateGameBoard = (board: Board, tp: TokenPosition[]): string => {
+		if (!all(board.hasSquareAt, tp.map(prop('position')))) {
+			return 'tokens must be in valid positions for board';
+		}
+
+		return undefined;
+	};
 
 	private arePositionsEqual =
 	curry((position: Position, tokenPosition: TokenPosition): boolean =>

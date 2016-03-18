@@ -7,8 +7,22 @@ import { Token } from '../../../src/model/token';
 import { TokenPosition } from '../../../src/model/tokenPosition';
 import { TokenType } from '../../../src/model/tokenType';
 
+test('new GameBoard() with invalid token positions', (assert: test.Test): void => {
+	const board = new Board();
+	const tokenPositions = [
+		new TokenPosition(
+			new Token(PlayerType.PlayerOne, TokenType.Bully),
+			new Position(100, 100)),
+		new TokenPosition(
+			new Token(PlayerType.PlayerTwo, TokenType.Bully),
+			new Position(0, 0))
+	];
+	assert.throws(() => new GameBoard(board, ...tokenPositions), 'throws an error');
+	assert.end();
+});
+
 test('gameBoard.getBoard()', (assert: test.Test): void => {
-	const board = new Board([]);
+	const board = new Board();
 	const gb = new GameBoard(board);
 
 	assert.equal(gb.getBoard(), board, 'returns the board');
@@ -16,7 +30,7 @@ test('gameBoard.getBoard()', (assert: test.Test): void => {
 });
 
 test('gameBoard.hasTokenAt() for a position without a token', (assert: test.Test): void => {
-	const board = new Board([]);
+	const board = new Board();
 	const x = 5;
 	const y = 3;
 	const tp = new TokenPosition(
@@ -28,7 +42,7 @@ test('gameBoard.hasTokenAt() for a position without a token', (assert: test.Test
 });
 
 test('gameBoard.hasTokenAt() for a position with a token', (assert: test.Test): void => {
-	const board = new Board([]);
+	const board = new Board();
 	const x1 = 5;
 	const y1 = 3;
 	const x2 = 2;
@@ -45,7 +59,7 @@ test('gameBoard.hasTokenAt() for a position with a token', (assert: test.Test): 
 });
 
 test('gameBoard.getTokenAt() for a position without a token', (assert: test.Test): void => {
-	const board = new Board([]);
+	const board = new Board();
 	const x = 5;
 	const y = 3;
 	const tp = new TokenPosition(

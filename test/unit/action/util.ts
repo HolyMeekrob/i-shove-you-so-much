@@ -95,11 +95,11 @@ test('util.getTokenPositionsForCurrentPlayer()', (assert: test.Test): void => {
 
 	const playerOneTokenPositionTwo = new TokenPosition(
 		new Token(PlayerType.PlayerOne, TokenType.Bully),
-		new Position(3, 4));
+		new Position(2, 3));
 
 	const playerOneTokenPositionThree = new TokenPosition(
 		new Token(PlayerType.PlayerOne, TokenType.Victim),
-		new Position(5, 6));
+		new Position(3, 4));
 
 	const playerTwoTokenPositionOne = new TokenPosition(
 		new Token(PlayerType.PlayerTwo, TokenType.Bully),
@@ -107,11 +107,11 @@ test('util.getTokenPositionsForCurrentPlayer()', (assert: test.Test): void => {
 
 	const playerTwoTokenPositionTwo = new TokenPosition(
 		new Token(PlayerType.PlayerTwo, TokenType.Bully),
-		new Position(4, 3));
+		new Position(3, 2));
 
 		const playerTwoTokenPositionThree = new TokenPosition(
 		new Token(PlayerType.PlayerTwo, TokenType.Bully),
-		new Position(6, 5));
+		new Position(4, 3));
 
 	const tokenPositions = [
 		playerOneTokenPositionOne,
@@ -122,7 +122,7 @@ test('util.getTokenPositionsForCurrentPlayer()', (assert: test.Test): void => {
 		playerTwoTokenPositionThree
 	];
 
-	const game = new Game(null, null, new GameBoard(new Board(null), ...tokenPositions),
+	const game = new Game(null, null, new GameBoard(new Board(), ...tokenPositions),
 	new Ruleset(2), PlayerType.PlayerOne);
 
 	const result = getTokenPositionsForCurrentPlayer(game);

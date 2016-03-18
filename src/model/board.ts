@@ -1,4 +1,4 @@
-import { clone } from 'ramda';
+import { clone, isNil, length, uniq } from 'ramda';
 import { Border } from './border';
 import { Floor } from './floor';
 import { Position } from './position';
@@ -91,9 +91,32 @@ const defaultBoard = [
 ];
 
 export class Board {
-	constructor(private squares: Square[][] = defaultBoard) {}
+	constructor(private squares: Square[][] = defaultBoard) {
+		const message = Board.validateBoard(this.squares);
+		if (!isNil(message)) {
+			throw new Error(`Invalid board: ${message}`);
+		}
+	}
+
+	private static allSameLength = (arr: any[][]): boolean =>
+		uniq(arr.map(length)).length === 1;
+
+	private static validateBoard = (squares: Square[][]): string => {
+		if (squares.length === 0) {
+			return 'cannot be empty';
+		}
+
+		if (!Board.allSameLength(squares)) {
+			return 'must be a rectangle';
+		}
+
+		return undefined;
+	};
 
 	public getSquares = (): Square[][] => clone(this.squares);
-	public getSquareAt = (position: Position): Square =>
-		this.squares[position.x][position.y];
+	public hasSquareAt = (pos: Position): boolean =>
+		this.squares.length > pos.x && this.squares[pos.x].length > pos.y;
+
+	public getSquareAt = (pos: Position): Square =>
+		this.squares[pos.x][pos.y];
 }
