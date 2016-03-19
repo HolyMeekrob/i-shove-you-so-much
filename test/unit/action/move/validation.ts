@@ -1,6 +1,6 @@
 import * as test from 'tape';
 
-import { getSimpleGame } from '../../gameFactory';
+import { getSimpleGame, getTwoVersusTwoGame } from '../../gameFactory';
 import { validateMove } from '../../../../src/action/move/validation';
 
 import { Direction } from '../../../../src/model/direction';
@@ -8,9 +8,63 @@ import { Position } from '../../../../src/model/position';
 
 test('validateMove() given a non-positive space count', (assert: test.Test): void => {
 	const game = getSimpleGame();
-	const position = new Position(0, 0);
-	const direction = Direction.North;
+	const pos = new Position(1, 1);
+	const dir = Direction.North;
 	const spaces = 0;
-	assert.equal(validateMove(game, position, direction, spaces), false, 'returns false');
+	assert.equal(validateMove(game, pos, dir, spaces), false, 'returns false');
+	assert.end();
+});
+
+test('validateMove() if there is no token at the position', (assert: test.Test): void => {
+	const game = getSimpleGame();
+	const pos = new Position(2, 1);
+	const dir = Direction.North;
+	const spaces = 1;
+	assert.equal(validateMove(game, pos, dir, spaces), false, 'returns false');
+	assert.end();
+});
+
+test('validateMove() if the token is for the other player', (assert: test.Test): void => {
+	const game = getSimpleGame();
+	const pos = new Position(2, 2);
+	const dir = Direction.South;
+	const spaces = 1;
+	assert.equal(validateMove(game, pos, dir, spaces), false, 'returns false');
+	assert.end();
+});
+
+test('validateMove() if moving into a pit', (assert: test.Test): void => {
+	const game = getSimpleGame();
+	const pos = new Position(1, 1);
+	const dir = Direction.South;
+	const spaces = 1;
+	assert.equal(validateMove(game, pos, dir, spaces), false, 'returns false');
+	assert.end();
+});
+
+test('validateMove() if moving through another piece', (assert: test.Test): void => {
+	const game = getTwoVersusTwoGame();
+	const pos = new Position(1, 1);
+	const dir = Direction.East;
+	const spaces = 1;
+	assert.equal(validateMove(game, pos, dir, spaces), false, 'returns false');
+	assert.end();
+});
+
+test('validateMove() if moving through a wall', (assert: test.Test): void => {
+	const game = getTwoVersusTwoGame();
+	const pos = new Position(1, 1);
+	const dir = Direction.North;
+	const spaces = 2;
+	assert.equal(validateMove(game, pos, dir, spaces), false, 'returns false');
+	assert.end();
+});
+
+test('validateMove() for a valid move', (assert: test.Test): void => {
+	const game = getTwoVersusTwoGame();
+	const pos = new Position(1, 1);
+	const dir = Direction.North;
+	const spaces = 1;
+	assert.equal(validateMove(game, pos, dir, spaces), true, 'returns true');
 	assert.end();
 });
