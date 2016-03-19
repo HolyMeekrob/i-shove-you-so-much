@@ -1,4 +1,4 @@
-import { complement, compose, curry, identical } from 'ramda';
+import { complement, compose, curry, either, identical } from 'ramda';
 import { getBorderAt, getFloorAt, getNextPosition, isTokenForPlayer } from '../util';
 
 import { Border } from '../../model/border';
@@ -10,10 +10,11 @@ import { Position } from '../../model/position';
 const isNotWall: (border: Border) => boolean = complement(identical(Border.Wall));
 const isNotMovingThroughWall: (game: Game, pos: Position, dir: Direction) => boolean =
 	compose(isNotWall, getBorderAt);
+const floorIsPit = (game: Game) => compose(identical(Floor.Pit), getFloorAt(game));
 
 const hasEmptyPath =
 (game: Game, pos: Position, dir: Direction, spacesRemaining: number): boolean => {
-	if (game.getGameBoard().hasTokenAt(pos) || getFloorAt(game, pos) === Floor.Pit) {
+	if (either(game.getGameBoard().hasTokenAt, floorIsPit(game))(pos)) {
 		return false;
 	}
 

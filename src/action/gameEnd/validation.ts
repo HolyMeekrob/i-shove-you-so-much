@@ -1,4 +1,4 @@
-import { any, chain, curry, inc, isEmpty, lift, or, tail, unnest } from 'ramda';
+import { any, chain, curry, either, inc, isEmpty, tail, unnest } from 'ramda';
 import {
 	getFloorAt, getTokenPositionsForCurrentPlayer, iterateN, iterateWhile
 } from '../util';
@@ -55,6 +55,5 @@ const hasTokenInPit = (game: Game): boolean =>
 const isPlayerStuck = curry((game: Game): boolean =>
 	isEmpty(getAllPossibleTurnOutcomesForCurrentPlayer(game)));
 
-export const isGameOver = (game: Game): boolean =>
-	lift(or)(hasTokenInPit, isPlayerStuck)(game);
-
+export const isGameOver: (game: Game) => boolean =
+	either(hasTokenInPit, isPlayerStuck);
