@@ -1,5 +1,7 @@
-import { complement, curry, filter, last } from 'ramda';
-import { getNextPosition, iterateN } from '../util';
+import { complement, curry, last } from 'ramda';
+import { iterateN } from '../../util/iterate';
+import { getNextPosition } from '../../util/position';
+import { getTokenAt, getTokenPositions } from '../../util/game';
 import { validateMove } from './validation';
 
 import { Direction } from '../../model/direction';
@@ -8,26 +10,22 @@ import { GameBoard } from '../../model/GameBoard';
 import { Position } from '../../model/position';
 import { TokenPosition } from '../../model/tokenPosition';
 
-const getFinalPosition = (position: Position, dir: Direction, spaces: number): Position =>
+const getFinalPosition =
+(position: Position, dir: Direction, spaces: number): Position =>
 	last(iterateN(getNextPosition(dir), spaces, position));
 
 const arePositionsEqual =
 curry((position: Position,  tokenPosition: TokenPosition): boolean =>
 		position.equals(tokenPosition.position));
 
-const arePositionsDifferent = (pos: Position) => complement(arePositionsEqual(pos));
+const arePositionsDifferent =	curry(complement(arePositionsEqual));
 
-const allOtherPositions = (pos: Position) => filter(arePositionsDifferent(pos));
+const allOtherPositions = (pos: Position, tokenPositions: TokenPosition[]) =>
+	tokenPositions.filter(arePositionsDifferent(pos));
 
-const getMoveResults =
-(game: Game, pos: Position, dir: Direction, spaces: number): TokenPosition[] => {
-	const tokenPositions = game.getGameBoard().getTokenPositions();
-	const movedToken = game.getGameBoard().getTokenAt(pos);
-	const newPosition = getFinalPosition(pos, dir, spaces);
-
-	return allOtherPositions(pos)(tokenPositions)
-		.concat(new TokenPosition(movedToken, newPosition));
-};
+const getMoveResults = (game: Game, pos: Position, dir: Direction, spaces: number) =>
+	allOtherPositions(pos, getTokenPositions(game)).concat(
+		new TokenPosition(getTokenAt(game, pos), getFinalPosition(pos, dir, spaces)));
 
 export const move =
 curry((game: Game, pos: Position, dir: Direction, spaces: number): Game => {

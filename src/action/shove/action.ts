@@ -1,5 +1,6 @@
 import { contains, curry } from 'ramda';
-import { getNextPlayerTurn, getNextPosition } from '../util';
+import { getNextPlayerTurn } from '../../util/playerType';
+import { getNextPosition } from '../../util/position';
 import { validateShove } from './validation';
 
 import { Direction } from '../../model/direction';

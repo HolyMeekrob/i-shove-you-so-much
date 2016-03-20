@@ -1,7 +1,7 @@
 import { any, chain, curry, either, inc, isEmpty, tail, unnest } from 'ramda';
-import {
-	getFloorAt, getTokenPositionsForCurrentPlayer, iterateN, iterateWhile
-} from '../util';
+import { iterateN, iterateWhile } from '../../util/iterate';
+import { getTokenPositionsForCurrentPlayer } from '../../util/game';
+import { getFloorAt } from '../../util/game';
 
 import { validateMove } from '../move/validation';
 import { validateShove } from '../shove/validation';
