@@ -1,6 +1,8 @@
 import * as test from 'tape';
+import * as sinon from 'sinon';
+
 import {
-	getTokenPositions, getTokenPositionsForCurrentPlayer
+	getTokenPositions, getTokenPositionsForCurrentPlayer, isTokenForCurrentPlayer
 } from '../../../../src/util/game';
 
 import { Board } from '../../../../src/model/board';
@@ -21,7 +23,7 @@ test('getTokenPositions()', (assert: test.Test): void => {
 	assert.end();
 });
 
-	test('util.getTokenPositionsForCurrentPlayer()', (assert: test.Test): void => {
+test('util.getTokenPositionsForCurrentPlayer()', (assert: test.Test): void => {
 	const playerOneTokenPositionOne = new TokenPosition(
 		new Token(PlayerType.PlayerOne, TokenType.Bully),
 		new Position(1, 2));
@@ -66,5 +68,23 @@ test('getTokenPositions()', (assert: test.Test): void => {
 		'includes every token for givenPlayer');
 	assert.equal(result.indexOf(playerOneTokenPositionThree) > -1, true,
 		'includes every token for givenPlayer');
+	assert.end();
+});
+
+test('isTokenForCurrentPlayer() given a different player\'s token', (assert: test.Test): void => {
+	const game: Game = getSimpleGame();
+	const token: Token = new Token(PlayerType.PlayerOne, TokenType.Bully);
+	sinon.stub(game, 'getTurn', () => PlayerType.PlayerTwo);
+
+	assert.equal(isTokenForCurrentPlayer(game, token), false, 'returns false');
+	assert.end();
+});
+
+test('isTokenForCurrentPlayer() given the same player\'s token', (assert: test.Test): void => {
+	const game = getSimpleGame();
+	const token = new Token(PlayerType.PlayerTwo, TokenType.Bully);
+	sinon.stub(game, 'getTurn', () => PlayerType.PlayerTwo);
+
+	assert.equal(isTokenForCurrentPlayer(game, token), true, 'returns true');
 	assert.end();
 });

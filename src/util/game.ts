@@ -34,7 +34,7 @@ export const getBorderAt = curry((game: Game, pos: Position, dir: Direction): Bo
 export const isTokenForCurrentPlayer = curry((game: Game, token: Token) =>
 	game.getTurn() === token.getPlayerType());
 
-const isTokenPositionForCurrentPlayer = curry((game: Game, tp: TokenPosition) =>
+export const isTokenPositionForCurrentPlayer = curry((game: Game, tp: TokenPosition) =>
 	isTokenForCurrentPlayer(game, tp.token));
 
 export const getTokenPositionsForCurrentPlayer = (game: Game): TokenPosition[] =>
