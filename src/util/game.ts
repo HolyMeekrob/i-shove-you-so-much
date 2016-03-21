@@ -19,6 +19,9 @@ export const getBoard = (game: Game): Board =>
 export const getTokenPositions = (game: Game): TokenPosition[] =>
 	getGameBoard(game).getTokenPositions();
 
+export const hasTokenAt = curry((game: Game, pos: Position): boolean =>
+	getGameBoard(game).hasTokenAt(pos));
+
 export const getTokenAt = curry((game: Game, pos: Position): Token =>
 	getGameBoard(game).getTokenAt(pos));
 
