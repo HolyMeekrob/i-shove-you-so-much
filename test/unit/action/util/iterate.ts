@@ -14,7 +14,7 @@ test('util.iterateWhile()', (assert: test.Test): void => {
 
 test('util.iterateN()', (assert: test.Test): void => {
 	const double = (x: number) => x * 2;
-	const n: number = 6;
+	const n: number = 5;
 	const seed: number = 7;
 
 	assert.deepEqual(iterateN(double, n, seed), [7, 14, 28, 56, 112, 224],

@@ -21,7 +21,6 @@ const cannotMoveInto: (game: Game, pos: Position) => boolean =
 
 const hasEmptyPath =
 (game: Game, pos: Position, dir: Direction, spacesRemaining: number): boolean => {
-
 	if (cannotMoveInto(game, pos)) {
 		return false;
 	}

@@ -10,6 +10,6 @@ export const iterateN = <T>(f: (a: T) => T, n: number, seed: T): T[] => {
 	}
 
 	return unfold((x: IHelper) =>
-		x.count < n ? [x.val, { count: x.count + 1, val: f(x.val) }] : false,
+		x.count <= n ? [x.val, { count: x.count + 1, val: f(x.val) }] : false,
 		{ count: 0, val: seed });
 };
