@@ -64,12 +64,38 @@ const getTwoVersusTwoGameBoard = (): GameBoard => {
 			new Token(PlayerType.PlayerTwo, TokenType.Bully),
 			new Position(3, 3)),
 		new TokenPosition(
-			new Token(PlayerType.PlayerTwo, TokenType.Victim),
-			new Position(2, 3)
-		)
+			new Token(PlayerType.PlayerTwo, TokenType.Anchor),
+			new Position(2, 3))
 	];
 	return new GameBoard(getThreeByThreeGameBoard(), ...tokenPositions);
 };
 
 export const getTwoVersusTwoGame = (): Game =>
 	new Game(getPlayerOne(), getPlayerTwo(), getTwoVersusTwoGameBoard());
+
+const getThreeVersusThreeGameBoard = (): GameBoard => {
+	const tokenPositions: [TokenPosition] = [
+		new TokenPosition(
+			new Token(PlayerType.PlayerOne, TokenType.Bully),
+			new Position(4, 4)),
+		new TokenPosition(
+			new Token(PlayerType.PlayerOne, TokenType.Bully),
+			new Position(2, 4)),
+		new TokenPosition(
+			new Token(PlayerType.PlayerOne, TokenType.Victim),
+			new Position(1, 4)),
+		new TokenPosition(
+			new Token(PlayerType.PlayerTwo, TokenType.Anchor),
+			new Position(2, 5)),
+		new TokenPosition(
+			new Token(PlayerType.PlayerTwo, TokenType.Bully),
+			new Position(4, 5)),
+		new TokenPosition(
+			new Token(PlayerType.PlayerTwo, TokenType.Victim),
+			new Position(4, 6))
+	];
+	return new GameBoard(new Board(), ...tokenPositions);
+};
+
+export const getThreeVersusThreeGame = (): Game =>
+	new Game(getPlayerOne(), getPlayerTwo(), getThreeVersusThreeGameBoard());
