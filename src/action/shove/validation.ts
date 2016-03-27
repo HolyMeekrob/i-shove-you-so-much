@@ -1,6 +1,6 @@
-import { both, curry, identical } from 'ramda';
+import { both, compose, curry, identical, prop } from 'ramda';
 import { isTokenForPlayer } from '../../util/playerType';
-import { getBorderAt } from '../../util/game';
+import { getBorderAt, getTokenAt, hasTokenAt } from '../../util/game';
 import { getNextPosition } from '../../util/position';
 
 import { Border } from '../../model/border';
@@ -10,37 +10,29 @@ import { Position } from '../../model/position';
 import { Token } from '../../model/token';
 import { TokenType } from '../../model/tokenType';
 
+const isAnchor = identical(TokenType.Anchor);
+const getTokenType: (token: Token) => TokenType = prop<TokenType>('getTokenType');
+const hasAnchorAtPosition = compose(isAnchor, getTokenType, getTokenAt);
+
+const isWall = identical(Border.Wall);
+const hasWallAtPosition = compose(isWall, getBorderAt);
+
 const canShove = (game: Game, pos: Position, dir: Direction): boolean => {
-	if (game.getGameBoard().getTokenAt(pos).getTokenType() === TokenType.Anchor) {
-		return false;
-	}
-
-	if (getBorderAt(game, pos, dir) === Border.Wall) {
-		return false;
-	}
-
-	if (!game.getGameBoard().hasTokenAt(pos)) {
+	if (!hasTokenAt(game, pos)) {
 		return true;
 	}
 
-	return canShove(game, getNextPosition(dir, pos), dir);
+	return !hasAnchorAtPosition(game, pos)
+		&& !hasWallAtPosition(game, pos, dir)
+		&& canShove(game, getNextPosition(dir, pos), dir);
 };
 
 const isShoveableToken = (game: Game, token: Token): boolean =>
 	both(identical(TokenType.Bully), isTokenForPlayer(game.getTurn()))(token);
 
 export const validateShove =
-curry((game: Game, pos: Position, dir: Direction): boolean => {
-	// Can not shove an empty space
-	if (!game.getGameBoard().hasTokenAt(pos)) {
-		return false;
-	}
-
-	// If the next space is empty, it's a move not a shove
-	if (!game.getGameBoard().hasTokenAt(getNextPosition(dir, pos))) {
-		return false;
-	}
-
-	return isShoveableToken(game, game.getGameBoard().getTokenAt(pos))
-		&& canShove(game, pos, dir);
-});
+curry((game: Game, pos: Position, dir: Direction): boolean =>
+	hasTokenAt(game, pos)
+		&& hasTokenAt(game, getNextPosition(dir, pos))
+		&& isShoveableToken(game, getTokenAt(game, pos))
+		&& canShove(game, pos, dir));
