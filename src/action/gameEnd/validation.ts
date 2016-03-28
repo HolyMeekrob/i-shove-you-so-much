@@ -1,7 +1,7 @@
-import { any, chain, curry, either, inc, isEmpty, tail, unnest } from 'ramda';
+import { any, chain, compose, curry, either, identical, inc, isEmpty, prop, tail, unnest } from 'ramda';
 import { iterateN, iterateWhile } from '../../util/iterate';
 import { getTokenPositionsForCurrentPlayer } from '../../util/game';
-import { getFloorAt } from '../../util/game';
+import { getFloorAt, getTokenPositions } from '../../util/game';
 
 import { validateMove } from '../move/validation';
 import { validateShove } from '../shove/validation';
@@ -11,6 +11,7 @@ import { move } from '../move/action';
 import { Direction, getAllDirections } from '../../model/direction';
 import { Floor } from '../../model/floor';
 import { Game } from '../../model/game';
+import { Position } from '../../model/position';
 import { TokenPosition } from '../../model/tokenPosition';
 
 const getAllPossibleMoveAmountsForPositionDirection =
@@ -36,9 +37,9 @@ curry((game: Game, tp: TokenPosition): Game[] =>
 	unnest(getAllDirections().filter(validateShove(game, tp.position))
 		.map(shove(game, tp.position))));
 
-const getAllValidShoveOutcomes = curry((game: Game): Game[] =>
+const getAllValidShoveOutcomes = (game: Game): Game[] =>
 	chain(getAllValidShoveOutcomesForTokenPosition(game),
-		getTokenPositionsForCurrentPlayer(game)));
+		getTokenPositionsForCurrentPlayer(game));
 
 const getAllPossibleMoveOutcomesForCurrentPlayer = (game: Game): Game[] =>
 	unnest(iterateN(chain(getAllSingleMoveOutcomes), game.getMovesRemaining(), [game]));
@@ -46,14 +47,15 @@ const getAllPossibleMoveOutcomesForCurrentPlayer = (game: Game): Game[] =>
 const getAllPossibleTurnOutcomesForCurrentPlayer = (game: Game): Game[] =>
 	unnest(getAllPossibleMoveOutcomesForCurrentPlayer(game).map(getAllValidShoveOutcomes));
 
-const isTokenPositionInPit = curry((game: Game, tp: TokenPosition): boolean =>
-	getFloorAt(game, tp.position) === Floor.Pit);
+const isPit = identical(Floor.Pit);
+const isPositionInPit = curry(compose(isPit, getFloorAt));
+const getPosition: (tp: TokenPosition) => Position = prop<Position>('position');
 
 const hasTokenInPit = (game: Game): boolean =>
-	any(isTokenPositionInPit(game), game.getGameBoard().getTokenPositions());
+	any(compose(isPositionInPit(game), getPosition), getTokenPositions(game));
 
-const isPlayerStuck = curry((game: Game): boolean =>
-	isEmpty(getAllPossibleTurnOutcomesForCurrentPlayer(game)));
+const isPlayerStuck =
+	compose(isEmpty, getAllPossibleTurnOutcomesForCurrentPlayer);
 
 export const isGameOver: (game: Game) => boolean =
 	either(hasTokenInPit, isPlayerStuck);
