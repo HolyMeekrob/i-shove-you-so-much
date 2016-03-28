@@ -1,4 +1,4 @@
-import { both, compose, curry, identical, prop } from 'ramda';
+import { both, compose, curry, identical } from 'ramda';
 import { isTokenForPlayer } from '../../util/playerType';
 import { getBorderAt, getTokenAt, hasTokenAt } from '../../util/game';
 import { getNextPosition } from '../../util/position';

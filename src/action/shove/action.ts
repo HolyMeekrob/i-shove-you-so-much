@@ -1,4 +1,6 @@
-import { contains, curry } from 'ramda';
+import { contains, curry, map } from 'ramda';
+import { getTokenAt, hasTokenAt } from '../../util/game';
+import { iterateWhile } from '../../util/iterate';
 import { getNextPlayerTurn } from '../../util/playerType';
 import { getNextPosition } from '../../util/position';
 import { validateShove } from './validation';
@@ -12,14 +14,9 @@ import { TokenPosition } from '../../model/tokenPosition';
 import { TokenType } from '../../model/tokenType';
 
 const getShovedTokens =
-(game: Game, pos: Position, dir: Direction, tokens: Token[] = []): Token[] => {
-	if (!game.getGameBoard().hasTokenAt(pos)) {
-		return tokens;
-	}
-
-	return getShovedTokens(game, getNextPosition(dir, pos), dir,
-		tokens.concat(game.getGameBoard().getTokenAt(pos)));
-};
+(game: Game, pos: Position, dir: Direction): Token[] =>
+	map(getTokenAt(game),
+		iterateWhile<Position>(getNextPosition(dir), hasTokenAt(game), pos));
 
 const getShoveResults =
 curry((game: Game, pos: Position, dir: Direction): TokenPosition[] => {
