@@ -1,12 +1,11 @@
 import { any, chain, compose, curry, either, identical, inc, isEmpty, prop, tail, unnest } from 'ramda';
+import { getFloorAt, getTokenPositions, getTokenPositionsForCurrentPlayer } from '../../util/game';
 import { iterateN, iterateWhile } from '../../util/iterate';
-import { getTokenPositionsForCurrentPlayer } from '../../util/game';
-import { getFloorAt, getTokenPositions } from '../../util/game';
 
-import { validateMove } from '../move/validation';
-import { validateShove } from '../shove/validation';
-import { shove } from '../shove/action';
 import { move } from '../move/action';
+import { validateMove } from '../move/validation';
+import { shove } from '../shove/action';
+import { validateShove } from '../shove/validation';
 
 import { Direction, getAllDirections } from '../../model/direction';
 import { Floor } from '../../model/floor';

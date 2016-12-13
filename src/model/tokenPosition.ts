@@ -1,5 +1,5 @@
-import { Token } from './token';
 import { Position } from './position';
+import { Token } from './token';
 
 export class TokenPosition {
 	private _token: Token;

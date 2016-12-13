@@ -66,8 +66,6 @@ test('game.getRules() with no given ruleset', (assert: test.Test): void => {
 
 	const game = new Game(playerOne, playerTwo, gameBoard);
 
-	assert.equal(game.getRules() !== undefined && game.getRules() !== null,
-		true, 'defaults to a ruleset object');
 	assert.equal(game.getRules().getMovesPerTurn(), defaultMovesPerTurn,
 		'defaults to two moves per turn');
 	assert.end();

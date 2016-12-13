@@ -66,7 +66,7 @@ test('gameBoard.getTokenAt() for a position without a token', (assert: test.Test
 		new Token(PlayerType.PlayerOne, TokenType.Bully), new Position(x, y));
 	const gb = new GameBoard(board, tp);
 
-	assert.equal(gb.getTokenAt(new Position(x + 1, y)), undefined, 'returns undefined');
+	assert.throws(() => gb.getTokenAt(new Position(x + 1, y)), 'throws an error');
 	assert.end();
 });
 

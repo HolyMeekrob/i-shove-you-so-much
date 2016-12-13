@@ -1,7 +1,8 @@
 import { complement, curry, last } from 'ramda';
+
+import { getTokenAt, getTokenPositions } from '../../util/game';
 import { iterateN } from '../../util/iterate';
 import { getNextPosition } from '../../util/position';
-import { getTokenAt, getTokenPositions } from '../../util/game';
 import { validateMove } from './validation';
 
 import { Direction } from '../../model/direction';

@@ -28,7 +28,7 @@ export const getTokenAt = curry((game: Game, pos: Position): Token =>
 export const getSquareAt = curry((game: Game, pos: Position): Square =>
 	getBoard(game).getSquareAt(pos));
 
-export const getFloorAt =	curry((game: Game, pos: Position) =>
+export const getFloorAt = curry((game: Game, pos: Position) =>
 	getSquareAt(game, pos).getFloorType());
 
 export const getBorderAt = curry((game: Game, pos: Position, dir: Direction): Border =>

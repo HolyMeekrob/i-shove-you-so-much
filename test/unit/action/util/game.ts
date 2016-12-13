@@ -8,6 +8,7 @@ import {
 import { Board } from '../../../../src/model/board';
 import { Game } from '../../../../src/model/game';
 import { GameBoard } from '../../../../src/model/gameBoard';
+import { Player } from '../../../../src/model/Player';
 import { PlayerType } from '../../../../src/model/playerType';
 import { Position } from '../../../../src/model/position';
 import { Ruleset } from '../../../../src/model/ruleset';
@@ -57,8 +58,10 @@ test('util.getTokenPositionsForCurrentPlayer()', (assert: test.Test): void => {
 		playerTwoTokenPositionThree
 	];
 
-	const game = new Game(null, null, new GameBoard(new Board(), ...tokenPositions),
-	new Ruleset(2), PlayerType.PlayerOne);
+	const playerOne = new Player('Player One');
+	const playerTwo = new Player('Player Two');
+	const game = new Game(playerOne, playerTwo, new GameBoard(new Board(), ...tokenPositions),
+		new Ruleset(2), PlayerType.PlayerOne);
 
 	const result = getTokenPositionsForCurrentPlayer(game);
 	assert.equal(result.length, 3, 'returns the correct number of player tokens');

@@ -1,6 +1,7 @@
 import { complement, compose, curry, either, identical } from 'ramda';
-import { isTokenForPlayer } from '../../util/playerType';
+
 import { getBorderAt, getFloorAt, hasTokenAt } from '../../util/game';
+import { isTokenForPlayer } from '../../util/playerType';
 import { getNextPosition } from '../../util/position';
 
 import { Border } from '../../model/border';

@@ -1,7 +1,7 @@
-import { Floor } from './floor';
-import { Start } from './start';
 import { Border } from './border';
 import { Direction } from './direction';
+import { Floor } from './floor';
+import { Start } from './start';
 
 export class Square {
 	private borders: Border[] = new Array(4);

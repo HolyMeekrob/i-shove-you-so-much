@@ -13,8 +13,7 @@ import { Token } from '../../model/token';
 import { TokenPosition } from '../../model/tokenPosition';
 import { TokenType } from '../../model/tokenType';
 
-const getShovedTokens =
-(game: Game, pos: Position, dir: Direction): Token[] =>
+const getShovedTokens = (game: Game, pos: Position, dir: Direction): Token[] =>
 	map(getTokenAt(game),
 		iterateWhile<Position>(getNextPosition(dir), hasTokenAt(game), pos));
 
