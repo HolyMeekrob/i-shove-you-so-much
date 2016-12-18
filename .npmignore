@@ -10,7 +10,7 @@ node_modules/
 
 # Settings
 .vscode
-jsconfig.json
+tsconfig.json
 *d.ts
 
 # Tests
