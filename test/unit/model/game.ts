@@ -9,40 +9,40 @@ import { Ruleset } from '../../../src/model/ruleset';
 const getGameBoard = (): GameBoard =>
 	new GameBoard(new Board());
 
-test('game.getPlayerOne()', (assert: test.Test): void => {
+test('game.playerOne', (assert: test.Test): void => {
 	const playerOne = new Player('Player One');
 	const playerTwo = new Player('Player Two');
 	const gameBoard = getGameBoard();
 	const game = new Game(playerOne, playerTwo, gameBoard);
 
-	assert.equal(game.getPlayerOne(), playerOne,
+	assert.equal(game.playerOne, playerOne,
 		'returns the first player');
 	assert.end();
 });
 
-test('game.getPlayerTwo()', (assert: test.Test): void => {
+test('game.playerTwo', (assert: test.Test): void => {
 	const playerOne = new Player('Player One');
 	const playerTwo = new Player('Player Two');
 	const gameBoard = getGameBoard();
 	const game = new Game(playerOne, playerTwo, gameBoard);
 
-	assert.equal(game.getPlayerTwo(), playerTwo,
+	assert.equal(game.playerTwo, playerTwo,
 		'returns the second player');
 	assert.end();
 });
 
-test('game.getGameBoard()', (assert: test.Test): void => {
+test('game.gameBoard', (assert: test.Test): void => {
 	const playerOne = new Player('Player One');
 	const playerTwo = new Player('Player Two');
 	const gameBoard = getGameBoard();
 
 	const game = new Game(playerOne, playerTwo, gameBoard);
-	assert.equal(game.getGameBoard(), gameBoard,
+	assert.equal(game.gameBoard, gameBoard,
 		'returns the given game board');
 	assert.end();
 });
 
-test('game.getRules()', (assert: test.Test): void => {
+test('game.rules', (assert: test.Test): void => {
 	const playerOne = new Player('Player One');
 	const playerTwo = new Player('Player Two');
 	const gameBoard = getGameBoard();
@@ -53,11 +53,11 @@ test('game.getRules()', (assert: test.Test): void => {
 
 	const game = new Game(playerOne, playerTwo, gameBoard, rules, turn);
 
-	assert.equal(game.getRules(), rules, 'returns the given ruleset');
+	assert.equal(game.rules, rules, 'returns the given ruleset');
 	assert.end();
 });
 
-test('game.getRules() with no given ruleset', (assert: test.Test): void => {
+test('game.rules with no given ruleset', (assert: test.Test): void => {
 	const playerOne = new Player('Player One');
 	const playerTwo = new Player('Player Two');
 	const gameBoard = getGameBoard();
@@ -66,7 +66,7 @@ test('game.getRules() with no given ruleset', (assert: test.Test): void => {
 
 	const game = new Game(playerOne, playerTwo, gameBoard);
 
-	assert.equal(game.getRules().getMovesPerTurn(), defaultMovesPerTurn,
+	assert.equal(game.rules.movesPerTurn, defaultMovesPerTurn,
 		'defaults to two moves per turn');
 	assert.end();
 });
@@ -82,7 +82,7 @@ test('game.getPlayerTurn()', (assert: test.Test): void => {
 
 	const game = new Game(playerOne, playerTwo, gameBoard, rules, turn);
 
-	assert.equal(game.getTurn(), turn, 'returns the given turn');
+	assert.equal(game.playerTurn, turn, 'returns the given turn');
 	assert.end();
 });
 
@@ -93,7 +93,7 @@ test('game.getPlayerTurn() with no given player turn', (assert: test.Test): void
 
 	const game = new Game(playerOne, playerTwo, gameBoard);
 
-	assert.equal(game.getTurn(), PlayerType.PlayerOne,
+	assert.equal(game.playerTurn, PlayerType.PlayerOne,
 		'defaults to the first player');
 	assert.end();
 });

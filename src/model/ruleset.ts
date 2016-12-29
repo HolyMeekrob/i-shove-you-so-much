@@ -1,5 +1,3 @@
 export class Ruleset {
-	constructor(private movesPerTurn: number) {}
-
-	public getMovesPerTurn = (): number => this.movesPerTurn;
+	constructor(public readonly movesPerTurn: number) {}
 }

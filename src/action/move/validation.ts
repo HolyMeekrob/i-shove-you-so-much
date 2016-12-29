@@ -35,12 +35,12 @@ const hasEmptyPath =
 };
 
 const isMoveableToken = (game: Game, pos: Position): boolean =>
-	isTokenForPlayer(game.getTurn(), game.getGameBoard().getTokenAt(pos));
+	isTokenForPlayer(game.playerTurn, game.gameBoard.getTokenAt(pos));
 
 export const validateMove =
 curry((game: Game, pos: Position, dir: Direction, spaces: number): boolean =>
 	(spaces > 0)
-		&& game.getGameBoard().hasTokenAt(pos)
+		&& game.gameBoard.hasTokenAt(pos)
 		&& isMoveableToken(game, pos)
 		&& isNotMovingThroughWall(game, pos, dir)
 		&& hasEmptyPath(game, getNextPosition(dir, pos), dir, spaces - 1));

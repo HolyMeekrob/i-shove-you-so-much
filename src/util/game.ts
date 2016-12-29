@@ -11,10 +11,10 @@ import { Token } from '../model/token';
 import { TokenPosition } from '../model/tokenPosition';
 
 export const getGameBoard = (game: Game): GameBoard =>
-	game.getGameBoard();
+	game.gameBoard;
 
 export const getBoard = (game: Game): Board =>
-	getGameBoard(game).getBoard();
+	getGameBoard(game).board;
 
 export const getTokenPositions = (game: Game): TokenPosition[] =>
 	getGameBoard(game).getTokenPositions();
@@ -29,13 +29,13 @@ export const getSquareAt = curry((game: Game, pos: Position): Square =>
 	getBoard(game).getSquareAt(pos));
 
 export const getFloorAt = curry((game: Game, pos: Position) =>
-	getSquareAt(game, pos).getFloorType());
+	getSquareAt(game, pos).floorType);
 
 export const getBorderAt = curry((game: Game, pos: Position, dir: Direction): Border =>
 	getSquareAt(game, pos).getBorder(dir));
 
 export const isTokenForCurrentPlayer = curry((game: Game, token: Token) =>
-	game.getTurn() === token.getPlayerType());
+	game.playerTurn === token.playerType);
 
 export const isTokenPositionForCurrentPlayer = curry((game: Game, tp: TokenPosition) =>
 	isTokenForCurrentPlayer(game, tp.token));

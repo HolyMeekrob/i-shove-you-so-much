@@ -6,20 +6,14 @@ import { Ruleset } from './ruleset';
 const DEFAULT_MOVES_PER_TURN: number = 2;
 
 export class Game {
-	constructor (private playerOne: Player, private playerTwo: Player,
-		private gameBoard: GameBoard,
-		private rules: Ruleset = new Ruleset(DEFAULT_MOVES_PER_TURN),
-		private playerTurn: PlayerType = PlayerType.PlayerOne,
-		private usedMoves: number = 0) {}
-
-	public getPlayerOne = (): Player => this.playerOne;
-	public getPlayerTwo = (): Player => this.playerTwo;
-	public getGameBoard = (): GameBoard => this.gameBoard;
-	public getRules = (): Ruleset => this.rules;
-	public getTurn = (): PlayerType => this.playerTurn;
+	constructor (public readonly playerOne: Player, public readonly playerTwo: Player,
+		public readonly gameBoard: GameBoard,
+		public readonly rules: Ruleset = new Ruleset(DEFAULT_MOVES_PER_TURN),
+		public readonly playerTurn: PlayerType = PlayerType.PlayerOne,
+		public readonly usedMoves: number = 0) {}
 
 	public hasMovesRemaining = (): boolean => this.getMovesRemaining() > 0;
 
 	public getMovesRemaining = (): number =>
-		this.rules.getMovesPerTurn() - this.usedMoves;
+		this.rules.movesPerTurn - this.usedMoves;
 }

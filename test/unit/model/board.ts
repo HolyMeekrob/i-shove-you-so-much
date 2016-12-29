@@ -19,11 +19,11 @@ test('new Board() given a non-rectangle', (assert: test.Test): void => {
 	assert.end();
 });
 
-test('board.getSquares()', (assert: test.Test): void => {
+test('board.squares', (assert: test.Test): void => {
 	const squares = getSquares();
 	const board = new Board(squares);
 
-	assert.deepEqual(board.getSquares(), squares, 'returns the given squares');
+	assert.deepEqual(board.squares, squares, 'returns the given squares');
 	assert.end();
 });
 

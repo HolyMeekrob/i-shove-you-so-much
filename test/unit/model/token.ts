@@ -1,22 +1,22 @@
 import * as test from 'tape';
-import { Token } from '../../../src/model/token';
 import { PlayerType } from '../../../src/model/playerType';
+import { Token } from '../../../src/model/token';
 import { TokenType } from '../../../src/model/tokenType';
 
-test('token.getPlayerType()', (assert: test.Test): void => {
+test('token.playerType', (assert: test.Test): void => {
 	const player = PlayerType.PlayerTwo;
 	const tokenType = TokenType.Bully;
 	const gameToken = new Token(player, tokenType);
 
-	assert.equal(gameToken.getPlayerType(), player, 'returns the player type');
+	assert.equal(gameToken.playerType, player, 'returns the player type');
 	assert.end();
 });
 
-test('token.getTokenType()', (assert: test.Test): void => {
+test('token.tokenType', (assert: test.Test): void => {
 	const player = PlayerType.PlayerOne;
 	const tokenType = TokenType.Victim;
 	const gameToken = new Token(player, tokenType);
 
-	assert.equal(gameToken.getTokenType(), tokenType, 'returns the token type');
+	assert.equal(gameToken.tokenType, tokenType, 'returns the token type');
 	assert.end();
 });

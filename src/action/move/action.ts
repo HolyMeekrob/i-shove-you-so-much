@@ -34,9 +34,9 @@ curry((game: Game, pos: Position, dir: Direction, spaces: number): Game => {
 		throw new Error('Invalid move');
 	}
 
-	const newBoard = new GameBoard(game.getGameBoard().getBoard(),
+	const newBoard = new GameBoard(game.gameBoard.board,
 		...getMoveResults(game, pos, dir, spaces));
 
-	return new Game(game.getPlayerOne(), game.getPlayerTwo(),
-		newBoard, game.getRules(), game.getTurn(), game.getMovesRemaining() - 1);
+	return new Game(game.playerOne, game.playerTwo,
+		newBoard, game.rules, game.playerTurn, game.getMovesRemaining() - 1);
 });

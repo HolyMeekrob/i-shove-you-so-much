@@ -1,5 +1,3 @@
 export class Player {
-	constructor(private playerName: string) {}
-
-	public getName = (): string => this.playerName;
+	constructor(public readonly name: string) {}
 }

@@ -14,9 +14,9 @@ export class GameBoard {
 		return '';
 	}
 
-	private _tokenPositions: TokenPosition[];
+	private readonly _tokenPositions: TokenPosition[];
 
-	constructor (private board: Board, ...tokenPositions: TokenPosition[]) {
+	constructor (public readonly board: Board, ...tokenPositions: TokenPosition[]) {
 			this._tokenPositions = tokenPositions;
 			const message = GameBoard.validateGameBoard(board, tokenPositions);
 			if (message.length > 0) {
@@ -26,8 +26,6 @@ export class GameBoard {
 
 	private arePositionsEqual = curry((position: Position, tokenPosition: TokenPosition): boolean =>
 		position.equals(tokenPosition.position));
-
-	public getBoard = (): Board => this.board;
 
 	public hasTokenAt = (position: Position): boolean =>
 		any(this.arePositionsEqual(position), this._tokenPositions);

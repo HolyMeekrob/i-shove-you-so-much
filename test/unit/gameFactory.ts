@@ -1,7 +1,7 @@
 import { Board } from '../../src/model/board';
 import { Border } from '../../src/model/border';
-import { Game } from '../../src/model/game';
 import { Floor } from '../../src/model/floor';
+import { Game } from '../../src/model/game';
 import { GameBoard } from '../../src/model/gameBoard';
 import { Player } from '../../src/model/player';
 import { PlayerType } from '../../src/model/playerType';
@@ -40,8 +40,8 @@ const getSimpleGameBoard = (): GameBoard => {
 	return new GameBoard(getSimpleBoard(), ...tokenPositions);
 };
 
-export const getSimpleGame = (): Game =>
-	new Game(getPlayerOne(), getPlayerTwo(), getSimpleGameBoard());
+export const getSimpleGame = (playerTurn: PlayerType = PlayerType.PlayerOne): Game =>
+	new Game(getPlayerOne(), getPlayerTwo(), getSimpleGameBoard(), undefined, playerTurn);
 
 const getThreeByThreeGameBoard = (): Board =>
 	new Board([

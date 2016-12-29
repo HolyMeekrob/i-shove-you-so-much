@@ -106,14 +106,13 @@ export class Board {
 		return '';
 	}
 
-	constructor(private squares: Square[][] = defaultBoard) {
-		const message = Board.validateBoard(this.squares);
+	constructor(public readonly squares: Square[][] = defaultBoard) {
+		const message = Board.validateBoard(squares);
 		if (message.length > 0) {
 			throw new Error(`Invalid board: ${message}`);
 		}
 	}
 
-	public getSquares = (): Square[][] => clone(this.squares);
 	public hasSquareAt = (pos: Position): boolean =>
 		this.squares.length > pos.x && this.squares[pos.x].length > pos.y;
 

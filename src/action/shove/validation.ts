@@ -14,7 +14,7 @@ import { TokenType } from '../../model/tokenType';
 const isAnchor = identical(TokenType.Anchor);
 const isBully = identical(TokenType.Bully);
 
-const getTokenType = (token: Token): TokenType => token.getTokenType();
+const getTokenType = (token: Token): TokenType => token.tokenType;
 const hasAnchorAtPosition = compose(isAnchor, getTokenType, getTokenAt);
 
 const tokenIsBully = compose(isBully, getTokenType);
@@ -33,7 +33,7 @@ const canShove = (game: Game, pos: Position, dir: Direction): boolean => {
 };
 
 const isShoveableToken = (game: Game, token: Token): boolean =>
-	both(tokenIsBully, isTokenForPlayer(game.getTurn()))(token);
+	both(tokenIsBully, isTokenForPlayer(game.playerTurn))(token);
 
 export const validateShove =
 curry((game: Game, pos: Position, dir: Direction): boolean =>

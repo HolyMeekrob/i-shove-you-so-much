@@ -21,18 +21,18 @@ const getShoveResults =
 curry((game: Game, pos: Position, dir: Direction): TokenPosition[] => {
 	const shovedTokens = getShovedTokens(game, pos, dir);
 
-	return game.getGameBoard().getTokenPositions().map((tp: TokenPosition) => {
+	return game.gameBoard.getTokenPositions().map((tp: TokenPosition) => {
 		// The former anchor reverts to a bully
-		if (tp.token.getTokenType() === TokenType.Anchor) {
+		if (tp.token.tokenType === TokenType.Anchor) {
 			return new TokenPosition(
-				new Token(tp.token.getPlayerType(), TokenType.Bully),
+				new Token(tp.token.playerType, TokenType.Bully),
 				tp.position);
 		}
 
 		// The initiating bully becomes an anchor
 		if (tp.position.equals(pos)) {
 			return new TokenPosition(
-				new Token(tp.token.getPlayerType(), TokenType.Anchor),
+				new Token(tp.token.playerType, TokenType.Anchor),
 				getNextPosition(dir, tp.position));
 		}
 
@@ -51,10 +51,10 @@ export const shove = curry((game: Game, pos: Position, dir: Direction): Game => 
 		throw new Error('Invalid shove');
 	}
 
-	const newBoard = new GameBoard(game.getGameBoard().getBoard(),
+	const newBoard = new GameBoard(game.gameBoard.board,
 		...getShoveResults(game, pos, dir));
 
-	return new Game(game.getPlayerOne(),
-		game.getPlayerTwo(), newBoard, game.getRules(),
-		getNextPlayerTurn(game.getTurn()));
+	return new Game(game.playerOne,
+		game.playerTwo, newBoard, game.rules,
+		getNextPlayerTurn(game.playerTurn));
 });

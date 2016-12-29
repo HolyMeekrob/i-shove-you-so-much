@@ -21,11 +21,11 @@ test('new GameBoard() with invalid token positions', (assert: test.Test): void =
 	assert.end();
 });
 
-test('gameBoard.getBoard()', (assert: test.Test): void => {
+test('gameBoard.board', (assert: test.Test): void => {
 	const board = new Board();
 	const gb = new GameBoard(board);
 
-	assert.equal(gb.getBoard(), board, 'returns the board');
+	assert.equal(gb.board, board, 'returns the board');
 	assert.end();
 });
 

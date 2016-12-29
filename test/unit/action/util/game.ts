@@ -1,5 +1,5 @@
-import * as test from 'tape';
 import * as sinon from 'sinon';
+import * as test from 'tape';
 
 import {
 	getTokenPositions, getTokenPositionsForCurrentPlayer, isTokenForCurrentPlayer
@@ -75,18 +75,16 @@ test('util.getTokenPositionsForCurrentPlayer()', (assert: test.Test): void => {
 });
 
 test('isTokenForCurrentPlayer() given a different player\'s token', (assert: test.Test): void => {
-	const game: Game = getSimpleGame();
+	const game: Game = getSimpleGame(PlayerType.PlayerTwo);
 	const token: Token = new Token(PlayerType.PlayerOne, TokenType.Bully);
-	sinon.stub(game, 'getTurn', () => PlayerType.PlayerTwo);
 
 	assert.equal(isTokenForCurrentPlayer(game, token), false, 'returns false');
 	assert.end();
 });
 
 test('isTokenForCurrentPlayer() given the same player\'s token', (assert: test.Test): void => {
-	const game = getSimpleGame();
+	const game = getSimpleGame(PlayerType.PlayerTwo);
 	const token = new Token(PlayerType.PlayerTwo, TokenType.Bully);
-	sinon.stub(game, 'getTurn', () => PlayerType.PlayerTwo);
 
 	assert.equal(isTokenForCurrentPlayer(game, token), true, 'returns true');
 	assert.end();

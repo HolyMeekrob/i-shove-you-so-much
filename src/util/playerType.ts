@@ -4,7 +4,7 @@ import { PlayerType } from '../model/playerType';
 import { Token } from '../model/token';
 
 export const isTokenForPlayer = curry((player: PlayerType, token: Token): boolean =>
-	token.getPlayerType() === player);
+	token.playerType === player);
 
 export const getNextPlayerTurn = (currentTurn: PlayerType): PlayerType =>
 	currentTurn === PlayerType.PlayerOne
