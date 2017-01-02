@@ -1,10 +1,11 @@
 import * as test from 'tape';
 
 import { getSimpleGame, getTwoVersusTwoGame } from '../../gameFactory';
-import { validateMove } from '../../../../src/action/move/validation';
 
-import { Direction } from '../../../../src/model/direction';
-import { Position } from '../../../../src/model/position';
+import { Direction } from '../../../../src/game/model/direction';
+import { Position } from '../../../../src/game/model/position';
+
+import { validateMove } from '../../../../src/game/action/move/validation';
 
 test('validateMove() given a non-positive space count', (assert: test.Test): void => {
 	const game = getSimpleGame();

@@ -1,0 +1,10 @@
+<template>
+	<require from="/assets/styles/player-color.css"></require>
+
+	<select value.bind="color">
+		<option repeat.for="colorOption of colors" model.bind="colorOption.hex">
+			${colorOption.name}
+		</option>
+	</select>
+	<div class="sample" style.bind="sampleStyle"></div>
+</template>

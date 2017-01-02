@@ -1,13 +1,13 @@
 import * as test from 'tape';
 
-import { shove } from '../../../../src/action/shove/action';
-import { getTokenAt } from '../../../../src/util/game';
-import { getNextPlayerTurn } from '../../../../src/util/playerType';
+import { shove } from '../../../../src/game/action/shove/action';
+import { getTokenAt } from '../../../../src/game/util/game';
+import { getNextPlayerTurn } from '../../../../src/game/util/playerType';
 import { getThreeVersusThreeGame } from '../../gameFactory';
 
-import { Direction } from '../../../../src/model/direction';
-import { Position } from '../../../../src/model/position';
-import { TokenType } from '../../../../src/model/tokenType';
+import { Direction } from '../../../../src/game/model/direction';
+import { Position } from '../../../../src/game/model/position';
+import { TokenType } from '../../../../src/game/model/tokenType';
 
 test('shove()', (assert: test.Test): void => {
 	const game = getThreeVersusThreeGame();

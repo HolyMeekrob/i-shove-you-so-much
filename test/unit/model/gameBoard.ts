@@ -1,11 +1,11 @@
 import * as test from 'tape';
-import { Board } from '../../../src/model/board';
-import { GameBoard } from '../../../src/model/gameBoard';
-import { PlayerType } from '../../../src/model/playerType';
-import { Position } from '../../../src/model/position';
-import { Token } from '../../../src/model/token';
-import { TokenPosition } from '../../../src/model/tokenPosition';
-import { TokenType } from '../../../src/model/tokenType';
+import { Board } from '../../../src/game/model/board';
+import { GameBoard } from '../../../src/game/model/gameBoard';
+import { PlayerType } from '../../../src/game/model/playerType';
+import { Position } from '../../../src/game/model/position';
+import { Token } from '../../../src/game/model/token';
+import { TokenPosition } from '../../../src/game/model/tokenPosition';
+import { TokenType } from '../../../src/game/model/tokenType';
 
 test('new GameBoard() with invalid token positions', (assert: test.Test): void => {
 	const board = new Board();

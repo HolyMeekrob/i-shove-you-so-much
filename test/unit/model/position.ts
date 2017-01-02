@@ -1,5 +1,5 @@
 import * as test from 'tape';
-import { Position } from '../../../src/model/position';
+import { Position } from '../../../src/game/model/position';
 
 test('new Position() with non-integers', (assert: test.Test): void => {
 	assert.throws(() => new Position(1.5, 2.1), 'throws an error');

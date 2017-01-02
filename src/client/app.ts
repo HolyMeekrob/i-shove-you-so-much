@@ -6,11 +6,15 @@ export class App {
 	public configureRouter(config: RouterConfiguration, router: Router): void {
 		this.router = router;
 		config.title = 'I Shove You So Much';
-		config.map([
-			{
+		config.map([{
 				route:		['', 'new-game'],
 				name:			'newGame',
-				moduleId:	'src/new-game/new-game' }
+				moduleId:	'src/pages/new-game/new-game'
+			}, {
+				route:		['game'],
+				name:			'game',
+				moduleId: 'src/pages/game/game'
+			}
 		]);
 	}
 }

@@ -1,5 +1,5 @@
 import * as test from 'tape';
-import { Ruleset } from '../../../src/model/ruleset';
+import { Ruleset } from '../../../src/game/model/ruleset';
 
 test('ruleset.movesPerTurn', (assert: test.Test): void => {
 	const movesPerTurn = 5;

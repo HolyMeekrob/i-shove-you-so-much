@@ -1,0 +1,72 @@
+div.loading > div:first-child {
+	display: inline-block;
+	width: 400px;
+	animation-duration: 3s;
+	animation-name: loading-bully;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+	position: relative;
+}
+
+div.loading > div:last-child {
+	display: inline-block;
+	animation-duration: 3s;
+	animation-name: loading-victim;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+	position: relative;
+}
+
+@keyframes loading-bully {
+	0% {
+		left: 0px;
+	}
+
+	30% {
+		left: 300px;
+	}
+
+	50% {
+		left: 300px;
+	}
+
+	80% {
+		left: 600px;
+	}
+
+	100% {
+		left: 600px;
+	}
+}
+
+@keyframes loading-victim {
+	0% {
+		left: 0px;
+	}
+
+	50% {
+		left: 0px;
+	}
+
+	80% {
+		left: 300px;
+	}
+
+	100% {
+		left: 300px;
+	}
+}
+
+.loading-bully {
+	height: 100px;
+	width: 100px;
+	background-color: #000000;
+	position: relative;
+}
+
+.loading-victim {
+	height: 100px;
+	width: 100px;
+	background-color: #0000ff;
+	border-radius: 50%;
+}

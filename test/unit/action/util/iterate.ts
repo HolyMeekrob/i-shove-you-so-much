@@ -1,6 +1,6 @@
 import * as test from 'tape';
 
-import { iterateWhile, iterateN } from '../../../../src/util/iterate';
+import { iterateN, iterateWhile } from '../../../../src/game/util/iterate';
 
 test('util.iterateWhile()', (assert: test.Test): void => {
 	const addOne = (x: number) => x + 1;

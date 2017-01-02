@@ -1,0 +1,30 @@
+<template>
+	<require from="../../custom-elements/player-color"></require>
+
+	<div>
+		${message}
+	</div>
+	<div>
+		<h2>Player One</h2>
+		<div>
+			<label for="player-one-name">Name:</label>
+			<input id="player-one-name" type="text" value.bind="playerOneName">
+		</div>
+		<div>
+			<label for="player-one-color">Color:</label>
+			<player-color color.bind="playerOneColor"></player-color>
+		</div>
+	</div>
+	<div>
+		<h2>Player Two</h2>
+		<div>
+			<label for="player-two-name">Name:</label>
+			<input id="player-two-name" type="text" value.bind="playerTwoName">
+		</div>
+		<label for="player-two-color">Color:</label>
+		<player-color color.bind="playerTwoColor"></player-color>
+	</div>
+	<div>
+		<input type="button" value="New Game" click.delegate="createNewGame()" />
+	</div>
+</template>

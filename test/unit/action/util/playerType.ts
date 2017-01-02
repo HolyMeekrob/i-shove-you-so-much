@@ -1,13 +1,13 @@
 import * as test from 'tape';
 
-import { isTokenForPlayer, getNextPlayerTurn }
-	from '../../../../src/util/playertype';
+import { getNextPlayerTurn, isTokenForPlayer }
+	from '../../../../src/game/util/playertype';
 
-import { PlayerType } from '../../../../src/model/playerType';
-import { Token } from '../../../../src/model/token';
-import { TokenType } from '../../../../src/model/tokenType';
+import { PlayerType } from '../../../../src/game/model/playerType';
+import { Token } from '../../../../src/game/model/token';
+import { TokenType } from '../../../../src/game/model/tokenType';
 
-test('util.isTokenForPlayer() given the token for the given player',	(assert: test.Test): void => {
+test('util.isTokenForPlayer() given the token for the given player', (assert: test.Test): void => {
 	const player = PlayerType.PlayerTwo;
 
 	const token = new Token(player, TokenType.Bully);

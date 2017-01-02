@@ -1,10 +1,10 @@
 import * as test from 'tape';
 
-import { move } from '../../../../src/action/move/action';
+import { move } from '../../../../src/game/action/move/action';
 import { getSimpleGame } from '../../gameFactory';
 
-import { Direction } from '../../../../src/model/direction';
-import { Position } from '../../../../src/model/position';
+import { Direction } from '../../../../src/game/model/direction';
+import { Position } from '../../../../src/game/model/position';
 
 test('move()', (assert: test.Test): void => {
 	const game = getSimpleGame();

@@ -1,9 +1,9 @@
 import * as test from 'tape';
 
-import { getNextPosition } from '../../../../src/util/position';
+import { getNextPosition } from '../../../../src/game/util/position';
 
-import { Direction } from '../../../../src/model/direction';
-import { Position } from '../../../../src/model/position';
+import { Direction } from '../../../../src/game/model/direction';
+import { Position } from '../../../../src/game/model/position';
 
 test('util.getNextPosition for north', (assert: test.Test): void => {
 	const x = 5;

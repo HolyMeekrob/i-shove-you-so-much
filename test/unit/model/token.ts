@@ -1,7 +1,7 @@
 import * as test from 'tape';
-import { PlayerType } from '../../../src/model/playerType';
-import { Token } from '../../../src/model/token';
-import { TokenType } from '../../../src/model/tokenType';
+import { PlayerType } from '../../../src/game/model/playerType';
+import { Token } from '../../../src/game/model/token';
+import { TokenType } from '../../../src/game/model/tokenType';
 
 test('token.playerType', (assert: test.Test): void => {
 	const player = PlayerType.PlayerTwo;

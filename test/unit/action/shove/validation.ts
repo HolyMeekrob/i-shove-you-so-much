@@ -1,11 +1,12 @@
 import * as test from 'tape';
 
-import { getSimpleGame, getTwoVersusTwoGame, getThreeVersusThreeGame }
-	from '../../gameFactory';
-import { validateShove } from '../../../../src/action/shove/validation';
+import { Direction } from '../../../../src/game/model/direction';
+import { Position } from '../../../../src/game/model/position';
 
-import { Direction } from '../../../../src/model/direction';
-import { Position } from '../../../../src/model/position';
+import { validateShove } from '../../../../src/game/action/shove/validation';
+import { getSimpleGame, getThreeVersusThreeGame, getTwoVersusTwoGame }
+	from '../../gameFactory';
+
 
 test('validateShove() when there is no token at the given position', (assert: test.Test): void => {
 	const game = getSimpleGame();

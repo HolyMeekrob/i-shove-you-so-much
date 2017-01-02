@@ -1,19 +1,19 @@
-import { Board } from '../../src/model/board';
-import { Border } from '../../src/model/border';
-import { Floor } from '../../src/model/floor';
-import { Game } from '../../src/model/game';
-import { GameBoard } from '../../src/model/gameBoard';
-import { Player } from '../../src/model/player';
-import { PlayerType } from '../../src/model/playerType';
-import { Position } from '../../src/model/position';
-import { Square } from '../../src/model/square';
-import { Start } from '../../src/model/start';
-import { Token } from '../../src/model/token';
-import { TokenPosition } from '../../src/model/tokenPosition';
-import { TokenType } from '../../src/model/tokenType';
+import { Board } from '../../src/game/model/board';
+import { Border } from '../../src/game/model/border';
+import { Floor } from '../../src/game/model/floor';
+import { Game } from '../../src/game/model/game';
+import { GameBoard } from '../../src/game/model/gameBoard';
+import { Player } from '../../src/game/model/player';
+import { PlayerType } from '../../src/game/model/playerType';
+import { Position } from '../../src/game/model/position';
+import { Square } from '../../src/game/model/square';
+import { Start } from '../../src/game/model/start';
+import { Token } from '../../src/game/model/token';
+import { TokenPosition } from '../../src/game/model/tokenPosition';
+import { TokenType } from '../../src/game/model/tokenType';
 
-const getPlayerOne = (): Player => new Player('Player One');
-const getPlayerTwo = (): Player => new Player('Player Two');
+const getPlayerOne = (): Player => new Player('Player One', 0xff);
+const getPlayerTwo = (): Player => new Player('Player Two', 0xffffff);
 
 const getNorthWallSquare = () =>
 	new Square(Floor.Normal, Start.Neither, Border.Wall);

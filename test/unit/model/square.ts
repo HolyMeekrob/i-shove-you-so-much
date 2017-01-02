@@ -1,9 +1,9 @@
 import * as test from 'tape';
-import { Border } from '../../../src/model/border';
-import { Direction } from '../../../src/model/direction';
-import { Floor } from '../../../src/model/floor';
-import { Square } from '../../../src/model/square';
-import { Start } from '../../../src/model/start';
+import { Border } from '../../../src/game/model/border';
+import { Direction } from '../../../src/game/model/direction';
+import { Floor } from '../../../src/game/model/floor';
+import { Square } from '../../../src/game/model/square';
+import { Start } from '../../../src/game/model/start';
 
 test('square.floorType', (assert: test.Test): void => {
 	const floor = Floor.Pit;

@@ -1,17 +1,17 @@
 import * as test from 'tape';
-import { Board } from '../../../src/model/board';
-import { Game } from '../../../src/model/game';
-import { GameBoard } from '../../../src/model/gameBoard';
-import { Player } from '../../../src/model/player';
-import { PlayerType } from '../../../src/model/playerType';
-import { Ruleset } from '../../../src/model/ruleset';
+import { Board } from '../../../src/game/model/board';
+import { Game } from '../../../src/game/model/game';
+import { GameBoard } from '../../../src/game/model/gameBoard';
+import { Player } from '../../../src/game/model/player';
+import { PlayerType } from '../../../src/game/model/playerType';
+import { Ruleset } from '../../../src/game/model/ruleset';
 
 const getGameBoard = (): GameBoard =>
 	new GameBoard(new Board());
 
 test('game.playerOne', (assert: test.Test): void => {
-	const playerOne = new Player('Player One');
-	const playerTwo = new Player('Player Two');
+	const playerOne = new Player('Player One', 0x0);
+	const playerTwo = new Player('Player Two', 0xff);
 	const gameBoard = getGameBoard();
 	const game = new Game(playerOne, playerTwo, gameBoard);
 
@@ -21,8 +21,8 @@ test('game.playerOne', (assert: test.Test): void => {
 });
 
 test('game.playerTwo', (assert: test.Test): void => {
-	const playerOne = new Player('Player One');
-	const playerTwo = new Player('Player Two');
+	const playerOne = new Player('Player One', 0x0);
+	const playerTwo = new Player('Player Two', 0xff);
 	const gameBoard = getGameBoard();
 	const game = new Game(playerOne, playerTwo, gameBoard);
 
@@ -32,8 +32,8 @@ test('game.playerTwo', (assert: test.Test): void => {
 });
 
 test('game.gameBoard', (assert: test.Test): void => {
-	const playerOne = new Player('Player One');
-	const playerTwo = new Player('Player Two');
+	const playerOne = new Player('Player One', 0x0);
+	const playerTwo = new Player('Player Two', 0xff);
 	const gameBoard = getGameBoard();
 
 	const game = new Game(playerOne, playerTwo, gameBoard);
@@ -43,8 +43,8 @@ test('game.gameBoard', (assert: test.Test): void => {
 });
 
 test('game.rules', (assert: test.Test): void => {
-	const playerOne = new Player('Player One');
-	const playerTwo = new Player('Player Two');
+	const playerOne = new Player('Player One', 0x0);
+	const playerTwo = new Player('Player Two', 0xff);
 	const gameBoard = getGameBoard();
 	const turn = PlayerType.PlayerOne;
 
@@ -58,8 +58,8 @@ test('game.rules', (assert: test.Test): void => {
 });
 
 test('game.rules with no given ruleset', (assert: test.Test): void => {
-	const playerOne = new Player('Player One');
-	const playerTwo = new Player('Player Two');
+	const playerOne = new Player('Player One', 0x0);
+	const playerTwo = new Player('Player Two', 0xff);
 	const gameBoard = getGameBoard();
 
 	const defaultMovesPerTurn = 2;
@@ -72,8 +72,8 @@ test('game.rules with no given ruleset', (assert: test.Test): void => {
 });
 
 test('game.getPlayerTurn()', (assert: test.Test): void => {
-	const playerOne = new Player('Player One');
-	const playerTwo = new Player('Player Two');
+	const playerOne = new Player('Player One', 0x0);
+	const playerTwo = new Player('Player Two', 0xff);
 	const gameBoard = getGameBoard();
 	const turn = PlayerType.PlayerTwo;
 
@@ -87,8 +87,8 @@ test('game.getPlayerTurn()', (assert: test.Test): void => {
 });
 
 test('game.getPlayerTurn() with no given player turn', (assert: test.Test): void => {
-	const playerOne = new Player('Player One');
-	const playerTwo = new Player('Player Two');
+	const playerOne = new Player('Player One', 0x0);
+	const playerTwo = new Player('Player Two', 0xff);
 	const gameBoard = getGameBoard();
 
 	const game = new Game(playerOne, playerTwo, gameBoard);
@@ -99,8 +99,8 @@ test('game.getPlayerTurn() with no given player turn', (assert: test.Test): void
 });
 
 test('game.hasMovesRemaining() with no moves remaining', (assert: test.Test): void => {
-	const playerOne = new Player('Player One');
-	const playerTwo = new Player('Player Two');
+	const playerOne = new Player('Player One', 0x0);
+	const playerTwo = new Player('Player Two', 0xff);
 	const gameBoard = getGameBoard();
 	const turn = PlayerType.PlayerTwo;
 
@@ -115,8 +115,8 @@ test('game.hasMovesRemaining() with no moves remaining', (assert: test.Test): vo
 });
 
 test('game.hasMovesRemaining() with moves remaining', (assert: test.Test): void => {
-	const playerOne = new Player('Player One');
-	const playerTwo = new Player('Player Two');
+	const playerOne = new Player('Player One', 0x0);
+	const playerTwo = new Player('Player Two', 0xff);
 	const gameBoard = getGameBoard();
 	const turn = PlayerType.PlayerTwo;
 
@@ -131,8 +131,8 @@ test('game.hasMovesRemaining() with moves remaining', (assert: test.Test): void 
 });
 
 test('game.hasMovesRemaining() with all default values', (assert: test.Test): void => {
-	const playerOne = new Player('Player One');
-	const playerTwo = new Player('Player Two');
+	const playerOne = new Player('Player One', 0x0);
+	const playerTwo = new Player('Player Two', 0xff);
 	const gameBoard = getGameBoard();
 
 	const game = new Game(playerOne, playerTwo, gameBoard);
@@ -142,8 +142,8 @@ test('game.hasMovesRemaining() with all default values', (assert: test.Test): vo
 });
 
 test('game.getMovesRemaining() with a given number of used moves', (assert: test.Test): void => {
-	const playerOne = new Player('Player One');
-	const playerTwo = new Player('Player Two');
+	const playerOne = new Player('Player One', 0x0);
+	const playerTwo = new Player('Player Two', 0xff);
 	const gameBoard = getGameBoard();
 	const turn = PlayerType.PlayerTwo;
 
@@ -159,8 +159,8 @@ test('game.getMovesRemaining() with a given number of used moves', (assert: test
 });
 
 test('game.getMovesRemaining() without a given number of used moves', (assert: test.Test): void => {
-	const playerOne = new Player('Player One');
-	const playerTwo = new Player('Player Two');
+	const playerOne = new Player('Player One', 0x0);
+	const playerTwo = new Player('Player Two', 0xff);
 	const gameBoard = getGameBoard();
 	const defaultNumberOfTurnsRemaining = 2;
 

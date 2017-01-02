@@ -3,18 +3,18 @@ import * as test from 'tape';
 
 import {
 	getTokenPositions, getTokenPositionsForCurrentPlayer, isTokenForCurrentPlayer
-} from '../../../../src/util/game';
+} from '../../../../src/game/util/game';
 
-import { Board } from '../../../../src/model/board';
-import { Game } from '../../../../src/model/game';
-import { GameBoard } from '../../../../src/model/gameBoard';
-import { Player } from '../../../../src/model/Player';
-import { PlayerType } from '../../../../src/model/playerType';
-import { Position } from '../../../../src/model/position';
-import { Ruleset } from '../../../../src/model/ruleset';
-import { Token } from '../../../../src/model/token';
-import { TokenPosition } from '../../../../src/model/tokenPosition';
-import { TokenType } from '../../../../src/model/tokenType';
+import { Board } from '../../../../src/game/model/board';
+import { Game } from '../../../../src/game/model/game';
+import { GameBoard } from '../../../../src/game/model/gameBoard';
+import { Player } from '../../../../src/game/model/Player';
+import { PlayerType } from '../../../../src/game/model/playerType';
+import { Position } from '../../../../src/game/model/position';
+import { Ruleset } from '../../../../src/game/model/ruleset';
+import { Token } from '../../../../src/game/model/token';
+import { TokenPosition } from '../../../../src/game/model/tokenPosition';
+import { TokenType } from '../../../../src/game/model/tokenType';
 
 import { getSimpleGame } from '../../gameFactory';
 
@@ -58,8 +58,8 @@ test('util.getTokenPositionsForCurrentPlayer()', (assert: test.Test): void => {
 		playerTwoTokenPositionThree
 	];
 
-	const playerOne = new Player('Player One');
-	const playerTwo = new Player('Player Two');
+	const playerOne = new Player('Player One', 0x0);
+	const playerTwo = new Player('Player Two', 0xff);
 	const game = new Game(playerOne, playerTwo, new GameBoard(new Board(), ...tokenPositions),
 		new Ruleset(2), PlayerType.PlayerOne);
 

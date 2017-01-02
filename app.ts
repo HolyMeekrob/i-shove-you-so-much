@@ -1,10 +1,13 @@
 import * as Koa from 'koa';
-import * as Router from 'koa-router';
+import * as bodyParser from 'koa-bodyparser';
 import * as serve from 'koa-static';
 
-const router = new Router();
+import { getRouter } from './src/server/router';
+
 const app = new Koa();
 
-app.use(serve('./src/client'));
+app.use(bodyParser());
+app.use(serve('./src/client/'));
+app.use(getRouter());
 
 app.listen(3000);

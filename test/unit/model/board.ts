@@ -1,7 +1,7 @@
 import * as test from 'tape';
-import { Board } from '../../../src/model/board';
-import { Position } from '../../../src/model/position';
-import { Square } from '../../../src/model/square';
+import { Board } from '../../../src/game/model/board';
+import { Position } from '../../../src/game/model/position';
+import { Square } from '../../../src/game/model/square';
 
 const getSquares = (): Square[][] => [
 		[new Square(), new Square(), new Square()],
