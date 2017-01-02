@@ -1,34 +1,29 @@
 import { bindable, bindingMode, computedFrom } from 'aurelia-framework';
-
-interface IColor {
-	name: string;
-	hex: string;
-};
+import { Color, hexFormat } from '../../../game/model/color';
 
 export class PlayerColorCustomElement {
 	@bindable({ defaultBindingMode: bindingMode.twoWay })
-	public color: string | undefined;
+	public color: Color;
+
+	private get borderColor(): Color {
+		return this.color === 0xffffff ? 0x0 : 0xffffff;
+	}
 
 	@computedFrom('color')
 	get sampleStyle(): string {
-		const bgColor = this.color === undefined ? '#ffffff' : this.color;
-		const borderColor: string =
-			this.color !== undefined && this.color === '#ffffff'
-				? '#000000'
-				: '#ffffff';
-
-		return `background-color: ${bgColor}; border-color: ${borderColor};`;
+		return `background-color: ${hexFormat(this.color)};`
+			+ ` border-color: ${hexFormat(this.borderColor)};`;
 	}
 
 	public readonly colors = [
-		{ name: 'Black', hex: '#000000' },
-		{ hex: '#ffffff', name: 'White' },
-		{ hex: '#ff0000', name: 'Red' },
-		{ hex: '#008000', name: 'Green' },
-		{ hex: '#0000ff', name: 'Blue' },
-		{ hex: '#800080', name: 'Purple' },
-		{ hex: '#ffff00', name: 'Yellow' },
-		{ hex: '#a52a2a', name: 'Brown' },
-		{ hex: '#ff4500', name: 'Orange' }
+		{ name: 'Black', rgb: 0x000000 },
+		{ name: 'White', rgb: 0xffffff },
+		{ name: 'Red', rgb: 0xff0000 },
+		{ name: 'Green', rgb: 0x008000 },
+		{ name: 'Blue', rgb: 0x0000ff },
+		{ name: 'Purple', rgb: 0x800080 },
+		{ name: 'Yellow', rgb: 0xffff00 },
+		{ name: 'Brown', rgb: 0xa52a2a },
+		{ name: 'Orange', rgb: 0xff4500 }
 	];
 }
