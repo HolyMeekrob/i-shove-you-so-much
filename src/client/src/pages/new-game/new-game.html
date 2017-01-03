@@ -1,5 +1,6 @@
 <template>
 	<require from="../../custom-elements/player-color"></require>
+	<require from="../../custom-elements/board/square"></require>
 
 	<div>
 		${message}
@@ -26,5 +27,9 @@
 	</div>
 	<div>
 		<input type="button" value="New Game" click.delegate="createNewGame()" />
+	</div>
+	<div>
+		<h2>Board setup</h2>
+		<square square.bind="testSquare"></square>
 	</div>
 </template>

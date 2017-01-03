@@ -15,80 +15,67 @@ const two = Start.PlayerTwo;
 const open = Border.Open;
 const wall = Border.Wall;
 
-const defaultBoard = [
-	[
-		new Square(pit),
-		new Square(pit),
-		new Square(pit),
-		new Square(pit, neither, open, wall),
-		new Square(pit, neither, open, wall),
-		new Square(pit, neither, open, wall),
-		new Square(pit, neither, open, wall),
-		new Square(pit, neither, open, wall),
-		new Square(pit),
-		new Square(pit)
-	],
-	[
-		new Square(pit),
-		new Square(pit),
-		new Square(pit),
-		new Square(normal, one, open, open, open, wall),
-		new Square(normal, one, open, open, open, wall),
-		new Square(normal, two, open, open, open, wall),
-		new Square(normal, two, open, open, open, wall),
-		new Square(normal, two, open, open, open, wall),
-		new Square(pit),
-		new Square(pit)
-	],
-	[
-		new Square(pit),
-		new Square(normal, one),
-		new Square(normal, one),
-		new Square(normal, one),
-		new Square(normal, one),
-		new Square(normal, two),
-		new Square(normal, two),
-		new Square(normal, two),
-		new Square(normal, two),
-		new Square(pit)
-	],
-	[
-		new Square(pit),
-		new Square(normal, one),
-		new Square(normal, one),
-		new Square(normal, one),
-		new Square(normal, one),
-		new Square(normal, two),
-		new Square(normal, two),
-		new Square(normal, two),
-		new Square(normal, two),
-		new Square(pit)
-	],
-	[
-		new Square(pit),
-		new Square(pit),
-		new Square(normal, one, open, wall),
-		new Square(normal, one, open, wall),
-		new Square(normal, one, open, wall),
-		new Square(normal, two, open, wall),
-		new Square(normal, two, open, wall),
-		new Square(pit),
-		new Square(pit),
-		new Square(pit)
-	],
-	[
-		new Square(pit),
-		new Square(pit),
-		new Square(pit, neither, open, open, open, wall),
-		new Square(pit, neither, open, open, open, wall),
-		new Square(pit, neither, open, open, open, wall),
-		new Square(pit, neither, open, open, open, wall),
-		new Square(pit, neither, open, open, open, wall),
-		new Square(pit),
-		new Square(pit),
-		new Square(pit)
-	]
-];
+const defaultBoard = [[
+	new Square(pit),
+	new Square(pit),
+	new Square(pit),
+	new Square(pit, neither, open, wall),
+	new Square(pit, neither, open, wall),
+	new Square(pit, neither, open, wall),
+	new Square(pit, neither, open, wall),
+	new Square(pit, neither, open, wall),
+	new Square(pit),
+	new Square(pit)], [
+	new Square(pit),
+	new Square(pit),
+	new Square(pit),
+	new Square(normal, one, open, open, open, wall),
+	new Square(normal, one, open, open, open, wall),
+	new Square(normal, two, open, open, open, wall),
+	new Square(normal, two, open, open, open, wall),
+	new Square(normal, two, open, open, open, wall),
+	new Square(pit),
+	new Square(pit)], [
+	new Square(pit),
+	new Square(normal, one),
+	new Square(normal, one),
+	new Square(normal, one),
+	new Square(normal, one),
+	new Square(normal, two),
+	new Square(normal, two),
+	new Square(normal, two),
+	new Square(normal, two),
+	new Square(pit)], [
+	new Square(pit),
+	new Square(normal, one),
+	new Square(normal, one),
+	new Square(normal, one),
+	new Square(normal, one),
+	new Square(normal, two),
+	new Square(normal, two),
+	new Square(normal, two),
+	new Square(normal, two),
+	new Square(pit)], [
+	new Square(pit),
+	new Square(pit),
+	new Square(normal, one, open, wall),
+	new Square(normal, one, open, wall),
+	new Square(normal, one, open, wall),
+	new Square(normal, two, open, wall),
+	new Square(normal, two, open, wall),
+	new Square(pit),
+	new Square(pit),
+	new Square(pit)], [
+	new Square(pit),
+	new Square(pit),
+	new Square(pit, neither, open, open, open, wall),
+	new Square(pit, neither, open, open, open, wall),
+	new Square(pit, neither, open, open, open, wall),
+	new Square(pit, neither, open, open, open, wall),
+	new Square(pit, neither, open, open, open, wall),
+	new Square(pit),
+	new Square(pit),
+	new Square(pit)]];
 
 export class Board {
 	private static allSameLength = (arr: Square[][]): boolean =>
