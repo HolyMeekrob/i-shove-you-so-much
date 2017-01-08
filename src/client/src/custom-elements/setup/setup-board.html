@@ -1,0 +1,21 @@
+<template>
+	<require from="../board/board"></require>
+	<require from="./token-type-select"></require>
+
+	<token-type-select name="player-one" bully-count.bind="remainingBulliesPlayerOne"
+		victim-count.bind="remainingVictimsPlayerOne"
+		selected-token-type.bind="playerOne.selectedTokenType">
+		Player One
+	</token-type-select>
+
+	<board board.bind="board" player-one-color.bind="playerOne.color"
+		player-two-color.bind="playerTwo.color" square-clicked.bind="squareClicked"
+		get-token-type-at.bind="getTokenTypeAt">
+	</board>
+
+	<token-type-select name="player-two" bully-count.bind="remainingBulliesPlayerTwo"
+		victim-count.bind="remainingVictimsPlayerTwo"
+		selected-token-type.bind="playerTwo.selectedTokenType">
+		Player Two
+	</token-type-select>
+</template>

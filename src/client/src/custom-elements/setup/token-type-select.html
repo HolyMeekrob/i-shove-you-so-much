@@ -1,0 +1,17 @@
+<template>
+	<div>
+		<h3><slot></slot></h3>
+
+		<label for="${name}-bully-select">
+		<input type="radio" id="${name}-bully-select" name="${name}-token-type" model.bind="bully"
+			checked.bind="selectedTokenType" />
+			Bully (${bullyCount})
+		</label>
+
+		<label for="${name}-victim-select">
+			<input type="radio" id="${name}-victim-select" name="${name}-token-type" model.bind="victim"
+				checked.bind="selectedTokenType" />
+				Victim (${victimCount})
+		</label>
+	</div>
+</template>

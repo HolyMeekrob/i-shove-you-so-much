@@ -1,0 +1,12 @@
+<template>
+	<require from="/assets/styles/board.css"></require>
+	<require from="./square"></require>
+
+	<div class="square-row" repeat.for="column of board.squares">
+		<div class="square-cell" repeat.for="cell of column" click.delegate="squareClicked($event, $parent.$index, $index)">
+			<square square.bind="cell" player-one-color.bind="playerOneColor"
+				player-two-color.bind="playerTwoColor" token-type.call="getTokenTypeAt($parent.$index, $index)">
+			</square>
+		</div>
+	</div>
+<template>

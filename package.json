@@ -47,8 +47,10 @@
 		},
 		"dependencies": {
 			"aurelia-bootstrapper": "npm:aurelia-bootstrapper@^2.0.1",
+			"aurelia-event-aggregator": "npm:aurelia-event-aggregator@^1.0.1",
 			"aurelia-fetch-client": "npm:aurelia-fetch-client@^1.1.0",
-			"aurelia-framework": "npm:aurelia-framework@^1.0.8"
+			"aurelia-framework": "npm:aurelia-framework@^1.0.8",
+			"ramda": "npm:ramda@^0.23.0"
 		},
 		"devDependencies": {
 			"babel": "npm:babel-core@^5.8.24",

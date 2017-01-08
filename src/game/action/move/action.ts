@@ -16,7 +16,7 @@ const getFinalPosition =
 	last(iterateN(getNextPosition(dir), spaces, position));
 
 const arePositionsEqual =
-curry((position: Position,  tokenPosition: TokenPosition): boolean =>
+curry((position: Position, tokenPosition: TokenPosition): boolean =>
 		position.equals(tokenPosition.position));
 
 const arePositionsDifferent =	curry(complement(arePositionsEqual));

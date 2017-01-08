@@ -1,6 +1,7 @@
 <template>
 	<require from="/assets/styles/square.css"></require>
 
-	<div class="${classes}">
+	<div class.bind="squareClasses" style.bind="squareStyles">
+		<div ref="elem" style.bind="tokenStyles"></div>
 	</div>
 </template>

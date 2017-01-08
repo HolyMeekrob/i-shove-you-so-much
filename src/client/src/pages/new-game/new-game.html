@@ -1,6 +1,6 @@
 <template>
-	<require from="../../custom-elements/player-color"></require>
-	<require from="../../custom-elements/board/square"></require>
+	<require from="../../custom-elements/setup/player-color"></require>
+	<require from="../../custom-elements/setup/setup-board"></require>
 
 	<div>
 		${message}
@@ -9,27 +9,27 @@
 		<h2>Player One</h2>
 		<div>
 			<label for="player-one-name">Name:</label>
-			<input id="player-one-name" type="text" value.bind="playerOneName">
+			<input id="player-one-name" type="text" value.bind="playerOne.name">
 		</div>
 		<div>
-			<label for="player-one-color">Color:</label>
-			<player-color color.bind="playerOneColor"></player-color>
+			<player-color id="player-one-color" color.bind="playerOne.color"></player-color>
 		</div>
 	</div>
 	<div>
 		<h2>Player Two</h2>
 		<div>
 			<label for="player-two-name">Name:</label>
-			<input id="player-two-name" type="text" value.bind="playerTwoName">
+			<input id="player-two-name" type="text" value.bind="playerTwo.name">
 		</div>
-		<label for="player-two-color">Color:</label>
-		<player-color color.bind="playerTwoColor"></player-color>
+		<player-color id="player-two-color" color.bind="playerTwo.color"></player-color>
 	</div>
 	<div>
 		<input type="button" value="New Game" click.delegate="createNewGame()" />
 	</div>
 	<div>
 		<h2>Board setup</h2>
-		<square square.bind="testSquare"></square>
+		<setup-board board.bind="board" player-one.bind="playerOne"
+			player-two.bind="playerTwo">
+		</setup-board>
 	</div>
 </template>

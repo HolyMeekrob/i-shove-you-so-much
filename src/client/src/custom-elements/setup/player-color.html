@@ -2,6 +2,7 @@
 	<require from="/assets/styles/player-color.css"></require>
 
 	<div>
+		<label>Color</label>
 		<select value.bind="color">
 			<option repeat.for="colorOption of colors" model.bind="colorOption.rgb">
 				${colorOption.name}
