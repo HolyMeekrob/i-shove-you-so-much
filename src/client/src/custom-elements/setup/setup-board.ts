@@ -1,7 +1,6 @@
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { autoinject, bindable, bindingMode, computedFrom } from 'aurelia-framework';
 import { any, append, both, complement, curry, find, prop } from 'ramda';
-import { Board } from '../../../../game/model/board';
 import { PlayerType } from '../../../../game/model/playerType';
 import { Position } from '../../../../game/model/position';
 import { Start } from '../../../../game/model/start';
@@ -9,6 +8,7 @@ import { Token } from '../../../../game/model/token';
 import { TokenPosition } from '../../../../game/model/tokenPosition';
 import { TokenType } from '../../../../game/model/tokenType';
 import { tokenPositionsUpdated } from '../../events';
+import { IBoardDisplay } from '../board/board-display';
 import { IPlayerSetup } from './player-setup';
 
 @autoinject
@@ -17,7 +17,7 @@ export class SetupBoardCustomElement {
 	private static readonly VICTIM_TOKEN_COUNT: number = 2;
 
 	@bindable
-	public board: Board;
+	public board: IBoardDisplay;
 
 	@bindable ({ defaultBindingMode: bindingMode.twoWay })
 	public playerOne: IPlayerSetup;
@@ -76,7 +76,7 @@ export class SetupBoardCustomElement {
 
 		const position = new Position(row, cell);
 		const playerType = SetupBoardCustomElement.
-			getPlayerTypeForStartType(this.board.getSquareAt(position).startType);
+			getPlayerTypeForStartType(this.board.board[position.x][position.y].square.startType);
 
 		if (playerType === undefined) {
 			return true;

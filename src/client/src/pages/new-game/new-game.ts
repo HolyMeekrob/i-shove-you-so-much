@@ -1,27 +1,34 @@
+import { EventAggregator } from 'aurelia-event-aggregator';
 import { HttpClient, json } from 'aurelia-fetch-client';
-import { autoinject } from 'aurelia-framework';
+import { autoinject, observable } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Board } from '../../../../game/model/board';
-import { Border } from '../../../../game/model/border';
 import { Color } from '../../../../game/model/color';
-import { Floor } from '../../../../game/model/floor';
-import { Position } from '../../../../game/model/position';
 import { Start } from '../../../../game/model/start';
-import { TokenPosition } from '../../../../game/model/tokenPosition';
 import { TokenType } from '../../../../game/model/tokenType';
+import { IBoardDisplay } from '../../custom-elements/board/board-display';
 import { IPlayerSetup } from '../../custom-elements/setup/player-setup';
+import { playerColorsUpdated } from '../../events';
 
 @autoinject
 export class NewGame {
 	public message: string;
 
-	public board: Board;
+	public board: IBoardDisplay;
 
 	public playerOne: IPlayerSetup;
 	public playerTwo: IPlayerSetup;
 
-	constructor(private router: Router) {
+	@observable
+	public playerOneColor: Color;
+	@observable
+	public playerTwoColor: Color;
+
+	constructor(private router: Router, private messageBus: EventAggregator) {
 		this.message = 'New game';
+
+		this.playerOneColor = 0x000000;
+		this.playerTwoColor = 0x0000ff;
 
 		this.playerOne = {
 			name: 'Player One',
@@ -37,7 +44,54 @@ export class NewGame {
 			tokenPositions: []
 		};
 
-		this.board = new Board();
+		this.board = {
+			board: new Board().squares
+				.map((row) => row.map((square) => {
+					return {
+						square,
+						color: this.getColorForStartType(square.startType)
+					};
+				}))
+		};
+	}
+
+	public playerOneColorChanged(newValue: Color, oldValue: Color): void {
+		if (this.playerOne === undefined) {
+			return;
+		}
+		this.playerOne.color = this.playerOneColor;
+		this.updateColors(newValue, oldValue);
+	}
+
+	public playerTwoColorChanged(newValue: Color, oldValue: Color): void {
+		if (this.playerTwo === undefined) {
+			return;
+		}
+		this.playerTwo.color = this.playerTwoColor;
+		this.updateColors(newValue, oldValue);
+	}
+
+	private readonly updateColors = (newValue: Color, oldValue: Color): void => {
+		if (this.board === undefined) {
+			return;
+		}
+		this.board.board.forEach((row) => row.forEach((square) =>
+			square.color = this.getColorForStartType(square.square.startType)
+		));
+		this.messageBus.publish(playerColorsUpdated, newValue);
+	}
+
+	private readonly getColorForStartType = (startType: Start): Color => {
+		switch (startType) {
+			case Start.PlayerOne:
+				return this.playerOne.color;
+
+			case Start.PlayerTwo:
+				return this.playerTwo.color;
+
+			default:
+				return 0x0;
+		}
 	}
 
 	public readonly createNewGame = () => {

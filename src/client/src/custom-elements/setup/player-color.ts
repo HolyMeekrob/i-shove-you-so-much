@@ -1,6 +1,7 @@
-import { bindable, bindingMode, computedFrom } from 'aurelia-framework';
+import { autoinject, bindable, bindingMode, computedFrom } from 'aurelia-framework';
 import { Color, hexFormat } from '../../../../game/model/color';
 
+@autoinject
 export class PlayerColorCustomElement {
 	@bindable({ defaultBindingMode: bindingMode.twoWay })
 	public color: Color;

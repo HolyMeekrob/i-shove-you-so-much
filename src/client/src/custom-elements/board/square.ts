@@ -4,34 +4,34 @@ import { Border } from '../../../../game/model/border';
 import { Color, getBlue, getGreen, getRed } from '../../../../game/model/color';
 import { Direction } from '../../../../game/model/direction';
 import { Floor } from '../../../../game/model/floor';
-import { Square } from '../../../../game/model/square';
-import { Start } from '../../../../game/model/start';
 import { TokenType } from '../../../../game/model/tokenType';
-import { tokenPositionsUpdated } from '../../events';
+import { playerColorsUpdated, tokenPositionsUpdated } from '../../events';
 import { ensureDefined } from '../../lib/typeUtils';
+import { ISquareDisplay } from './square-display';
 
 @autoinject
 export class SquareCustomElement {
 	@bindable
-	public square: Square;
-
-	@bindable
-	public playerOneColor: Color;
-
-	@bindable
-	public playerTwoColor: Color;
+	public square: ISquareDisplay;
 
 	@bindable
 	public tokenType: () => TokenType | undefined;
 
-	public elem: HTMLElement;
+	public container: HTMLElement;
+	public token: HTMLElement;
 
 	constructor(private messageBus: EventAggregator) {
 		messageBus.subscribe(tokenPositionsUpdated, this.updateTokenClass);
+		messageBus.subscribe(playerColorsUpdated, this.updateColor);
 	}
 
 	private readonly updateTokenClass = () => {
-		this.elem.className = this.tokenClass;
+		this.token.className = this.tokenClass;
+	}
+
+	private readonly updateColor = () => {
+		this.token.style.cssText = this.tokenStyles;
+		this.container.style.cssText = this.squareStyles;
 	}
 
 	private readonly directionClassMap = new Map<Direction, string>([
@@ -42,7 +42,7 @@ export class SquareCustomElement {
 	]);
 
 	private readonly getBorderDirectionClass = (dir: Direction): string => {
-		return this.square.getBorder(dir) === Border.Wall
+		return this.square.square.getBorder(dir) === Border.Wall
 			? ensureDefined(this.directionClassMap.get(dir), '')
 			: '';
 	}
@@ -54,7 +54,7 @@ export class SquareCustomElement {
 	}
 
 	public get bgClass(): string {
-		return this.square.floorType === Floor.Pit ? 'pit' : '';
+		return this.square.square.floorType === Floor.Pit ? 'pit' : '';
 	}
 
 	public get tokenClass(): string {
@@ -81,46 +81,15 @@ export class SquareCustomElement {
 	@computedFrom('square', 'playerOneColor', 'playerTwoColor')
 	public get squareStyles(): string {
 		const opacity: number = 0.5;
-		let red: number;
-		let green: number;
-		let blue: number;
-
-		let color: Color;
-
-		switch (this.square.startType) {
-			case Start.PlayerOne:
-				color = this.playerOneColor;
-				break;
-
-			case Start.PlayerTwo:
-				color = this.playerTwoColor;
-				break;
-
-			default:
-				color = 0xffffff;
-				break;
-		}
+		const color: Color = this.square.color;
 
 		return `background-color: rgba(${getRed(color)}, ${getGreen(color)}, `
 			+ `${getBlue(color)}, ${opacity});`;
 	}
 
-	@computedFrom('playerOneColor', 'playerTwoColor')
+	@computedFrom('square')
 	public get tokenStyles(): string {
-		let color: Color;
-		switch (this.square.startType) {
-			case Start.PlayerOne:
-				color = this.playerOneColor;
-				break;
-
-			case Start.PlayerTwo:
-				color = this.playerTwoColor;
-				break;
-
-			default:
-				color = 0xffffff;
-				break;
-		}
+		const color: Color = this.square.color;
 
 		return `background-color: rgb(${getRed(color)}, ${getGreen(color)}, ${getBlue(color)}`;
 	}
