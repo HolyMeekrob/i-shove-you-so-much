@@ -4,7 +4,7 @@
 	"description": "A simple two-player board game",
 	"main": "index.js",
 	"scripts": {
-		"clean": "del /S /Q .\\src\\client\\src\\*.js .\\src\\game\\*.js .\\src\\server\\*.js .\\test\\*.js && del .\\app.js",
+		"clean": "del /S /Q .\\src\\client\\src\\*.js .\\src\\game\\*.js .\\src\\server\\*.js .\\src\\model\\*.js .\\test\\*.js && del .\\app.js",
 		"build": "tsc",
 		"prestart": "npm run build",
 		"start": "node app.js",
