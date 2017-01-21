@@ -12,7 +12,7 @@
 			<input id="player-one-name" type="text" value.bind="playerOne.name">
 		</div>
 		<div>
-			<player-color id="player-one-color" color.bind="playerOneColor"></player-color>
+			<player-color id="player-one-color" color.bind="playerOne.color"></player-color>
 		</div>
 	</div>
 	<div>
@@ -21,7 +21,7 @@
 			<label for="player-two-name">Name:</label>
 			<input id="player-two-name" type="text" value.bind="playerTwo.name">
 		</div>
-		<player-color id="player-two-color" color.bind="playerTwoColor"></player-color>
+		<player-color id="player-two-color" color.bind="playerTwo.color"></player-color>
 	</div>
 	<div>
 		<input type="button" value="New Game" click.delegate="createNewGame()" />

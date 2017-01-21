@@ -1,6 +1,6 @@
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { HttpClient, json } from 'aurelia-fetch-client';
-import { autoinject, observable } from 'aurelia-framework';
+import { autoinject, BindingEngine, observable } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Board } from '../../../../game/model/board';
 import { Color } from '../../../../game/model/color';
@@ -19,16 +19,9 @@ export class NewGame {
 	public playerOne: IPlayerSetup;
 	public playerTwo: IPlayerSetup;
 
-	@observable
-	public playerOneColor: Color;
-	@observable
-	public playerTwoColor: Color;
-
-	constructor(private router: Router, private messageBus: EventAggregator) {
+	constructor(private router: Router, private messageBus: EventAggregator,
+			private bindingEngine: BindingEngine) {
 		this.message = 'New game';
-
-		this.playerOneColor = 0x000000;
-		this.playerTwoColor = 0x0000ff;
 
 		this.playerOne = {
 			name: 'Player One',
@@ -53,22 +46,14 @@ export class NewGame {
 					};
 				}))
 		};
-	}
 
-	public playerOneColorChanged(newValue: Color, oldValue: Color): void {
-		if (this.playerOne === undefined) {
-			return;
-		}
-		this.playerOne.color = this.playerOneColor;
-		this.updateColors(newValue, oldValue);
-	}
+		this.bindingEngine
+			.propertyObserver(this.playerOne, 'color')
+			.subscribe(this.updateColors.bind(this));
 
-	public playerTwoColorChanged(newValue: Color, oldValue: Color): void {
-		if (this.playerTwo === undefined) {
-			return;
-		}
-		this.playerTwo.color = this.playerTwoColor;
-		this.updateColors(newValue, oldValue);
+		this.bindingEngine
+			.propertyObserver(this.playerTwo, 'color')
+			.subscribe(this.updateColors.bind(this));
 	}
 
 	private readonly updateColors = (newValue: Color, oldValue: Color): void => {
