@@ -7,7 +7,7 @@ import { Color } from '../../../../game/model/color';
 import { Start } from '../../../../game/model/start';
 import { TokenType } from '../../../../game/model/tokenType';
 import { IBoardDisplay } from '../../custom-elements/board/board-display';
-import { IPlayerSetup } from '../../custom-elements/setup/player-setup';
+import { IPlayerSetup, toPlayer } from '../../custom-elements/setup/player-setup';
 import { playerColorsUpdated } from '../../events';
 
 @autoinject
@@ -86,17 +86,19 @@ export class NewGame {
 			body: json(this.getPostData())
 		};
 
-		http.fetch('game/create', options);
-
-		this.router.navigateToRoute('game', this.getPostData());
-	}
+		http.fetch('game/create', options)
+			.then((response) => response.json())
+			.then((data: any) => {
+				this.router.navigateToRoute('game/', { id: data.id });
+			});
+		}
 
 	private readonly getPostData = () => {
 		return {
-			playerOneColor: this.playerOne.color,
-			playerTwoColor: this.playerTwo.color,
-			playerOneName: this.playerOne.name,
-			playerTwoName: this.playerTwo.name
+			playerOne: toPlayer(this.playerOne),
+			playerTwo: toPlayer(this.playerTwo),
+			tokenPositions: this.playerOne.tokenPositions
+				.concat(this.playerTwo.tokenPositions)
 		};
 	}
 }

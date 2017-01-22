@@ -10,7 +10,6 @@ export const getRouter = (): Router.IMiddleware => {
 
 	router.post('/game/create', async (ctx, next) => {
 		await(next());
-		// ctx.request.
 		ctx.body = { id: 1234 };
 		ctx.status = 200;
 }).get('/game/create', async (ctx, next) => {

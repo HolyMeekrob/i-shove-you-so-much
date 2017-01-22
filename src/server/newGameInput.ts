@@ -1,12 +1,10 @@
 import { Color } from '../game/model/color';
+import { IPlayer } from '../game/model/player';
 import { TokenPosition } from '../game/model/tokenPosition';
 
 export interface INewGameInput {
-	playerOneName: string;
-	playerOneColor: Color;
-
-	playerTwoName: string;
-	playerTwoColor: Color;
+	playerOne: IPlayer;
+	playerTwo: IPlayer;
 
 	tokenPositions: TokenPosition[];
 }

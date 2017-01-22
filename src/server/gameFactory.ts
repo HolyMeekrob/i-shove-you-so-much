@@ -7,10 +7,8 @@ import { INewGameInput } from './newGameInput';
 
 export class GameFactory {
 	public createGame(input: INewGameInput): Game {
-		const playerOne = new Player(input.playerOneName, input.playerOneColor);
-		const playerTwo = new Player(input.playerTwoName, input.playerTwoColor);
 		const gameBoard = new GameBoard(new Board(), ...input.tokenPositions);
 
-		return new Game(playerOne, playerTwo, gameBoard);
+		return new Game(input.playerOne, input.playerTwo, gameBoard);
 	}
 }

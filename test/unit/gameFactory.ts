@@ -82,7 +82,7 @@ const getThreeVersusThreeGameBoard = (): GameBoard => {
 			new Token(PlayerType.PlayerOne, TokenType.Bully),
 			new Position(2, 4)),
 		new TokenPosition(
-			new Token(PlayerType.PlayerOne, TokenType.Victim),
+			new Token(PlayerType.PlayerTwo, TokenType.Victim),
 			new Position(1, 4)),
 		new TokenPosition(
 			new Token(PlayerType.PlayerTwo, TokenType.Anchor),

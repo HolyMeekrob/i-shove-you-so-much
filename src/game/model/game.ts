@@ -1,12 +1,12 @@
 import { GameBoard } from './gameBoard';
-import { Player } from './player';
+import { IPlayer } from './player';
 import { PlayerType } from './playerType';
 import { Ruleset } from './ruleset';
 
 const DEFAULT_MOVES_PER_TURN: number = 2;
 
 export class Game {
-	constructor (public readonly playerOne: Player, public readonly playerTwo: Player,
+	constructor (public readonly playerOne: IPlayer, public readonly playerTwo: IPlayer,
 		public readonly gameBoard: GameBoard,
 		public readonly rules: Ruleset = new Ruleset(DEFAULT_MOVES_PER_TURN),
 		public readonly playerTurn: PlayerType = PlayerType.PlayerOne,

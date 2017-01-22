@@ -11,7 +11,7 @@ export class App {
 				name:			'newGame',
 				moduleId:	'src/pages/new-game/new-game'
 			}, {
-				route:		['game'],
+				route:		['game/:id'],
 				name:			'game',
 				moduleId: 'src/pages/game/game'
 			}

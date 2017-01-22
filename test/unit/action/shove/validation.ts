@@ -7,7 +7,6 @@ import { validateShove } from '../../../../src/game/action/shove/validation';
 import { getSimpleGame, getThreeVersusThreeGame, getTwoVersusTwoGame }
 	from '../../gameFactory';
 
-
 test('validateShove() when there is no token at the given position', (assert: test.Test): void => {
 	const game = getSimpleGame();
 	const pos = new Position(1, 2);
@@ -50,11 +49,6 @@ test('validateShove() when an anchor is being shoved', (assert: test.Test): void
 	const dir = Direction.North;
 
 	assert.equal(validateShove(game, pos, dir), false, 'returns false');
-	assert.end();
-});
-
-test('validateShove() when shoving through a wall', (assert: test.Test): void => {
-
 	assert.end();
 });
 

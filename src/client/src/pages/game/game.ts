@@ -1,11 +1,11 @@
 export class Game {
-	public model: any;
+	public id: number;
 
 	public activate(params: any) {
-		this.model = params;
+		this.id = params.id;
 	}
 
 	public get modelString(): string {
-		return JSON.stringify(this.model);
+		return `id: ${this.id}`;
 	}
 }
