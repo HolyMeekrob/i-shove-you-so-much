@@ -88,6 +88,7 @@ export class NewGame {
 
 		http.fetch('game/create', options)
 			.then((response) => response.json())
+			// tslint:disable-next-line: no-any
 			.then((data: any) => {
 				this.router.navigateToRoute('game', { id: data.id });
 			});
