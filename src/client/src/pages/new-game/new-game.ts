@@ -89,7 +89,7 @@ export class NewGame {
 		http.fetch('game/create', options)
 			.then((response) => response.json())
 			.then((data: any) => {
-				this.router.navigateToRoute('game/', { id: data.id });
+				this.router.navigateToRoute('game', { id: data.id });
 			});
 		}
 

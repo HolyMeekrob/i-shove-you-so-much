@@ -1,24 +1,29 @@
 import { Game } from '../game/model/game';
+import { GameFactory } from './gameFactory';
+import { INewGameInput } from './newGameInput';
 
 export class GameTracker {
-	private _nextId: number;
-	private readonly _games: Map<number, Game>;
+	private nextId: number;
+	private readonly games: Map<number, Game>;
+	private readonly gameFactory: GameFactory;
 
 	constructor() {
-		this._games = new Map<number, Game>();
-		this._nextId = 1;
+		this.games = new Map<number, Game>();
+		this.nextId = 1;
+		this.gameFactory = new GameFactory();
 	}
 
-	public create(game: Game): number {
-		const id = this._nextId;
-		this._games.set(id, game);
-		this._nextId += 1;
+	public create(input: INewGameInput): number {
+		const id = this.nextId;
+		const game = this.gameFactory.createGame(input);
+		this.games.set(id, game);
+		this.nextId += 1;
 
 		return id;
 	}
 
 	public get(id: number): Game {
-		const game = this._games.get(id);
+		const game = this.games.get(id);
 
 		if (game === undefined) {
 			throw new Error(`There is no game with id ${id}`);
